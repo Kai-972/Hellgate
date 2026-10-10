@@ -29,3 +29,9 @@ npm-debug.log*
 pnpm-debug.log*
 .vercel
 coverage/
+
+# private notes: never commit
+private/
+pvt/
+docs-private/
+docs/private/

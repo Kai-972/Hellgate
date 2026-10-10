@@ -7,4 +7,9 @@ Everyone changes a prompt and says it *feels* better. Hellgate makes them prove 
 A change to an AI agent only gets through the gate when independent machines re-run it
 and measure a real gain. Changes that fail are kept on record, so nobody repeats them.
 
+## Docs
+
+- [Architecture](docs/ARCHITECTURE.md): how it works and why
+- [Protocol](docs/PROTOCOL.md): records, hashing, signing, scoring and the verdict rule
+
 > Work in progress.
