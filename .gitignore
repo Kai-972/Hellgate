@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.*
+
+# build output
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# secrets: never commit keys
+.env
+.env.*
+!.env.example
+**/identity.json
+*.pem
+
+# local engine state that is derived or transient
+.hellgate/scratch/
+.hellgate/index/
+.hellgate/*.lock
+
+# misc
+.DS_Store
+npm-debug.log*
+pnpm-debug.log*
+.vercel
+coverage/
