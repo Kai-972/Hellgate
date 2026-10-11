@@ -148,10 +148,12 @@ export class Hub {
     if (route === 'version' && method === 'GET') return this.send(res, 200, { version: this.version(tree) });
     if (route === 'export' && method === 'GET') return this.send(res, 200, this.exportText(tree));
     if (route === 'production' && method === 'GET') {
+      const asked = url.searchParams.get('change');
       try {
-        return this.send(res, 200, releaseOf(tree));
+        return this.send(res, 200, releaseOf(tree, asked ?? undefined));
       } catch (err) {
-        if (err instanceof HellgateError && err.kind === 'refused') return this.send(res, 404, { error: err.message });
+        // 404: nothing has passed the gate yet. 409: that change exists but the gate says it cannot be released.
+        if (err instanceof HellgateError && err.kind === 'refused') return this.send(res, asked === null ? 404 : 409, { error: err.message });
         throw err;
       }
     }

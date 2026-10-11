@@ -188,6 +188,7 @@ function GateContent() {
             <span style={{ fontSize: 12, color: 'var(--muted)' }}>
               the tip of the gate path: only a change accepted by distinct verifier keys, on a chain of accepted changes, is released. Everything else stays in non-production.
             </span>
+            <Link href={`/production?tree=${tree}`} style={{ fontSize: 12 }}>View the release →</Link>
           </section>
         );
       })()}

@@ -18,6 +18,16 @@ done by bots.
 accepted changes from the baseline. It is shown on the home page, served at `GET /v1/trees/<name>/production`,
 and is what `promote` releases.
 
+## In the web app (no terminal needed)
+
+- **Production** (nav): the current release, the tip of the gate path, with its score, the verifier keys that
+  vouch for it, its files (expandable) and a download of the release as JSON.
+- **Release this change to production** (every change page): asks the gate. An accepted change on the gate path
+  comes back with its release. A rejected, contested, pending or void change comes back **refused, with the reason**.
+  Clicking it on a rejected change is the clearest way to show that nobody can push a bad change out.
+- **Beat the gate** is the whole non-production path from the browser: type an instruction, watch it recorded and
+  verified by the two bots, and see the verdict. If it passes, its change page offers the release.
+
 ## The bots
 
 Start the hub with `HELLGATE_AUTO_VERIFY=1` (`pnpm demo:auto` does it). Every few seconds the hub looks for

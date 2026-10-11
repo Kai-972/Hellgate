@@ -4,6 +4,7 @@ import { useSearchParams, useParams } from 'next/navigation';
 import { HellgateExport, Change, formatBp, formatScore, shortAddr, shortId } from '@/lib/types';
 import StatusBadge from '@/components/StatusBadge';
 import Link from 'next/link';
+import ReleasePanel from '@/components/ReleasePanel';
 import LiveProgress from '@/components/LiveProgress';
 import { NoiseBandGauge, RunDots, UseCaseMatrix, DeltaPair, DigestCheck } from '@/components/charts';
 
@@ -119,6 +120,10 @@ function ChangeContent() {
           <span>origin: {change.origin.by}</span>
           <span>depth: {change.depth}</span>
           {change.createdAt && <span>{new Date(change.createdAt).toLocaleDateString()}</span>}
+        </div>
+
+        <div style={{ marginTop: 20 }}>
+          <ReleasePanel tree={tree} change={change.id} />
         </div>
 
         {/* Challenge instruction */}

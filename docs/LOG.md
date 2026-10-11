@@ -461,3 +461,10 @@ accepted), `GET /v1/trees/<name>/production`, automatic verifier bots in the hub
 **Tests:** `hub/pipeline.test.ts`: a pending change is verified by two bots with nobody asking, it is accepted, the
 production endpoint and `promote` serve exactly its build, and before that `promote` refuses.
 **Not built:** a packaged GitHub Action, canary and shadow rollouts, production monitoring.
+
+### #022 · Kai · releasing from the web
+**Did:** the release is now reachable from the browser: a **Production** page and nav link, a "Release this change to
+production" panel on every change page (accepted: its files and vouching keys; anything else: refused with the reason), a
+`/api/production` proxy, and `GET /v1/trees/<name>/production?change=<id>` (`409` when the gate refuses a specific change).
+**Checked:** through the web layer: the tip of the `ml` tree releases (Adam, 91.9%, two keys); `momentum` (rejected) and the
+coding tree's `reword-rules` (contested) are refused with their reasons; the accepted `standardise` releases.

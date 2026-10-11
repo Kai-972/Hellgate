@@ -38,6 +38,7 @@ function NavInner() {
     { href: `/${treeParam}`, label: 'The Gate', match: ['/', ''] },
     { href: `/graveyard${treeParam}`, label: 'Graveyard', match: ['/graveyard'] },
     { href: `/beat-the-gate`, label: 'Beat the Gate', match: ['/beat-the-gate'] },
+    { href: `/production${treeParam}`, label: 'Production', match: ['/production'] },
     { href: `/verifiers${treeParam}`, label: 'Verifiers', match: ['/verifiers'] },
     { href: `/how-it-works`, label: 'How it works', match: ['/how-it-works'] },
   ];

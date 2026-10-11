@@ -47,6 +47,8 @@ All numbers are from the committed trees. Say the sentences, not the numbers, if
 | 6 | `longer-training` (ml) or `reword-rules` (code) | Status contested, `RESULTS_MISMATCH`. | "A verifier signed numbers without running anything. A replay is deterministic, so its fingerprint didn't match the honest ones." |
 | 7 | `code` tree, then **Beat the gate** | Type one instruction; watch build, record, verify, sign. About 5 minutes. | "Your idea, measured live. At 94% there is little headroom, so most die here. That is the point." |
 
+| 8 | A rejected change's page (for example `momentum`), then **Release this change to production** | A red "Refused by the gate" with the reason. Then open **Production** to show what is released. | "Production only takes what the gate accepted. Nobody can push the rest through, and the release carries the keys that vouch for it." |
+
 **Scene 7 needs the model key, and takes minutes.** Start it early, say what it is doing, and carry on
 with other scenes (closing the page does not cancel the job; reopening re-attaches). If the key has no
 quota, show the finished `full-brief` change instead: it was recorded live against Gemini, and any laptop
