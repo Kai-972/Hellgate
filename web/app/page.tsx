@@ -6,6 +6,7 @@ import { formatDeltaBp, formatScorePct } from '@/lib/chartTokens';
 import TreeSwitcher from '@/components/TreeSwitcher';
 import { ScoreCurve as PaperScoreCurve, TreeDiagram, StatusMark, DeltaPair, UseCaseMatrix } from '@/components/charts';
 import StatusBadge from '@/components/StatusBadge';
+import Explainer from '@/components/Explainer';
 import Link from 'next/link';
 
 function MiniSpark({ scores }: { scores: number[] }) {
@@ -173,6 +174,8 @@ function GateContent() {
           )}
         </div>
       </div>
+
+      <Explainer domain={data.domain} />
 
       {/* Stats strip */}
       <div
