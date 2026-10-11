@@ -5,6 +5,7 @@ import { HellgateExport, Change, formatBp, formatScore, shortAddr, shortId } fro
 import StatusBadge from '@/components/StatusBadge';
 import Link from 'next/link';
 import ReleasePanel from '@/components/ReleasePanel';
+import EvidenceCheck from '@/components/EvidenceCheck';
 import LiveProgress from '@/components/LiveProgress';
 import { NoiseBandGauge, RunDots, UseCaseMatrix, DeltaPair, DigestCheck } from '@/components/charts';
 
@@ -124,6 +125,7 @@ function ChangeContent() {
 
         <div style={{ marginTop: 20 }}>
           <ReleasePanel tree={tree} change={change.id} />
+          <EvidenceCheck tree={tree} changeId={change.id} attestationIds={change.attestations.map((a) => a.id)} />
         </div>
 
         {/* Challenge instruction */}

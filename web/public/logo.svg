@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 64" role="img" aria-label="Hellgate: proof for AI changes">
+  <title>Hellgate</title>
+  <g transform="translate(0 0)">
+    <path d="M11 56V31a21 21 0 0 1 42 0v25" fill="none" stroke="#171A16" stroke-width="5" stroke-linecap="square"/>
+    <path d="M21 56V33a11 11 0 0 1 22 0v23" fill="none" stroke="#171A16" stroke-width="3" stroke-linecap="square"/>
+    <path d="M5 56h54" stroke="#171A16" stroke-width="5" stroke-linecap="square"/>
+    <circle cx="32" cy="43" r="5" fill="#C2410C"/>
+  </g>
+  <text x="78" y="46" font-family="'Instrument Serif', Georgia, serif" font-size="46" fill="#171A16" letter-spacing="-0.5">Hellgate</text>
+  <text x="80" y="60" font-family="ui-monospace, 'DM Mono', monospace" font-size="9.5" fill="#5E655C" letter-spacing="2.2">PROOF FOR AI CHANGES</text>
+</svg>

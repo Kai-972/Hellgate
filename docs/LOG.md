@@ -479,3 +479,11 @@ marker moves on promotion, the stepper, the human-in-the-loop approval, and the 
 it stops for a person; the `code` tip has no flags and promotes by itself. Both paths are real, not staged.
 **Tests:** `hub/promote.test.ts` on a copy of the real `ml` tree: production lags by 2 changes, the unapproved promotion waits, a bad
 approval is refused, an approved one is recorded and returns the benchmark change, a rejected change is refused.
+
+### #024 · Kai · check the evidence in your browser; the logo; the pitch
+**Did:** `web/lib/verifyRecord.ts` re-implements the record rules (canonical JSON, SHA-256 id, ed25519 signature over
+`hellgate/v1/<type>\n` plus the body, the key read from the Stellar address) with the browser's own WebCrypto, sharing no code with the engine.
+The change page has **Check every record** and **tamper with one number and check again**. Verified against all 55 records of the coding tree
+(34 signed): all valid, and a one-unit edit fails both the hash and the signature. A logo (`docs/brand/`, the web nav and tab icon).
+[PITCH.md](PITCH.md): the positioning against Warden and the eval tools, the lines to use, and the 3-minute script.
+**Needs a modern browser** (Chrome 137+, Firefox 129+, Safari 17+) for ed25519 in WebCrypto.

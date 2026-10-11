@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/brand/logo.png" alt="Hellgate: proof for AI changes" width="420"></p>
+
 # Hellgate
 
 **Proof for AI agent changes.**
@@ -39,6 +41,7 @@ What is built is tracked in [docs/STAGES.md](docs/STAGES.md).
 - [Guide](docs/GUIDE.md): start here. What it is, what the two trees mean, how "better" is decided, and every label on the site
 - [For judges](docs/JUDGES.md): what is built, how a change is judged, and the honest limits
 - [Demo runbook](docs/DEMO.md): setup, the script, and what to do when something fails
+- [Pitch and video script](docs/PITCH.md): the positioning, the lines against competitors, and the 3-minute script
 - [Release pipeline](docs/RELEASE.md): from non-production to production, with bots verifying automatically
 - [Testing](docs/TESTING.md): the automated tests, a smoke test, trust checks you can run yourself, and a live end-to-end run
 - [Stages](docs/STAGES.md): the build plan and its status

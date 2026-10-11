@@ -67,7 +67,12 @@ function NavInner() {
         textDecoration: 'none',
         marginRight: '24px',
         letterSpacing: '-0.01em',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '9px',
       }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/mark.svg" alt="" width={30} height={30} />
         Hellgate
       </Link>
       <div style={{ display: 'flex', gap: '2px', flex: 1 }}>

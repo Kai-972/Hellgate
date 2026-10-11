@@ -53,6 +53,8 @@ All numbers are from the committed trees. Say the sentences, not the numbers, if
 
 Before a rehearsal, press **Reset production to the baseline** on the Pipeline page.
 
+| 10 | Any accepted change, **Check every record**, then **tamper with one number and check again** | Green: every hash and signature valid, checked in the browser. Then red: the edited record fails both checks. | "You don't have to trust this page. Your browser re-checks every signature. Change one number and it fails." |
+
 **Scene 7 needs the model key, and takes minutes.** Start it early, say what it is doing, and carry on
 with other scenes (closing the page does not cancel the job; reopening re-attaches). If the key has no
 quota, show the finished `full-brief` change instead: it was recorded live against Gemini, and any laptop
