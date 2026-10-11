@@ -1,0 +1,25 @@
+{
+  "id": "array-utils",
+  "title": "Chunk and flatten arrays",
+  "group": "collections",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "chunk",
+      "signature": "export function chunk<T>(items: T[], size: number): T[][]"
+    },
+    {
+      "name": "flatten",
+      "signature": "export function flatten(items: unknown[], depth?: number): unknown[]"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "collections",
+    "validation"
+  ]
+}

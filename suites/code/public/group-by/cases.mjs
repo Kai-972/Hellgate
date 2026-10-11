@@ -1,0 +1,13 @@
+// Hidden test cases. The agent never sees this file.
+export default [
+  { name: 'groups by a function', run: (m, a) => { const r = m.groupBy([1, 2, 3, 4, 5], (n) => n % 2); a.ok(r instanceof Map); a.deepEqual([...r], [[1, [1, 3, 5]], [0, [2, 4]]]); } },
+  { name: 'groups by a property name', run: (m, a) => { const items = [{ t: 'a', v: 1 }, { t: 'b', v: 2 }, { t: 'a', v: 3 }]; const r = m.groupBy(items, 't'); a.deepEqual([...r.keys()], ['a', 'b']); a.deepEqual(r.get('a'), [items[0], items[2]]); a.equal(r.get('a')[0], items[0]); } },
+  { name: 'keys are in first-seen order and items keep their order', run: (m, a) => { const r = m.groupBy(['bb', 'a', 'cc', 'b', 'ddd', 'c'], (s) => s.length); a.deepEqual([...r], [[2, ['bb', 'cc']], [1, ['a', 'b', 'c']], [3, ['ddd']]]); } },
+  { name: 'the function receives the index', run: (m, a) => { const seen = []; m.groupBy(['x', 'y', 'z'], (item, i) => { seen.push([item, i]); return i % 2; }); a.deepEqual(seen, [['x', 0], ['y', 1], ['z', 2]]); const r = m.groupBy(['x', 'y', 'z'], (_, i) => i % 2); a.deepEqual([...r], [[0, ['x', 'z']], [1, ['y']]]); } },
+  { name: 'keys follow Map equality', run: (m, a) => { const r = m.groupBy([NaN, 1, NaN, '1', 1], (v) => v); a.equal(r.size, 3); a.deepEqual(r.get(1), [1, 1]); a.deepEqual(r.get('1'), ['1']); a.equal(r.get(NaN).length, 2); const o = {}; a.equal(m.groupBy([1, 2], () => o).get(o).length, 2); } },
+  { name: 'a missing property goes to the undefined group', run: (m, a) => { const r = m.groupBy([{ k: 1 }, {}, { k: 1 }, { k: undefined }], 'k'); a.deepEqual([...r.keys()], [1, undefined]); a.equal(r.get(undefined).length, 2); a.equal(r.get(1).length, 2); } },
+  { name: 'null and undefined items under a property name', run: (m, a) => { const r = m.groupBy([null, { k: 1 }, undefined], 'k'); a.deepEqual([...r.keys()], [undefined, 1]); a.equal(r.get(undefined).length, 2); } },
+  { name: 'empty input and no mutation', run: (m, a) => { a.equal(m.groupBy([], 'x').size, 0); const items = [3, 1, 2]; m.groupBy(items, (n) => n); a.deepEqual(items, [3, 1, 2]); const r = m.groupBy(items, () => 'all'); a.notEqual(r.get('all'), items); a.deepEqual(r.get('all'), items); } },
+  { name: 'the property name is read literally', run: (m, a) => { const r = m.groupBy([{ 'a.b': 1, a: { b: 2 } }], 'a.b'); a.deepEqual([...r.keys()], [1]); a.deepEqual([...m.groupBy([[5, 6]], 'length').keys()], [2]); } },
+  { name: 'wrong argument types are a TypeError', run: (m, a) => { a.equal(typeof m.groupBy, 'function'); for (const items of [undefined, null, 'abc', {}, new Set([1])]) a.throws(() => m.groupBy(items, 'x'), TypeError); for (const key of [undefined, null, 5, {}, Symbol('k')]) a.throws(() => m.groupBy([1], key), TypeError); } },
+];

@@ -1,0 +1,22 @@
+{
+  "id": "deep-equal",
+  "title": "Deep equality of plain data",
+  "group": "collections",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "deepEqual",
+      "signature": "export function deepEqual(a: unknown, b: unknown): boolean"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "collections",
+    "recursion",
+    "edge-cases"
+  ]
+}

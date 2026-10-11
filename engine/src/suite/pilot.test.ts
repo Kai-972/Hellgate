@@ -29,10 +29,15 @@ function temp(source: string): string {
 
 /* ------------------------------------------------------------------ code tasks */
 
-test('the pilot code suite has the expected tasks and use cases', () => {
-  assert.deepEqual(code.tasks.map((t) => t.id), ['parse-duration', 'slugify', 'token-bucket']);
-  assert.deepEqual(code.groups.map((g) => g.id), ['parsing', 'strings', 'algorithms']);
+test('the code suite has sixteen tasks in five use cases', () => {
+  assert.deepEqual(code.tasks.map((t) => t.id), [
+    'array-utils', 'deep-equal', 'format-bytes', 'group-by', 'lru-cache', 'merge-intervals', 'parse-csv-line', 'parse-duration',
+    'query-string', 'roman-numerals', 'semver-compare', 'slugify', 'snake-case', 'title-case', 'token-bucket', 'wrap-text',
+  ]);
+  assert.deepEqual(code.groups.map((g) => [g.id, g.tasks.length]), [['collections', 3], ['formatting', 1], ['algorithms', 4], ['parsing', 4], ['strings', 4]]);
   assert.equal(code.id.length, 64);
+  const names = code.tasks.flatMap((t) => t.id);
+  assert.equal(new Set(names).size, 16);
 });
 
 test('every reference solution passes every case, and each task has at least 8 cases', async () => {

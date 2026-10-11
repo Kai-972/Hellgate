@@ -1,0 +1,21 @@
+{
+  "id": "snake-case",
+  "title": "Convert identifiers to snake_case",
+  "group": "strings",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "toSnakeCase",
+      "signature": "export function toSnakeCase(name: string): string"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "strings",
+    "regex"
+  ]
+}

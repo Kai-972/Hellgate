@@ -1,0 +1,15 @@
+// Hidden test cases. The agent never sees this file.
+export default [
+  { name: 'chunk splits into groups', run: (m, a) => { a.deepEqual(m.chunk([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]]); a.deepEqual(m.chunk([1, 2, 3, 4], 2), [[1, 2], [3, 4]]); a.deepEqual(m.chunk([1, 2, 3], 1), [[1], [2], [3]]); } },
+  { name: 'chunk with a size larger than the array and an empty array', run: (m, a) => { a.deepEqual(m.chunk([1, 2, 3], 5), [[1, 2, 3]]); a.deepEqual(m.chunk([1, 2, 3], 3), [[1, 2, 3]]); a.deepEqual(m.chunk([], 3), []); } },
+  { name: 'chunk keeps elements as they are', run: (m, a) => { const o = {}; a.equal(m.chunk([o, [1], undefined], 2)[0][0], o); a.deepEqual(m.chunk([[1, 2], [3]], 1), [[[1, 2]], [[3]]]); a.deepEqual(m.chunk([undefined, null], 1), [[undefined], [null]]); } },
+  { name: 'chunk returns new arrays and leaves the input alone', run: (m, a) => { const input = [1, 2, 3]; const out = m.chunk(input, 3); a.notEqual(out[0], input); out[0].push(9); a.deepEqual(input, [1, 2, 3]); } },
+  { name: 'chunk rejects a bad size, after checking the array', run: (m, a) => { a.equal(typeof m.chunk, 'function'); for (const s of [0, -1, 1.5, NaN, Infinity, '2', null, undefined]) a.throws(() => m.chunk([1], s), RangeError, String(s)); a.throws(() => m.chunk('abc', 0), TypeError); a.throws(() => m.chunk(null, 2), TypeError); } },
+  { name: 'flatten defaults to one level', run: (m, a) => { a.deepEqual(m.flatten([1, [2, [3, [4]]]]), [1, 2, [3, [4]]]); a.deepEqual(m.flatten([[1], [2], 3]), [1, 2, 3]); a.deepEqual(m.flatten([]), []); } },
+  { name: 'flatten to a given depth', run: (m, a) => { a.deepEqual(m.flatten([1, [2, [3, [4]]]], 2), [1, 2, 3, [4]]); a.deepEqual(m.flatten([1, [2, [3, [4]]]], 3), [1, 2, 3, 4]); a.deepEqual(m.flatten([1, [2, [3, [4]]]], 10), [1, 2, 3, 4]); } },
+  { name: 'flatten with Infinity and with zero', run: (m, a) => { a.deepEqual(m.flatten([1, [2, [3, [4, [5]]]]], Infinity), [1, 2, 3, 4, 5]); const input = [1, [2]]; const copy = m.flatten(input, 0); a.deepEqual(copy, [1, [2]]); a.notEqual(copy, input); } },
+  { name: 'empty nested arrays vanish', run: (m, a) => { a.deepEqual(m.flatten([[], [[]], 1], Infinity), [1]); a.deepEqual(m.flatten([[], [1]]), [1]); a.deepEqual(m.flatten([[[]]]), [[]]); } },
+  { name: 'only real arrays are flattened', run: (m, a) => { const arrayLike = { length: 2, 0: 'a', 1: 'b' }; const set = new Set([1]); a.deepEqual(m.flatten(['ab', arrayLike, set, [1]], Infinity), ['ab', arrayLike, set, 1]); a.deepEqual(m.flatten([[undefined, null]]), [undefined, null]); } },
+  { name: 'flatten does not modify its input', run: (m, a) => { const input = [1, [2, [3]]]; const copy = JSON.parse(JSON.stringify(input)); m.flatten(input, Infinity); a.deepEqual(input, copy); } },
+  { name: 'flatten rejects bad arguments, after checking the array', run: (m, a) => { a.equal(typeof m.flatten, 'function'); for (const d of [-1, 1.5, NaN, '1', null, -Infinity]) a.throws(() => m.flatten([1], d), RangeError, String(d)); a.deepEqual(m.flatten([[1]], undefined), [1]); a.throws(() => m.flatten('abc', -1), TypeError); a.throws(() => m.flatten({}, 1), TypeError); } },
+];

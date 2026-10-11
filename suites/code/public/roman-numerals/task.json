@@ -1,0 +1,26 @@
+{
+  "id": "roman-numerals",
+  "title": "Roman numerals, strictly",
+  "group": "algorithms",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "toRoman",
+      "signature": "export function toRoman(n: number): string"
+    },
+    {
+      "name": "fromRoman",
+      "signature": "export function fromRoman(text: string): number"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "algorithms",
+    "validation",
+    "parsing"
+  ]
+}

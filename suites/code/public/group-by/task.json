@@ -1,0 +1,21 @@
+{
+  "id": "group-by",
+  "title": "Group items by a key",
+  "group": "collections",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "groupBy",
+      "signature": "export function groupBy<T>(items: T[], key: string | ((item: T, index: number) => unknown)): Map<unknown, T[]>"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "collections",
+    "validation"
+  ]
+}

@@ -1,0 +1,13 @@
+// Hidden test cases. The agent never sees this file.
+export default [
+  { name: 'overlapping intervals merge', run: (m, a) => { a.deepEqual(m.mergeIntervals([[1, 3], [2, 6], [8, 10]]), [[1, 6], [8, 10]]); a.deepEqual(m.mergeIntervals([[1, 5], [3, 9]]), [[1, 9]]); } },
+  { name: 'touching intervals merge, gaps do not', run: (m, a) => { a.deepEqual(m.mergeIntervals([[1, 4], [4, 5]]), [[1, 5]]); a.deepEqual(m.mergeIntervals([[1, 3], [4, 5]]), [[1, 3], [4, 5]]); a.deepEqual(m.mergeIntervals([[1, 2], [2, 3], [3, 4]]), [[1, 4]]); } },
+  { name: 'a contained interval disappears', run: (m, a) => { a.deepEqual(m.mergeIntervals([[1, 10], [2, 3]]), [[1, 10]]); a.deepEqual(m.mergeIntervals([[2, 3], [1, 10], [4, 5]]), [[1, 10]]); } },
+  { name: 'the input need not be sorted', run: (m, a) => { a.deepEqual(m.mergeIntervals([[5, 6], [1, 2]]), [[1, 2], [5, 6]]); a.deepEqual(m.mergeIntervals([[8, 9], [1, 3], [2, 4], [6, 7]]), [[1, 4], [6, 7], [8, 9]]); } },
+  { name: 'a chain merges all the way', run: (m, a) => { a.deepEqual(m.mergeIntervals([[1, 3], [5, 7], [2, 6]]), [[1, 7]]); a.deepEqual(m.mergeIntervals([[1, 2], [3, 4], [2, 3]]), [[1, 4]]); } },
+  { name: 'duplicates, points and single items', run: (m, a) => { a.deepEqual(m.mergeIntervals([[1, 2], [1, 2]]), [[1, 2]]); a.deepEqual(m.mergeIntervals([[2, 2], [2, 2]]), [[2, 2]]); a.deepEqual(m.mergeIntervals([[3, 3]]), [[3, 3]]); a.deepEqual(m.mergeIntervals([]), []); } },
+  { name: 'negative and fractional numbers', run: (m, a) => { a.deepEqual(m.mergeIntervals([[-5, -1], [-2, 3]]), [[-5, 3]]); a.deepEqual(m.mergeIntervals([[0.5, 1.5], [1.5, 2.25]]), [[0.5, 2.25]]); a.deepEqual(m.mergeIntervals([[0.1, 0.2], [0.3, 0.4]]), [[0.1, 0.2], [0.3, 0.4]]); } },
+  { name: 'the input is not modified and the result is new', run: (m, a) => { const input = [[5, 6], [1, 3], [2, 4]]; const copy = JSON.parse(JSON.stringify(input)); const out = m.mergeIntervals(input); a.deepEqual(input, copy); a.notEqual(out, input); out[0][0] = 99; a.deepEqual(input, copy); const lone = [[1, 2]]; const res = m.mergeIntervals(lone); a.notEqual(res[0], lone[0]); } },
+  { name: 'wrong shapes are a TypeError', run: (m, a) => { a.equal(typeof m.mergeIntervals, 'function'); for (const v of [undefined, null, 'x', {}, [1], [[1]], [[1, 2, 3]], [['a', 1]], [[1, '2']], [null], [[1, 2], 'no']]) a.throws(() => m.mergeIntervals(v), TypeError, JSON.stringify(v)); } },
+  { name: 'bad numbers are a RangeError', run: (m, a) => { a.equal(typeof m.mergeIntervals, 'function'); for (const v of [[[3, 1]], [[NaN, 1]], [[1, Infinity]], [[1, 2], [5, 4]], [[-Infinity, 0]]]) a.throws(() => m.mergeIntervals(v), RangeError, String(v)); a.throws(() => m.mergeIntervals([[5, 4], 'x']), TypeError); } },
+];

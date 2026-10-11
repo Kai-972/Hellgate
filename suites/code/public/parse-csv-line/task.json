@@ -1,0 +1,22 @@
+{
+  "id": "parse-csv-line",
+  "title": "Parse one line of CSV",
+  "group": "parsing",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "parseCsvLine",
+      "signature": "export function parseCsvLine(line: string): string[]"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "parsing",
+    "state-machine",
+    "validation"
+  ]
+}

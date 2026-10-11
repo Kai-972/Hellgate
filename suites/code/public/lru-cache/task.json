@@ -1,0 +1,22 @@
+{
+  "id": "lru-cache",
+  "title": "A least-recently-used cache",
+  "group": "algorithms",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "LruCache",
+      "signature": "export class LruCache { constructor(capacity: number); get(key: unknown): unknown; set(key: unknown, value: unknown): this; has(key: unknown): boolean; delete(key: unknown): boolean; get size(): number; keys(): unknown[] }"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "algorithms",
+    "state",
+    "data-structures"
+  ]
+}

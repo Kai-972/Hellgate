@@ -1,0 +1,22 @@
+{
+  "id": "merge-intervals",
+  "title": "Merge overlapping intervals",
+  "group": "algorithms",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "mergeIntervals",
+      "signature": "export function mergeIntervals(intervals: [number, number][]): [number, number][]"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "algorithms",
+    "sorting",
+    "validation"
+  ]
+}

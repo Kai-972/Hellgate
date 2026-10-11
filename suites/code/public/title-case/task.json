@@ -1,0 +1,21 @@
+{
+  "id": "title-case",
+  "title": "Convert text to title case",
+  "group": "strings",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "titleCase",
+      "signature": "export function titleCase(text: string): string"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "strings",
+    "rules"
+  ]
+}

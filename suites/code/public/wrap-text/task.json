@@ -1,0 +1,21 @@
+{
+  "id": "wrap-text",
+  "title": "Word-wrap text to a width",
+  "group": "strings",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "wrapText",
+      "signature": "export function wrapText(text: string, width: number): string[]"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "strings",
+    "algorithm"
+  ]
+}

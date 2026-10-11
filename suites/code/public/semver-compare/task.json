@@ -1,0 +1,22 @@
+{
+  "id": "semver-compare",
+  "title": "Compare semantic versions",
+  "group": "parsing",
+  "entry": "solution.mjs",
+  "api": [
+    {
+      "name": "compareSemver",
+      "signature": "export function compareSemver(a: string, b: string): -1 | 0 | 1"
+    }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": [
+    "parsing",
+    "ordering",
+    "validation"
+  ]
+}
