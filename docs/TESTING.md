@@ -28,7 +28,7 @@ Start it: `pnpm demo`, open <http://localhost:3000>.
 | 3 | Open `ml`'s **standardise** change. | ACCEPTED; two verifier cards with the same direction; per-use-case bars. |
 | 4 | Open the **graveyard** page. | Rejected, void and contested changes each show a cause and their numbers. |
 | 5 | Open `code`'s **read-the-tests** change. | Void, reason `bad-import`, no scores. |
-| 6 | Open `ml`'s pending **weight-decay**, click **Run verifier bot-2**. | A progress grid fills for about 2 minutes, then the status leaves "waiting". Reload the page mid-run: it re-attaches. |
+| 6 | Open `ml`'s pending **gradient-clipping**, click **Run verifier bot-2**. | A progress grid fills for about 2 minutes, then the status leaves "waiting". Reload the page mid-run: it re-attaches. |
 | 7 | **Verifiers** page. | Keys shortened, with attestation counts. |
 | 8 | **How it works** page. | The limits are stated plainly. |
 

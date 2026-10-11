@@ -443,3 +443,13 @@ and the baseline), the site page by page, and every label and verdict code.
 the top of `/` (what Hellgate is, in two sentences), a legend for the node shapes, and a one-line description
 under each tree name in the switcher ("ml: improving a learning algorithm", "code: improving an AI that writes
 code"), taken from GUIDE §3 and §6.
+
+### #020 · Kai · Pritam's verification run, merged
+**Did:** Pritam acted as a real second verifier on his own machine and pushed three attestations: two on the
+coding tree's `reword-rules` (replay, both agree it is noise) and one on the `ml` tree's `weight-decay`, which
+was therefore decided: rejected, NO_EFFECT. The records are merged. The ledger is a set, so the merge was a union and
+every verdict was recomputed from the signed files. `weight-decay` was the pending change for the live-verify scene, so
+I added a new one, `optimizer/gradient-clipping`, with one verification.
+**Not merged:** the `evalgate/` folder from his branch. It is a separate tool run against a mock provider, with a Windows
+path and generated files, its gate results are all zeros ("undersized denominator"), and it does not use the Hellgate engine.
+It stays in his branch history. If he wants it in the repo, it needs a README that says what it is and a real suite behind it.
