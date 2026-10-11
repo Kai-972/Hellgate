@@ -1,20 +1,24 @@
 {
   "name": "@hellgate/engine",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Hellgate engine: signed records, sandboxed measurement, and the verdict rule.",
   "type": "module",
-  "main": "dist/index.js",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18"
+  },
   "scripts": {
-    "build": "tsc",
-    "test": "vitest run",
-    "lint": "echo 'lint placeholder'",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --test \"src/**/*.test.ts\"",
+    "hellgate": "node src/cli/main.ts"
   },
   "dependencies": {
-    "@noble/ed25519": "^2.1.0"
+    "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "typescript": "^5.5.0",
-    "vitest": "^2.0.0"
+    "@stellar/stellar-sdk": "^17.2.1",
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
   }
 }

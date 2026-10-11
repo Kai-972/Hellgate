@@ -14,7 +14,7 @@ Status: `todo` · `doing` · `done` · `blocked`
 
 | Workstream | Owner | Status | Doing now | Next | Blocked on |
 |---|---|---|---|---|---|
-| Engine core (Stages 1–2) | Kai + Claude | doing | Core and identity written, tests being finished | Records, store, merge with the scaffold already on `main` | nothing |
+| Engine core (Stages 1–2) | Kai + Claude | doing | Stage 1 done (core, identity, workspace). Stage 2 starting. | Records and the ledger store | nothing |
 | Sandbox (Stage 4) | Kai + Claude | todo | | After records | |
 | `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | todo | | First domain built end to end: no model API needed | |
 | Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Groq key (not yet provided); Gemini key available |
@@ -29,7 +29,7 @@ A checkpoint is passed when everything listed works, not when it is started.
 
 | # | Engine side | Web side | Passed |
 |---|---|---|---|
-| C1 | Core, identity, records and store done and tested | App shell, home page and tree on mock data | no |
+| C1 | Core, identity, records and store done and tested (core and identity are done) | App shell, home page and tree on mock data | no |
 | C2 | Sandbox canaries pass (gate); first tasks reviewed | Change page and the noise-band chart | no |
 | C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events | no |
 | C4 | Verdict and the offline loop work; hub is up (gates) | **Switch from mock to the hub** | no |

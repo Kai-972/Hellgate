@@ -116,12 +116,12 @@ it needs no model API, runs fast and gives real run-to-run noise. Then the LLM d
 - [x] Stage plan, shared log, frontend brief
 - [x] Monorepo folders: `engine/`, `web/`
 
-## Stage 1: Core primitives · K · `[ ]`
+## Stage 1: Core primitives · K · `[x]`
 Canonical JSON, ids, errors, identity and signing.
-- [ ] `engine/src/core/`: canonical JSON, `sha256`, `idOf`, error kinds and exit codes
-- [ ] `engine/src/identity/`: Stellar-format address and secret encoding, key file
+- [x] `engine/src/core/`: canonical JSON, `sha256`, `idOf`, error kinds and exit codes
+- [x] `engine/src/identity/`: Stellar-format address and secret encoding, key file
   (create, load, permission check), `HELLGATE_SECRET`, domain-separated signing and checking
-- [ ] Workspace root: `package.json`, `pnpm-workspace.yaml`, one lockfile
+- [x] Workspace root: `package.json`, `pnpm-workspace.yaml`, one lockfile
 
 **Tests:**
 - frozen hash vectors;

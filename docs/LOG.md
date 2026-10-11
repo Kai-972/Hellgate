@@ -115,3 +115,30 @@ They are replaced by PIPELINE.md and removed from the root so there is one sourc
 needs no model API and has real run-to-run noise from seeds. The LLM domain then plugs in.
 **Next:** Stage 1 (core primitives).
 **Blocked on:** a Groq API key, needed only when Stage 5 starts.
+
+### #007 · Kai · engine
+**Stage:** 1, Core primitives (done)
+**Did:**
+- Replaced the earlier engine scaffold with the protocol-conformant core, in
+  `engine/src/core/` and `engine/src/identity/`:
+  - canonical JSON: code-point key order, safe integers only, and an error for `-0`, dates,
+    maps, holes, cycles and anything else with no stable encoding;
+  - `sha256` and `idOf`;
+  - one error type with exit codes;
+  - keys in Stellar format (`G…` address, `S…` secret), a key file outside the repo with mode
+    0600 that is never overwritten, `HELLGATE_SECRET` for CI, and domain-separated signatures.
+- One pnpm workspace at the repository root (`engine`, `web`) and one lockfile. Tests use
+  Node's own runner; the engine runs TypeScript directly on Node 22.18 or newer.
+- Removed the earlier placeholder `agent/` and `suites/public/` folders. The real layout is
+  `agent/`, `learner/` and `suites/<domain>/public/` (ARCHITECTURE §5.1). The earlier scaffold
+  and its authors stay in the git history.
+**Found:**
+- Stellar address and secret encoding was cross-checked against the official Stellar SDK on 25
+  random keys, and the SDK verifies a signature made by Hellgate. One key can sign both.
+- Three problems in the earlier scaffold are now covered by tests here: integer-like keys
+  sorted wrongly, dates silently encoded as `{}`, and a signature that was not bound to the
+  record type.
+**Next:** Stage 2: record schemas and the ledger store.
+**Blocked on:** nothing.
+**Note for the web side:** pull `main`, then run `pnpm install` from the repository root. The
+workspace now includes `web/`, so your `web/package.json` will be picked up.
