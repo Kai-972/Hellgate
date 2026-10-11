@@ -367,6 +367,9 @@ one is running gets `409` with the running job's id.
 | `GET /v1/jobs/<id>` | | `{ "job", "kind", "state": "queued\|running\|done\|failed", "result": {...} \| null, "error": string \| null }` |
 | `GET /v1/jobs/<id>/events` | | `text/event-stream` (below) |
 | `GET /v1/jobs/current` | | the running job, or `204` |
+| `GET /v1/trees/<name>/pipeline` | | both environments: production, non-production, the gap, the flags, the gate path with scores, the production history |
+| `POST /v1/jobs` | `{ "kind": "promote", "change"?: Hex64, "approval"?: { "by": "name", "note"?: string } }` (on `/v1/trees/<name>/jobs`) | `202 { "job": "<id>" }`; stages `bots, gate, consistency, human, promote, benchmark`; a flagged change ends `needs-human` until it is posted again with an `approval` |
+| `POST /v1/trees/<name>/production` | `{ "action": "reset" }` (hub token) | production back to the baseline (a demo helper) |
 | `GET /v1/trees/<name>/production` | | the release: the tip of the gate path with its build files, score and verifier keys (`404` while nothing has passed) |
 
 - `as` names one of the hub's demo verifier keys, configured with

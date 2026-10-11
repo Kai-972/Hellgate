@@ -18,6 +18,32 @@ done by bots.
 accepted changes from the baseline. It is shown on the home page, served at `GET /v1/trees/<name>/production`,
 and is what `promote` releases.
 
+## The pipeline page (what to show judges)
+
+Open **Pipeline** in the nav. The page shows both environments side by side and runs the whole promotion:
+
+| Step | What happens | Where it shows |
+|---|---|---|
+| 1. Bots verify | Bot keys re-measure the change in the sandbox. If it is already verified, the page says so. | stepper, task counter, log |
+| 2. The gate decides | The fixed verdict rule over the signed measurements. A change that is not accepted is **refused**. | stepper, "Refused by the gate" |
+| 3. Production vs non-production | Production's version is compared with the candidate. The page states the inconsistency: "non-production is ahead by N changes, ▲ +X points". | the three cards at the top |
+| 4. Human review | Only when the check flags something. The pipeline **stops** and shows why. A person types their name and approves; it is written into the production history. | red "Human in the loop" panel |
+| 5. Promote | The production pointer moves to the new version. | the **production marker slides** along the score chart; the Production card updates |
+| 6. What really changed | The benchmark before and after: total, per use case, per task, with ▲ and ▼. | "What really changed in the benchmark" |
+
+**Production is an explicit pointer** that starts at the baseline and moves only through a promotion, so it really can lag behind
+non-production. That lag is the "non-production and production are not consistent" the judges asked about.
+
+**What flags a change for a person** (all computed, none typed in): the interval's lower end is below the 3-point minimum (a real but
+thin gain); a use case got worse while the total improved; a verifier's attestation was ignored; the promotion would be a rollback;
+production runs something no longer on the gate path. With no flags, the bots promote it themselves.
+
+On the committed trees: `ml` is flagged (Adam's interval starts at +2.2, below +3.0), so it stops for a person; `code` has no flags,
+so it promotes automatically. Both paths can be shown. **Reset production to the baseline** on the page lets you run it again.
+
+Honest limit: promoting moves a pointer and releases the files. Deploying them to servers, and watching live traffic afterwards, belong to
+whoever runs production.
+
 ## In the web app (no terminal needed)
 
 - **Production** (nav): the current release, the tip of the gate path, with its score, the verifier keys that

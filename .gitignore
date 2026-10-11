@@ -38,3 +38,6 @@ docs/private/
 
 # demo tree build scratch
 trees/.workspace/
+
+# demo state: which change is in production (moves only through a promotion)
+trees/**/production.json

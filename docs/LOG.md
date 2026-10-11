@@ -468,3 +468,14 @@ production" panel on every change page (accepted: its files and vouching keys; a
 `/api/production` proxy, and `GET /v1/trees/<name>/production?change=<id>` (`409` when the gate refuses a specific change).
 **Checked:** through the web layer: the tip of the `ml` tree releases (Adam, 91.9%, two keys); `momentum` (rejected) and the
 coding tree's `reword-rules` (contested) are refused with their reasons; the accepted `standardise` releases.
+
+### #023 · Kai · the promotion pipeline, with production as its own environment
+**Did:** production is now an explicit pointer (`trees/<name>/.hellgate/production.json`, git-ignored demo state) that starts at the
+baseline and moves only through a promotion, so it can lag behind non-production. New: `app/production.ts` (the pointer, the plan, the
+flags that need a person), `hub/promote.ts` (the `promote` job: bots, gate, consistency, human review, promote, benchmark delta),
+`GET /v1/trees/<name>/pipeline`, and the **Pipeline** page (two environments, the inconsistency, a score chart whose production
+marker moves on promotion, the stepper, the human-in-the-loop approval, and the before/after benchmark).
+**Found:** on the real trees the `ml` tip (Adam) is flagged, because its interval starts at +2.2 points, below the 3.0 minimum, so
+it stops for a person; the `code` tip has no flags and promotes by itself. Both paths are real, not staged.
+**Tests:** `hub/promote.test.ts` on a copy of the real `ml` tree: production lags by 2 changes, the unapproved promotion waits, a bad
+approval is refused, an approved one is recorded and returns the benchmark change, a rejected change is refused.

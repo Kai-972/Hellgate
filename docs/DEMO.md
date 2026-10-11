@@ -49,6 +49,10 @@ All numbers are from the committed trees. Say the sentences, not the numbers, if
 
 | 8 | A rejected change's page (for example `momentum`), then **Release this change to production** | A red "Refused by the gate" with the reason. Then open **Production** to show what is released. | "Production only takes what the gate accepted. Nobody can push the rest through, and the release carries the keys that vouch for it." |
 
+| 9 | **Pipeline** (nav), `ml` tree, **Run the pipeline** | Production (63.1%, the baseline) is behind non-production (91.9%): "not consistent". The stepper runs, stops at **Human in the loop** with the reason, you approve with your name, the production marker slides up the chart, and the benchmark table shows what changed. Then switch to `code`: no flag, the bots promote it themselves. | "Improvements pass the bots and the gate in non-production. If anything is flagged, a person decides, on the record. Only then does production move, and we show exactly what changed in the benchmark." |
+
+Before a rehearsal, press **Reset production to the baseline** on the Pipeline page.
+
 **Scene 7 needs the model key, and takes minutes.** Start it early, say what it is doing, and carry on
 with other scenes (closing the page does not cancel the job; reopening re-attaches). If the key has no
 quota, show the finished `full-brief` change instead: it was recorded live against Gemini, and any laptop

@@ -12,7 +12,9 @@ export async function POST(req: NextRequest) {
     const kind = bodyJson.type ?? bodyJson.kind ?? 'challenge';
     const payload = kind === 'verify'
       ? { kind, change: bodyJson.changeId ?? bodyJson.change, as: bodyJson.bot ?? bodyJson.as ?? 'bot-1' }
-      : { kind, instruction: bodyJson.instruction, parent: bodyJson.parent ?? null };
+      : kind === 'promote'
+        ? { kind, change: bodyJson.changeId ?? bodyJson.change, approval: bodyJson.approval }
+        : { kind, instruction: bodyJson.instruction, parent: bodyJson.parent ?? null };
     const res = await fetch(`${hub}/v1/trees/${tree}/jobs`, {
       method: 'POST',
       headers: { 'content-type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },

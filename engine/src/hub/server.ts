@@ -16,6 +16,8 @@ import { identityFromSecret, type Identity } from '../identity/keys.ts';
 import { envelopeOf } from '../ledger/records.ts';
 import { MAX_RECORD_BYTES, acceptRecord } from './intake.ts';
 import { challengeJob, cleanInstruction } from './challenge.ts';
+import { cleanApproval, pipelineView, promoteJob } from './promote.ts';
+import { productionRow, resetProd } from '../app/production.ts';
 import { JobRunner, type Job } from './jobs.ts';
 
 export interface HubOptions {
@@ -147,12 +149,21 @@ export class Hub {
     const [route, arg, sub] = rest;
     if (route === 'version' && method === 'GET') return this.send(res, 200, { version: this.version(tree) });
     if (route === 'export' && method === 'GET') return this.send(res, 200, this.exportText(tree));
+    if (route === 'pipeline' && method === 'GET') return this.send(res, 200, pipelineView(tree));
+    if (route === 'production' && method === 'POST') {
+      if (!this.authorised(req)) return this.send(res, 401, { error: 'this needs the hub token' });
+      const body = (await this.body(req)) as { action?: unknown };
+      if (body.action !== 'reset') throw new HellgateError('usage', 'the only action is "reset"');
+      resetProd(tree);
+      return this.send(res, 200, pipelineView(tree));
+    }
     if (route === 'production' && method === 'GET') {
       const asked = url.searchParams.get('change');
       try {
-        return this.send(res, 200, releaseOf(tree, asked ?? undefined));
+        const current = asked === null ? productionRow(tree) : null;
+        return this.send(res, 200, releaseOf(tree, asked ?? current?.id));
       } catch (err) {
-        // 404: nothing has passed the gate yet. 409: that change exists but the gate says it cannot be released.
+        // 404: nothing is in production. 409: that change exists but the gate says it cannot be released.
         if (err instanceof HellgateError && err.kind === 'refused') return this.send(res, asked === null ? 404 : 409, { error: err.message });
         throw err;
       }
@@ -206,9 +217,18 @@ export class Hub {
     }
     if (method === 'POST' && arg === undefined) {
       if (!this.authorised(req)) return this.send(res, 401, { error: 'jobs need the hub token' });
-      const request = (await this.body(req)) as { kind?: unknown; change?: unknown; as?: unknown; instruction?: unknown; parent?: unknown };
+      const request = (await this.body(req)) as { kind?: unknown; change?: unknown; as?: unknown; instruction?: unknown; parent?: unknown; approval?: unknown };
       if (request.kind === 'challenge') return this.challenge(res, tree, request);
-      if (request.kind !== 'verify') throw new HellgateError('usage', 'kind must be "verify" or "challenge"');
+      if (request.kind === 'promote') {
+        const bots = [...this.bots.entries()].map(([name, identity]) => ({ name, identity }));
+        const change = typeof request.change === 'string' && request.change !== '' ? request.change : undefined;
+        const approval = request.approval as { by?: unknown; note?: unknown } | undefined;
+        if (approval !== undefined && approval !== null) cleanApproval(approval); // a bad approval is refused here, before a job starts
+        const started = this.runner.start('promote', tree.config.tree, (job) => promoteJob(job, { tree, bots, change, approval }));
+        if ('busy' in started) return this.send(res, 409, { error: 'a job is already running', job: started.busy.id });
+        return this.send(res, 202, { job: started.job.id });
+      }
+      if (request.kind !== 'verify') throw new HellgateError('usage', 'kind must be "verify", "challenge" or "promote"');
       const bot = this.bots.get(String(request.as ?? 'bot-1'));
       if (bot === undefined) throw new HellgateError('usage', `no verifier key "${String(request.as)}" is configured on this hub`);
       const row = tree.find(tree.snapshot(), String(request.change ?? ''));

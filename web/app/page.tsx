@@ -41,6 +41,7 @@ function GateContent() {
   const [gatePathOnly, setGatePathOnly] = useState(false);
   const [version, setVersion] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [pipe, setPipe] = useState<{ production: { motif: string; area: string; scoreBp: number | null } | null; inSync: boolean; gapBp: number; behindBy: number } | null>(null);
 
   const fetchData = useCallback(async () => {
     const [treesRes, exportRes] = await Promise.all([
@@ -51,6 +52,7 @@ function GateContent() {
     const exportData = await exportRes.json();
     setTrees(treesData);
     setData(exportData);
+    fetch(`/api/pipeline?tree=${tree}`).then((r) => (r.ok ? r.json() : null)).then(setPipe).catch(() => setPipe(null));
     setLoading(false);
   }, [tree]);
 
@@ -177,21 +179,17 @@ function GateContent() {
 
       <Explainer domain={data.domain} />
 
-      {(() => {
-        const prod = byId.get(data.gatePath[data.gatePath.length - 1] ?? '');
-        if (!prod) return null;
-        return (
-          <section className="card" style={{ marginBottom: 32, display: 'flex', flexWrap: 'wrap', gap: '8px 28px', alignItems: 'baseline' }} aria-label="In production">
-            <div className="section-label">In production</div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13 }}>{prod.claim.area}/{prod.claim.motif}</span>
-            <span style={{ fontFamily: 'var(--font-serif)', fontSize: 22, color: 'var(--ember)' }}>{prod.scoreBp !== null ? formatScorePct(prod.scoreBp) : '—'}</span>
-            <span style={{ fontSize: 12, color: 'var(--muted)' }}>
-              the tip of the gate path: only a change accepted by distinct verifier keys, on a chain of accepted changes, is released. Everything else stays in non-production.
-            </span>
-            <Link href={`/production?tree=${tree}`} style={{ fontSize: 12 }}>View the release →</Link>
-          </section>
-        );
-      })()}
+      {pipe && pipe.production && (
+        <section className="card" style={{ marginBottom: 32, display: 'flex', flexWrap: 'wrap', gap: '8px 28px', alignItems: 'baseline' }} aria-label="In production">
+          <div className="section-label">In production</div>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13 }}>{pipe.production.area}/{pipe.production.motif}</span>
+          <span style={{ fontFamily: 'var(--font-serif)', fontSize: 22, color: 'var(--ember)' }}>{pipe.production.scoreBp !== null ? formatScorePct(pipe.production.scoreBp) : '—'}</span>
+          <span style={{ fontSize: 12, color: pipe.inSync ? 'var(--muted)' : 'var(--ember)' }}>
+            {pipe.inSync ? 'In sync with the best version that passed the gate.' : `Not consistent: non-production is ahead by ${pipe.behindBy} change${pipe.behindBy === 1 ? '' : 's'} (▲ +${(pipe.gapBp / 100).toFixed(1)} points).`}
+          </span>
+          <Link href={`/pipeline?tree=${tree}`} style={{ fontSize: 12 }}>Open the pipeline →</Link>
+        </section>
+      )}
 
       {/* Stats strip */}
       <div
