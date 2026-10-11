@@ -17,10 +17,12 @@ Status: `todo` · `doing` · `done` · `blocked`
 | Engine core (Stages 1–4, 6, 8, 9) | Kai + Claude | done | Done: core, identity, records, ledger, config, suite format, sandbox, measurement, verdict, CLI | Stage 10: the hub | nothing |
 | Sandbox (Stage 4) | Kai + Claude | done | All five canaries pass for both the `code` jails and the `ml` runner | Used by Stage 6 | nothing |
 | `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | done | Genesis learner (63%), 12-task suite in 4 use cases, six ready-made changes, all re-measured | Used by the CLI (Stage 9) and the real tree (Stage 11) | Kai's review of the data generators |
-| Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Both keys available (kept in the git-ignored `.env`) |
+| Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | done | Both providers live; record, replay, budgets, limits and retries; tested against fake servers | Used by the `code` domain | nothing |
+| `code` domain: agent, suite, tree (Stages 7, 11) | Kai + Claude | doing | Genesis agent (43%), 16 tasks in 5 use cases; the real coding tree is recorded live and verified by replay | Commit the tree; Kai reviews every `cases.mjs` | Kai's review of the cases |
+| Beat the gate (Stage 14) | Kai + Claude | doing | Engine side done: `challenge` jobs on the hub, tested | The web form (Pritam) | the web app |
 | Benchmark tasks (Stages 3, 7, 7M) | Kai | doing | 3 coding pilot tasks and all 12 ML tasks written; reference solutions pass | Kai reviews every `cases.mjs` and `data.mjs`; then the task spec for the free-tier agents (13 more coding tasks) | |
-| CLI and hub (Stages 9–10) | Kai + Claude | done | CLI, hub, push/pull, live job events; the real `ml` tree is committed in `trees/ml` | Stage 5 (model gateway), then the `code` domain | |
-| Web app (Stage 12) | Frontend teammate | todo | | Start from [docs/FRONTEND.md](docs/FRONTEND.md) with the mock data | docs reach `main` |
+| CLI and hub (Stages 9–10) | Kai + Claude | done | CLI, hub, push/pull, live job events; both real trees; `pnpm hub:demo` starts the hub with the demo keys | Stage 13 spot-checks, Stage 15 evolve | |
+| Web app (Stage 12) | Frontend teammate | doing | Building against the real hub | Everything the engine offers is ready: [docs/UI-PROMPT.md](docs/UI-PROMPT.md) and [docs/FRONTEND.md](docs/FRONTEND.md) | |
 | Demo, README, video | Both | todo | | After Tier 1 works | |
 
 ## Checkpoints
@@ -31,7 +33,7 @@ A checkpoint is passed when everything listed works, not when it is started.
 |---|---|---|---|
 | C1 | Core, identity, records and store done and tested (done) | App shell, home page and tree on mock data | engine side yes |
 | C2 | Sandbox canaries pass (gate, passed); first tasks reviewed (waiting on Kai) | Change page and the noise-band chart | engine side: canaries yes, review pending |
-| C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events | no |
+| C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events | engine side yes |
 | C4 | Verdict and the offline loop work; hub is up (gates) | **Switch from mock to the hub** | no |
 | C5 | Real tree and demo scenarios recorded and verified (gate); Beat the gate | Beat the gate page; verifiers page; polish | no |
 | C6 | Freeze. Doc audit. | Rehearsals, README, demo video | no |

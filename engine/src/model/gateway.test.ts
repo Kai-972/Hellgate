@@ -11,7 +11,7 @@ import { parseRecord, toRecord } from '../ledger/records.ts';
 import { seedHex } from '../suite/seeds.ts';
 import { Gateway, ReplayMiss } from './gateway.ts';
 import { requestKey, splitModelRef } from './key.ts';
-import { RateLimiter } from './limiter.ts';
+import { RateLimiter, TokenLimiter } from './limiter.ts';
 import { GeminiProvider, GroqProvider, ProviderError } from './providers.ts';
 import { ModelCallRefused, parseModelRequest, type ModelRequest } from './types.ts';
 
@@ -276,4 +276,27 @@ test('the limiter lets a burst through, then spaces requests to the allowed rate
   const slow = new RateLimiter(60, { burst: 1, now: () => clock, sleep: async (ms) => { clock += ms; } });
   await Promise.all([1, 2, 3].map((n) => slow.acquire().then(() => order.push(n))));
   assert.deepEqual(order, [1, 2, 3], 'served in the order requested');
+});
+
+test('the token limiter keeps a sliding minute under its limit, in order, and learns what was really used', async () => {
+  let clock = 0;
+  const waits: number[] = [];
+  const limiter = new TokenLimiter(1000, { now: () => clock, sleep: async (ms) => { waits.push(ms); clock += ms; } });
+  const a = await limiter.reserve(600);
+  await limiter.reserve(300);
+  assert.deepEqual(waits, [], 'room for both');
+  a(100); // the first call used far less than it reserved
+  await limiter.reserve(600); // 100 + 300 + 600 fits
+  assert.deepEqual(waits, []);
+  await limiter.reserve(500); // 1000 used; it has to wait for the first spend to leave the minute
+  assert.ok(waits.length > 0 && clock >= 60_000 && clock < 61_000, `waited about a minute, not ${clock} ms`);
+  const big = new TokenLimiter(100, { now: () => clock, sleep: async (ms) => { clock += ms; } });
+  await big.reserve(5000); // an empty minute takes any single request
+  const before = clock;
+  await big.reserve(5);
+  assert.ok(clock - before >= 59_000, 'but the next one waits for it to leave');
+  const order: number[] = [];
+  const queue = new TokenLimiter(10, { now: () => clock, sleep: async (ms) => { clock += ms; } });
+  await Promise.all([1, 2, 3].map((n) => queue.reserve(8).then(() => order.push(n))));
+  assert.deepEqual(order, [1, 2, 3]);
 });

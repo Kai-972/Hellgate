@@ -7,8 +7,9 @@
   "license": "MIT",
   "packageManager": "pnpm@10.24.0",
   "scripts": {
-    "hub": "node engine/src/cli/main.ts serve --root trees/ml",
+    "hub": "node engine/src/cli/main.ts serve --root trees/ml --root trees/code",
     "test": "pnpm --filter @hellgate/engine test",
-    "typecheck": "pnpm --filter @hellgate/engine typecheck"
+    "typecheck": "pnpm --filter @hellgate/engine typecheck",
+    "hub:demo": "node --env-file-if-exists=.env scripts/serve-demo.ts"
   }
 }

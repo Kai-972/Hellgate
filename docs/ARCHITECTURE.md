@@ -615,6 +615,9 @@ call per task.
 
 Environment variables: `GEMINI_API_KEY`, `GROQ_API_KEY`, `HELLGATE_HOME`, `HELLGATE_SECRET`,
 `HELLGATE_HUB`, `HELLGATE_HUB_TOKEN`, `HELLGATE_RPM_GEMINI`, `HELLGATE_RPM_GROQ`, `HELLGATE_LANES`.
+The hub also reads `HELLGATE_BOT_1_SECRET`, `HELLGATE_BOT_2_SECRET` (the demo verifiers) and
+`HELLGATE_CHALLENGER_SECRET` (the key that authors Beat the gate changes). `HELLGATE_GEMINI_URL` and
+`HELLGATE_GROQ_URL` point the clients at another base address, which is how the tests use fake providers.
 
 ## 11. CLI
 

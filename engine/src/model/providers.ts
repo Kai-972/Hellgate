@@ -150,5 +150,8 @@ export class GroqProvider implements Provider {
 export function providerFromEnv(name: 'gemini' | 'groq', env: Readonly<Record<string, string | undefined>>): Provider {
   const key = name === 'gemini' ? env.GEMINI_API_KEY : env.GROQ_API_KEY;
   if (!key) throw new HellgateError('environment', `${name === 'gemini' ? 'GEMINI_API_KEY' : 'GROQ_API_KEY'} is not set`);
-  return name === 'gemini' ? new GeminiProvider(key) : new GroqProvider(key);
+  // The base URLs can be overridden, which is how tests point the engine at a fake provider.
+  return name === 'gemini'
+    ? new GeminiProvider(key, env.HELLGATE_GEMINI_URL ? { baseUrl: env.HELLGATE_GEMINI_URL } : {})
+    : new GroqProvider(key, env.HELLGATE_GROQ_URL ? { baseUrl: env.HELLGATE_GROQ_URL } : {});
 }

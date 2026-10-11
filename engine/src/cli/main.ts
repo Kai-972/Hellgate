@@ -40,7 +40,7 @@ const HELP = `hellgate: proof for changes to an AI system
   status [C] [--why] [--json]                  verdict, reason and what was ignored
   check C [--json]                             CI form: exit 0 accepted, 1 rejected, 2 pending
   tree | graveyard | show C | digest | export [--out FILE]
-  serve [--root DIR]… [--port N] [--host H]     the hub (HELLGATE_HUB_TOKEN enables jobs; HELLGATE_BOT_1_SECRET, _2_ are the demo verifiers)
+  serve [--root DIR]… [--port N] [--host H]     the hub (HELLGATE_HUB_TOKEN enables jobs; HELLGATE_BOT_1_SECRET, _2_ are the demo verifiers; HELLGATE_CHALLENGER_SECRET authors Beat the gate changes)
   pull [URL] | push [URL]                       copy the records the other side lacks (URL defaults to HELLGATE_HUB)
 
   --root DIR (any command) selects the tree; the default is the current folder.
@@ -245,7 +245,7 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
       const trees = roots.map((r) => new Tree(r, repo));
       const bots: Record<string, string> = {};
       for (const [name, key] of [['bot-1', 'HELLGATE_BOT_1_SECRET'], ['bot-2', 'HELLGATE_BOT_2_SECRET']] as const) if (io.env[key]) bots[name] = io.env[key]!;
-      const hub = new Hub({ trees, token: io.env.HELLGATE_HUB_TOKEN, bots });
+      const hub = new Hub({ trees, token: io.env.HELLGATE_HUB_TOKEN, bots, challenger: io.env.HELLGATE_CHALLENGER_SECRET });
       const port = await hub.listen(Number(values.port ?? 8787), values.host ?? '127.0.0.1');
       io.out(`hub on http://${values.host ?? '127.0.0.1'}:${port} serving ${trees.map((t) => t.config.tree).join(', ')}${io.env.HELLGATE_HUB_TOKEN ? '' : ' (jobs are off: set HELLGATE_HUB_TOKEN)'}`);
       await new Promise<void>((done) => {

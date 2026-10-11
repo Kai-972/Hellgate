@@ -186,12 +186,12 @@ Canonical JSON, ids, errors, identity and signing.
 Each defence was also switched off in turn to confirm that the matching tests fail (the permission
 flag, the environment scrub, the `assert` copy, the exit-code check, the nonce check).
 
-## Stage 5: Model gateway · K · `[ ]` 🔴
-- [ ] Provider interface with two clients: **Gemini** and **Groq** (ARCHITECTURE §6.6 mapping)
-- [ ] Slots (`primary`, `secondary`, `proposer`) resolved through `config.models`
-- [ ] Budget (calls, tokens and time, with a per-slot token count), one rate limiter per
+## Stage 5: Model gateway · K · `[x]` 🔴
+- [x] Provider interface with two clients: **Gemini** and **Groq** (ARCHITECTURE §6.6 mapping)
+- [x] Slots (`primary`, `secondary`, `proposer`) resolved through `config.models`
+- [x] Budget (calls, tokens and time, with a per-slot token count), one rate limiter per
   provider, retries with backoff, and infrastructure failures that are never scored
-- [ ] Request key (PROTOCOL §5.3), `record` and `replay` modes; a replay miss is an error
+- [x] Request key (PROTOCOL §5.3), `record` and `replay` modes; a replay miss is an error
 
 **Tests:**
 - the request key is stable, ignores `tag` and `slot`, and changes with provider and model;
@@ -213,15 +213,20 @@ an identical result.
 - the same recording replayed twice gives an identical digest;
 - `vsBaseBp` is positive for a better build and negative for a worse one.
 
-## Stage 7: Genesis agent and the full suite · K · `[ ]` 🔴
-- [ ] `agent/contract.ts` (frozen), `agent/index.ts`, `agent/instructions.ts` (`RULES`),
+## Stage 7: Genesis agent and the full suite · K · `[~]` 🔴 (agent and suite done; the live baseline is being recorded)
+- [x] `agent/contract.ts` (frozen), `agent/index.ts`, `agent/instructions.ts` (`RULES`),
   and the loop: a deliberately simple baseline with one `primary` call per task
-- [ ] A ready-made two-model change (the secondary model reviews the draft) to measure against the baseline
-- [ ] The full public suite: 16 tasks (13 more after the pilots). Kai reviews every case file.
+- [x] A ready-made two-model change (the secondary model reviews the draft), in `scripts/build-code-tree.ts`
+- [x] The full public suite: 16 tasks in five use cases. Kai reviews every case file.
 - [ ] Record the baseline live
 
 **Gate:** the genesis build scores **30–55%** on the suite. If it doesn't, tune the tasks,
 not the agent, and record it again.
+
+**Measured** (live, real model, 2 runs): 43%. The first version sent the model the whole brief and
+scored 91%, so there was nothing left to improve; the genesis agent now sends only the title, the
+introducing sentence and the output line. With nothing but the title it scored 0%, because the model
+wrote the function without `export`. Both extremes were useful: they show where headroom comes from.
 
 ## Stage 7M: The `ml` domain · K · `[x]` 🔴
 - [x] `learner/contract.ts` (frozen), `learner/index.ts`, `model.ts`, `optim.ts`, `prep.ts`,
@@ -262,7 +267,7 @@ using a recording, and reach the expected verdict. `export` matches PROTOCOL §1
 ## Stage 10: Hub · K · `[x]` 🔴
 - [x] `serve`: records, export (cached until the ledger changes), version, several trees
 - [x] `push` and `pull`
-- [x] Jobs API with server-sent events (PROTOCOL §10.1), the token, one job at a time (`verify` jobs; `challenge` jobs arrive with the `code` domain)
+- [x] Jobs API with server-sent events (PROTOCOL §10.1), the token, one job at a time (`verify` jobs; `challenge` jobs are Stage 14)
 
 **Gate:** two `HELLGATE_HOME`s exchange records over HTTP, and a `verify` job streams its
 events to `curl`.
@@ -293,10 +298,16 @@ on screen.
 - the sample is deterministic per verifier;
 - a doctored recording is caught.
 
-## Stage 14: Beat the gate · K+F · `[ ]` 🔴
-- [ ] `challenge` jobs: append the instruction as a quoted string, guards, a live record,
-  two bot verifications
-- [ ] Web form and live progress
+## Stage 14: Beat the gate · K+F · `[~]` 🔴 (the engine side is done; the web form is Pritam's)
+- [x] `challenge` jobs: validate, append the instruction as one quoted string, the usual guards, a
+  live record by the house author key, two bot verifications by replay (`hub/challenge.ts`)
+- [x] A repeated instruction is answered from the ledger and spends no model call
+- [ ] Web form and live progress (`web/`)
+
+**Tests** (`hub/challenge.test.ts`, with a fake provider): the cleaning and quoting of the
+instruction (quotes, backslashes, backticks and `${` survive as exactly one string); refused requests
+spend nothing; the stream has the stages `build, record, verify, sign, verify, sign`; only the
+candidate is recorded live; the verdict and the stored change agree; a second job gets `409`.
 
 **Gate:** a typed instruction becomes a measured, verified change on screen, end to end.
 

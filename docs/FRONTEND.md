@@ -68,11 +68,18 @@ must never reach the browser.
 
 **For the look, the screens and a paste-ready prompt, read [UI-PROMPT.md](UI-PROMPT.md) first.**
 
-**The real hub exists now.** From the repository root: `pnpm hub` serves `trees/ml` on
-`http://127.0.0.1:8787`. To follow jobs the hub needs `HELLGATE_HUB_TOKEN` (and the two demo verifier
-secrets) in its environment; ask Kai for a ready `.env`. Then in `web/.env.local` set
-`HELLGATE_HUB=http://127.0.0.1:8787` and `HELLGATE_HUB_TOKEN=…`, and your routes proxy instead of
-reading `web/mock/`. What to expect from the real data, which the mock already shows: `models` is
+**The real hub exists now.** From the repository root: `pnpm hub` serves both real trees (`ml` and `code`)
+on `http://127.0.0.1:8787`; reads need no token. To start jobs, run `pnpm hub:demo` instead: it reads
+`.env` (ask Kai for one; it holds the model keys), creates the demo verifier and challenge-author keys
+on first use, and starts the hub with them. With no `HELLGATE_HUB_TOKEN` in `.env` it uses `dev-token`
+on localhost. Then in `web/.env.local` set `HELLGATE_HUB=http://127.0.0.1:8787` and
+`HELLGATE_HUB_TOKEN=…`, and your routes proxy instead of reading `web/mock/`.
+
+Two trees, so two kinds of routes: `GET /v1/trees` lists them; `GET /v1/trees/<name>/export` is one
+tree's export; the plain `/v1/export` serves the **first** tree (`ml`). Start a job on the tree it
+belongs to: `POST /v1/trees/ml/jobs` for `verify` on the ML tree, `POST /v1/trees/code/jobs` for
+`verify` or `challenge` (Beat the gate) on the coding tree. There is one job at a time across the whole
+hub, so `GET /v1/jobs/current` answers for both. What to expect from the real data, which the mock already shows: `models` is
 `null` for the `ml` tree; `base`, `scoreBp`, `vsBaseBp`, `effectBp` and the interval can be `null` (see
 PROTOCOL §11.1); a verifier's `label` is a shortened address; a `verify` job emits `log, stage,
 progress…, stage, attestation, change, done`, and a client that connects late is replayed from the

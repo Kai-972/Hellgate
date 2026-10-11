@@ -14,6 +14,7 @@ import { buildExport } from '../export/build.ts';
 import { identityFromSecret, type Identity } from '../identity/keys.ts';
 import { envelopeOf } from '../ledger/records.ts';
 import { MAX_RECORD_BYTES, acceptRecord } from './intake.ts';
+import { challengeJob, cleanInstruction } from './challenge.ts';
 import { JobRunner, type Job } from './jobs.ts';
 
 export interface HubOptions {
@@ -22,6 +23,8 @@ export interface HubOptions {
   token?: string | undefined;
   /** The demo verifier keys: `bot-1` and `bot-2`. */
   bots?: Record<string, string>;
+  /** The house author key that records Beat the gate changes (`HELLGATE_CHALLENGER_SECRET`). Without it, challenges are off. */
+  challenger?: string | undefined;
 }
 
 const HEX64 = /^[0-9a-f]{64}$/;
@@ -31,6 +34,7 @@ export class Hub {
   private readonly trees = new Map<string, Tree>();
   private readonly runner = new JobRunner();
   private readonly bots = new Map<string, Identity>();
+  private readonly challenger: Identity | null;
   private readonly exports = new Map<string, { version: string; text: string }>();
   private readonly options: HubOptions;
 
@@ -39,6 +43,7 @@ export class Hub {
     if (options.trees.length === 0) throw new HellgateError('usage', 'a hub needs at least one tree');
     for (const t of options.trees) this.trees.set(t.config.tree, t);
     for (const [name, secret] of Object.entries(options.bots ?? {})) this.bots.set(name, identityFromSecret(secret, name));
+    this.challenger = options.challenger ? identityFromSecret(options.challenger, 'challenger') : null;
     this.server = createServer((req, res) => {
       this.handle(req, res).catch((err: unknown) => this.fail(res, err));
     });
@@ -182,8 +187,8 @@ export class Hub {
     }
     if (method === 'POST' && arg === undefined) {
       if (!this.authorised(req)) return this.send(res, 401, { error: 'jobs need the hub token' });
-      const request = (await this.body(req)) as { kind?: unknown; change?: unknown; as?: unknown };
-      if (request.kind === 'challenge') return this.send(res, 501, { error: 'challenge jobs need a code tree, which arrives with the model gateway' });
+      const request = (await this.body(req)) as { kind?: unknown; change?: unknown; as?: unknown; instruction?: unknown; parent?: unknown };
+      if (request.kind === 'challenge') return this.challenge(res, tree, request);
       if (request.kind !== 'verify') throw new HellgateError('usage', 'kind must be "verify" or "challenge"');
       const bot = this.bots.get(String(request.as ?? 'bot-1'));
       if (bot === undefined) throw new HellgateError('usage', `no verifier key "${String(request.as)}" is configured on this hub`);
@@ -194,6 +199,20 @@ export class Hub {
       return this.send(res, 202, { job: started.job.id });
     }
     throw new HellgateError('not-found', 'unknown route');
+  }
+
+  private challenge(res: ServerResponse, tree: Tree, request: { instruction?: unknown; parent?: unknown }): void {
+    if (tree.domain !== 'code') return this.send(res, 501, { error: 'Beat the gate runs on the coding tree' });
+    const bots = [...this.bots.entries()].map(([name, identity]) => ({ name, identity }));
+    if (this.challenger === null || bots.length < tree.config.policy.minVerifiers) {
+      return this.send(res, 501, { error: 'this hub has no challenge author key or too few verifier keys (HELLGATE_CHALLENGER_SECRET, HELLGATE_BOT_1_SECRET, HELLGATE_BOT_2_SECRET)' });
+    }
+    const instruction = cleanInstruction(request.instruction);
+    const parent = typeof request.parent === 'string' ? request.parent : undefined;
+    const author = this.challenger;
+    const started = this.runner.start('challenge', tree.config.tree, (job) => challengeJob(job, { tree, author, verifiers: bots.slice(0, tree.config.policy.minVerifiers), instruction, parent }));
+    if ('busy' in started) return this.send(res, 409, { error: 'a job is already running', job: started.busy.id });
+    return this.send(res, 202, { job: started.job.id });
   }
 
   private describe(job: Job) {

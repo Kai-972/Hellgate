@@ -370,19 +370,27 @@ one is running gets `409` with the running job's id.
 
 - `as` names one of the hub's demo verifier keys, configured with
   `HELLGATE_BOT_1_SECRET` and `HELLGATE_BOT_2_SECRET`. A bot never verifies a change it
-  authored.
-- A `challenge` job:
-  1. builds the change on `parent` (default: the best accepted tip) by appending
-     `instruction` to the agent's instruction list as a JSON-quoted string;
-  2. signs it with the hub's author key (`HELLGATE_SECRET`);
-  3. records a live run;
-  4. then runs `verify` as `bot-1` and as `bot-2`.
+  authored. `HELLGATE_CHALLENGER_SECRET` is a third, separate key that authors Beat the gate changes.
+- A `challenge` job (code trees only; an `ml` tree answers `501`):
+  1. checks `instruction`: 8 to 280 characters after whitespace is collapsed, no control characters
+     (`400` otherwise);
+  2. builds the change on `parent` (default: the tip of the gate path) by appending `instruction` to the
+     agent's `RULES` list as one JSON-quoted string, and nothing else;
+  3. signs it with the hub's author key (`HELLGATE_CHALLENGER_SECRET`), with `origin.by = "challenge"`,
+     runs the usual guards, and records a live run (the parent is replayed from its own recording);
+  4. then runs `verify` as `bot-1` and as `bot-2`, by replay.
+  The hub answers `501` if the author key or the two verifier keys are not configured. An instruction
+  that was already measured on the same parent is answered from the ledger: the job ends at once with
+  `"repeated": true` in its result and spends no model call.
+  The stages of a challenge are `build`, `record` (`as: "author"`), `verify` and `sign` (once per bot).
+  `progress` events run three times over (the author's two sides, then each bot's), and `done` carries the
+  verdict of the new change; a change a guard stopped ends with status `void` and the reason.
 
 **Event stream.** Each event is `event: <type>` followed by `data: <JSON>`:
 
 | Event type | Data |
 |---|---|
-| `stage` | `{ "stage": "guards\|typecheck\|record\|verify\|spot-check\|sign\|push", "as": string \| null }` |
+| `stage` | `{ "stage": "build\|record\|verify\|sign", "as": string \| null }` |
 | `progress` | `{ "side": "parent\|candidate", "run": 0, "runs": 5, "task": "id", "done": 12, "of": 80, "passedCases": 7, "cases": 10 }` |
 | `attestation` | `{ "id": Hex64, "signer": Addr, "call": "gain\|loss\|noise", "effectBp": 0, "ciLowBp": 0, "ciHighBp": 0 }` |
 | `change` | `{ "id": Hex64, "status": "...", "code": "..." }` (also sent at the end of a challenge) |

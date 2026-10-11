@@ -38,3 +38,47 @@ export class RateLimiter {
     return turn;
   }
 }
+
+/**
+ * A tokens-per-minute limiter over a sliding minute. Free tiers cap tokens as well as requests, and a
+ * 429 for tokens costs a long wait. `reserve(estimate)` resolves when the minute has room for the
+ * estimate, in the order asked, and returns a function that swaps the estimate for what was really
+ * used. A request larger than the whole limit waits for an empty minute and then goes alone.
+ */
+export class TokenLimiter {
+  private readonly limit: number;
+  private readonly spent: { at: number; tokens: number }[] = [];
+  private queue: Promise<void> = Promise.resolve();
+  private readonly now: () => number;
+  private readonly sleep: (ms: number) => Promise<void>;
+
+  constructor(tokensPerMinute: number, options: { now?: () => number; sleep?: (ms: number) => Promise<void> } = {}) {
+    this.limit = tokensPerMinute;
+    this.now = options.now ?? Date.now;
+    this.sleep = options.sleep ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
+  }
+
+  private used(): number {
+    const cutoff = this.now() - 60_000;
+    while (this.spent.length > 0 && this.spent[0]!.at <= cutoff) this.spent.shift();
+    return this.spent.reduce((n, s) => n + s.tokens, 0);
+  }
+
+  reserve(estimate: number): Promise<(actual: number) => void> {
+    const entry = { at: 0, tokens: Math.max(0, estimate) };
+    const turn = this.queue.then(async () => {
+      for (;;) {
+        const used = this.used();
+        if (used === 0 || used + entry.tokens <= this.limit) break;
+        // wait until the oldest spend leaves the window, then look again
+        await this.sleep(Math.max(50, this.spent[0]!.at + 60_000 - this.now() + 10));
+      }
+      entry.at = this.now();
+      this.spent.push(entry);
+    });
+    this.queue = turn;
+    return turn.then(() => (actual: number) => {
+      entry.tokens = Math.max(0, actual);
+    });
+  }
+}

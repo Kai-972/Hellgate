@@ -39,5 +39,6 @@ export function gatewayFor(config: Config, mode: Mode, env: Env, recording?: Rec
     models: { primary: config.models.primary, secondary: config.models.secondary },
     providers,
     rpm: { ...(rpm(env, 'HELLGATE_RPM_GEMINI') ? { gemini: rpm(env, 'HELLGATE_RPM_GEMINI')! } : {}), ...(rpm(env, 'HELLGATE_RPM_GROQ') ? { groq: rpm(env, 'HELLGATE_RPM_GROQ')! } : {}) },
+    tpm: { ...(rpm(env, 'HELLGATE_TPM_GEMINI') ? { gemini: rpm(env, 'HELLGATE_TPM_GEMINI')! } : {}), ...(rpm(env, 'HELLGATE_TPM_GROQ') ? { groq: rpm(env, 'HELLGATE_TPM_GROQ')! } : {}) },
   });
 }

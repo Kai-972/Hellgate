@@ -15,7 +15,7 @@ import { HellgateError } from '../core/errors.ts';
 import type { RecordingBody } from '../ledger/records.ts';
 import { seedInt } from '../suite/seeds.ts';
 import { requestKey, splitModelRef } from './key.ts';
-import { RateLimiter } from './limiter.ts';
+import { RateLimiter, TokenLimiter } from './limiter.ts';
 import { ProviderError, type Provider } from './providers.ts';
 import { ModelCallRefused, type ModelReply, type ModelRequest, type Remaining } from './types.ts';
 
@@ -38,6 +38,8 @@ export interface GatewayOptions {
   budget?: Remaining;
   /** Requests per minute for each provider. Defaults are conservative free-tier values. */
   rpm?: { gemini?: number; groq?: number };
+  /** Tokens per minute per provider. Groq's free tier allows few, so it has a default; Gemini has none unless set. */
+  tpm?: { gemini?: number; groq?: number };
   retries?: { attempts?: number; baseMs?: number; sleep?: (ms: number) => Promise<void> };
   callTimeoutMs?: number;
 }
@@ -60,6 +62,7 @@ export class Gateway {
   private readonly options: GatewayOptions;
   private readonly replay: Map<string, Entry>;
   private readonly limiters: Record<'gemini' | 'groq', RateLimiter>;
+  private readonly tokenLimiters: Partial<Record<'gemini' | 'groq', TokenLimiter>> = {};
   private readonly budget: Remaining;
 
   constructor(options: GatewayOptions) {
@@ -69,6 +72,11 @@ export class Gateway {
     this.budget = options.budget ?? DEFAULT_BUDGET;
     this.replay = new Map((options.recording ?? []).map((e) => [e.key, e]));
     this.limiters = { gemini: new RateLimiter(options.rpm?.gemini ?? 15), groq: new RateLimiter(options.rpm?.groq ?? 30) };
+    const tpm = { groq: 6500, ...options.tpm };
+    for (const provider of ['gemini', 'groq'] as const) {
+      const limit = tpm[provider as keyof typeof tpm];
+      if (limit !== undefined && limit > 0) this.tokenLimiters[provider] = new TokenLimiter(limit);
+    }
   }
 
   static fromRecording(body: RecordingBody, options: Omit<GatewayOptions, 'mode' | 'models' | 'recording'>): Gateway {
@@ -124,10 +132,14 @@ export class Gateway {
     let last: ProviderError | null = null;
     for (let attempt = 0; attempt < attempts; attempt++) {
       await this.limiters[provider].acquire();
+      const estimate = Math.ceil(((request.system ?? '').length + request.messages.reduce((n, m) => n + m.text.length, 0)) / 3.5) + (request.maxOutputTokens ?? 1000);
+      const settle = await this.tokenLimiters[provider]?.reserve(estimate);
       const abort = new AbortController();
       const timer = setTimeout(() => abort.abort(), this.options.callTimeoutMs ?? 60_000);
       try {
-        return await client.generate({ model, request, seed }, abort.signal);
+        const reply = await client.generate({ model, request, seed }, abort.signal);
+        settle?.(reply.inputTokens + reply.outputTokens);
+        return reply;
       } catch (err) {
         const failure = err instanceof ProviderError ? err : new ProviderError(err instanceof Error ? err.message : String(err), null, true);
         if (!failure.retryable) throw new HellgateError('environment', failure.message, { cause: err });

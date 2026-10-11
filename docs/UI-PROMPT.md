@@ -7,7 +7,9 @@ feeds them**. For setup steps, the data-access table and the done checklist, kee
 edit `web/` only.
 
 The real engine is running. `git pull`, run `pnpm install` at the repository root, then `pnpm hub`:
-it serves a real tree (`trees/ml`) on `http://127.0.0.1:8787`. Reads need no token. **Build against
+it serves two real trees (`ml` and `code`) on `http://127.0.0.1:8787`. Reads need no token; to start jobs
+run `pnpm hub:demo` (see [FRONTEND.md](FRONTEND.md) §3). Jobs are started per tree, at
+`/v1/trees/<name>/jobs`. **Build against
 the real hub, not only the mock.** The mock files in `web/mock/` have the same shape; the numbers
 differ.
 
@@ -174,9 +176,20 @@ task run coloured by `passedCases / cases`, then the new attestation arriving an
 on `401` the button is hidden. A late visitor is replayed the whole stream, so render from event zero.
 
 ### 4.7 Beat the gate (`/beat-the-gate`)
-A page for "type one instruction and watch it measured live". It needs the coding domain, which is not
-ready: build the page and its states now, with the form **disabled** and a note ("opens when the coding
-tree is live"), reading the same job stream as 4.6. Do not fake a result.
+"Type one instruction and watch it measured live." It runs on the `code` tree (`pnpm hub` serves it as
+the second tree). The form posts `{ "kind": "challenge", "instruction": "...", "parent": null }` to
+`/v1/trees/code/jobs` through your server (the hub token never reaches the browser), then reads the same event
+stream as 4.6. Facts to design for:
+- the instruction is 8 to 280 characters; show the counter and the hub's `400` message if it refuses;
+- the stages are `build → record → verify → sign → verify → sign`; the grid fills three times (the
+  author's recording, then each of two verifiers), and the live recording takes minutes, so keep the
+  user company: show the grid and the log tail, and let them close the page and come back
+  (`/v1/jobs/current`);
+- `501` means the hub has no keys for it: hide the form and say "not available on this server";
+  `409` means someone else's job is running: show it and offer to watch it;
+- the result is usually a **rejection**, and that is the point: show the numbers and the graveyard link.
+  A repeated instruction ends at once with `result.repeated = true`: say "already measured";
+- offer 3 or 4 example chips, and let the visitor choose the parent from the tree (default: the tip).
 
 ### 4.8 How it works / Limits (`/how-it-works`)
 The six steps with diagrams, a glossary (key, change, build, suite, task, case, verdict, interval,
