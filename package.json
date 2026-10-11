@@ -13,6 +13,7 @@
     "hub:demo": "node --env-file-if-exists=.env scripts/serve-demo.ts",
     "demo": "bash scripts/demo.sh",
     "preflight": "node --env-file-if-exists=.env scripts/preflight.ts",
-    "hellgate": "node engine/src/cli/main.ts"
+    "hellgate": "node engine/src/cli/main.ts",
+    "demo:auto": "HELLGATE_AUTO_VERIFY=1 bash scripts/demo.sh"
   }
 }

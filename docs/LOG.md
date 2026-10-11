@@ -453,3 +453,11 @@ I added a new one, `optimizer/gradient-clipping`, with one verification.
 **Not merged:** the `evalgate/` folder from his branch. It is a separate tool run against a mock provider, with a Windows
 path and generated files, its gate results are all zeros ("undersized denominator"), and it does not use the Hellgate engine.
 It stays in his branch history. If he wants it in the repo, it needs a README that says what it is and a real suite behind it.
+
+### #021 · Kai · the way from non-production to production
+**Did:** `hellgate promote` (releases the tip of the gate path as files plus `RELEASE.json`, refuses anything not
+accepted), `GET /v1/trees/<name>/production`, automatic verifier bots in the hub (`HELLGATE_AUTO_VERIFY=1`,
+`pnpm demo:auto`), an "In production" card on the home page, and [RELEASE.md](RELEASE.md).
+**Tests:** `hub/pipeline.test.ts`: a pending change is verified by two bots with nobody asking, it is accepted, the
+production endpoint and `promote` serve exactly its build, and before that `promote` refuses.
+**Not built:** a packaged GitHub Action, canary and shadow rollouts, production monitoring.

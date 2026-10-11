@@ -177,6 +177,21 @@ function GateContent() {
 
       <Explainer domain={data.domain} />
 
+      {(() => {
+        const prod = byId.get(data.gatePath[data.gatePath.length - 1] ?? '');
+        if (!prod) return null;
+        return (
+          <section className="card" style={{ marginBottom: 32, display: 'flex', flexWrap: 'wrap', gap: '8px 28px', alignItems: 'baseline' }} aria-label="In production">
+            <div className="section-label">In production</div>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13 }}>{prod.claim.area}/{prod.claim.motif}</span>
+            <span style={{ fontFamily: 'var(--font-serif)', fontSize: 22, color: 'var(--ember)' }}>{prod.scoreBp !== null ? formatScorePct(prod.scoreBp) : '—'}</span>
+            <span style={{ fontSize: 12, color: 'var(--muted)' }}>
+              the tip of the gate path: only a change accepted by distinct verifier keys, on a chain of accepted changes, is released. Everything else stays in non-production.
+            </span>
+          </section>
+        );
+      })()}
+
       {/* Stats strip */}
       <div
         style={{

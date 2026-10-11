@@ -4,7 +4,7 @@
  * `run` takes its streams and environment as arguments so tests can drive it without a subprocess.
  */
 import { writeFileSync } from 'node:fs';
-import { basename, resolve } from 'node:path';
+import { basename, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 
@@ -14,6 +14,7 @@ import { benchText, graveyardText, digestText, showText, statusText, treeText, t
 import { Tree, readBuildDir, repoDir } from '../app/tree.ts';
 import { EXIT_CODES, HellgateError, messageOf } from '../core/errors.ts';
 import { buildExport } from '../export/build.ts';
+import { releaseOf, writeRelease } from '../app/release.ts';
 import { Hub } from '../hub/server.ts';
 import { pull, push } from '../hub/sync.ts';
 import { createIdentityFile, identityPath, loadIdentity, resolveIdentity } from '../identity/keys.ts';
@@ -40,6 +41,7 @@ const HELP = `hellgate: proof for changes to an AI system
   status [C] [--why] [--json]                  verdict, reason and what was ignored
   check C [--json]                             CI form: exit 0 accepted, 1 rejected, 2 pending
   tree | graveyard | show C | digest | export [--out FILE]
+  promote [C] [--out DIR]                      release the tip of the gate path (or accepted change C) as files: exit 0 released, 1 refused
   serve [--root DIR]… [--port N] [--host H]     the hub (HELLGATE_HUB_TOKEN enables jobs; HELLGATE_BOT_1_SECRET, _2_ are the demo verifiers; HELLGATE_CHALLENGER_SECRET authors Beat the gate changes)
   pull [URL] | push [URL]                       copy the records the other side lacks (URL defaults to HELLGATE_HUB)
 
@@ -205,6 +207,23 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
       return c.verdict.status === 'accepted' ? EXIT_CODES.ok : c.verdict.status === 'rejected' || c.verdict.status === 'void' ? EXIT_CODES.rejected : EXIT_CODES.pending;
     }
 
+    case 'promote': {
+      const tree = open();
+      try {
+        const release = releaseOf(tree, positionals[0]);
+        const out = resolve(io.cwd, values.out ?? join('release', release.tree));
+        writeRelease(release, out);
+        io.out(`released ${release.change.slice(0, 8)} (${release.claim.area}/${release.claim.motif}) to ${out}\nscore ${release.scoreBp === null ? 'n/a' : (release.scoreBp / 100).toFixed(1) + '%'}, ${release.verifiers.length} verifier keys vouch for it`);
+        return EXIT_CODES.ok;
+      } catch (err) {
+        if (err instanceof HellgateError && err.kind === 'refused') {
+          io.err(err.message);
+          return EXIT_CODES.rejected;
+        }
+        throw err;
+      }
+    }
+
     case 'tree': {
       const tree = open();
       io.out(treeText(tree, tree.snapshot()));
@@ -245,7 +264,7 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
       const trees = roots.map((r) => new Tree(r, repo));
       const bots: Record<string, string> = {};
       for (const [name, key] of [['bot-1', 'HELLGATE_BOT_1_SECRET'], ['bot-2', 'HELLGATE_BOT_2_SECRET']] as const) if (io.env[key]) bots[name] = io.env[key]!;
-      const hub = new Hub({ trees, token: io.env.HELLGATE_HUB_TOKEN, bots, challenger: io.env.HELLGATE_CHALLENGER_SECRET });
+      const hub = new Hub({ trees, token: io.env.HELLGATE_HUB_TOKEN, bots, challenger: io.env.HELLGATE_CHALLENGER_SECRET, autoVerifyMs: io.env.HELLGATE_AUTO_VERIFY === '1' ? 3000 : undefined });
       const port = await hub.listen(Number(values.port ?? 8787), values.host ?? '127.0.0.1');
       io.out(`hub on http://${values.host ?? '127.0.0.1'}:${port} serving ${trees.map((t) => t.config.tree).join(', ')}${io.env.HELLGATE_HUB_TOKEN ? '' : ' (jobs are off: set HELLGATE_HUB_TOKEN)'}`);
       await new Promise<void>((done) => {

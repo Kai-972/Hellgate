@@ -7,6 +7,7 @@ import { createHash, timingSafeEqual } from 'node:crypto';
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 
 import { verifyChange } from '../app/actions.ts';
+import { releaseOf } from '../app/release.ts';
 import { Tree } from '../app/tree.ts';
 import { canonicalJson } from '../core/canonical.ts';
 import { HellgateError, messageOf } from '../core/errors.ts';
@@ -25,6 +26,8 @@ export interface HubOptions {
   bots?: Record<string, string>;
   /** The house author key that records Beat the gate changes (`HELLGATE_CHALLENGER_SECRET`). Without it, challenges are off. */
   challenger?: string | undefined;
+  /** When set, the demo bots verify every pending change on their own (`HELLGATE_AUTO_VERIFY=1`). The value is the polling interval in ms. */
+  autoVerifyMs?: number | undefined;
 }
 
 const HEX64 = /^[0-9a-f]{64}$/;
@@ -35,6 +38,8 @@ export class Hub {
   private readonly runner = new JobRunner();
   private readonly bots = new Map<string, Identity>();
   private readonly challenger: Identity | null;
+  private autoTimer: NodeJS.Timeout | null = null;
+  private readonly autoFailed = new Set<string>();
   private readonly exports = new Map<string, { version: string; text: string }>();
   private readonly options: HubOptions;
 
@@ -52,11 +57,15 @@ export class Hub {
   listen(port: number, host = '127.0.0.1'): Promise<number> {
     return new Promise((resolve, reject) => {
       this.server.once('error', reject);
-      this.server.listen(port, host, () => resolve((this.server.address() as { port: number }).port));
+      this.server.listen(port, host, () => {
+        if (this.options.autoVerifyMs) this.autoTimer = setInterval(() => this.autoTick(), this.options.autoVerifyMs);
+        resolve((this.server.address() as { port: number }).port);
+      });
     });
   }
 
   close(): Promise<void> {
+    if (this.autoTimer) clearInterval(this.autoTimer);
     this.server.closeAllConnections();
     return new Promise((resolve) => this.server.close(() => resolve()));
   }
@@ -138,6 +147,14 @@ export class Hub {
     const [route, arg, sub] = rest;
     if (route === 'version' && method === 'GET') return this.send(res, 200, { version: this.version(tree) });
     if (route === 'export' && method === 'GET') return this.send(res, 200, this.exportText(tree));
+    if (route === 'production' && method === 'GET') {
+      try {
+        return this.send(res, 200, releaseOf(tree));
+      } catch (err) {
+        if (err instanceof HellgateError && err.kind === 'refused') return this.send(res, 404, { error: err.message });
+        throw err;
+      }
+    }
     if (route === 'records') return this.records(req, res, tree, method, arg, url);
     if (route === 'jobs') return this.jobs(req, res, tree, method, arg, sub);
     throw new HellgateError('not-found', 'unknown route');
@@ -213,6 +230,34 @@ export class Hub {
     const started = this.runner.start('challenge', tree.config.tree, (job) => challengeJob(job, { tree, author, verifiers: bots.slice(0, tree.config.policy.minVerifiers), instruction, parent }));
     if ('busy' in started) return this.send(res, 409, { error: 'a job is already running', job: started.busy.id });
     return this.send(res, 202, { job: started.job.id });
+  }
+
+  /**
+   * The automatic verifiers. A pending change that a bot has not measured yet, and did not author, is verified by
+   * that bot: the same `verifyChange` a person runs, so a bot's attestation is as good as anybody's and no better.
+   * One job at a time; a change that fails is not retried in a loop.
+   */
+  private autoTick(): void {
+    if (this.runner.current !== null && !this.runner.current.finished) return;
+    for (const tree of this.trees.values()) {
+      for (const row of tree.snapshot().changes) {
+        if (row.verdict.status !== 'pending') continue;
+        for (const [name, bot] of this.bots) {
+          const key = `${row.id}:${name}`;
+          if (row.body.signer === bot.address || row.attestations.some((a) => a.body.signer === bot.address) || this.autoFailed.has(key)) continue;
+          const started = this.runner.start('verify', tree.config.tree, async (job) => {
+            job.emit('log', { line: `automatic: ${name} picked up the pending change ${row.id.slice(0, 8)}` });
+            try {
+              return await this.verifyJob(job, tree, bot, row.id, name);
+            } catch (err) {
+              this.autoFailed.add(key);
+              throw err;
+            }
+          });
+          if ('job' in started) return;
+        }
+      }
+    }
   }
 
   private describe(job: Job) {
