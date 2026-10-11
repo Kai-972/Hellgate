@@ -1,0 +1,31 @@
+name: coding-agent-gate-prod
+provider: mock
+model: mock-deterministic
+threshold: 0.90
+minPredictedPositives: 4
+
+cases:
+  - id: c1
+    scorers:
+      - type: contains
+        values: ["mock"]
+    input:
+      prompt: "test"
+  - id: c2
+    scorers:
+      - type: contains
+        values: ["mock"]
+    input:
+      prompt: "test"
+  - id: c3
+    scorers:
+      - type: contains
+        values: ["mock"]
+    input:
+      prompt: "test"
+  - id: c4
+    scorers:
+      - type: contains
+        values: ["mock"]
+    input:
+      prompt: "test"
