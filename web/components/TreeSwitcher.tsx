@@ -1,5 +1,6 @@
 'use client';
 import { Tree } from '@/lib/types';
+import { pickTree } from '@/lib/hub';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface TreeSwitcherProps {
@@ -9,7 +10,7 @@ interface TreeSwitcherProps {
 export default function TreeSwitcher({ trees }: TreeSwitcherProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentTree = searchParams.get('tree') ?? trees[0]?.name ?? 'coding-agent';
+  const currentTree = pickTree(trees, searchParams.get('tree') ?? 'coding-agent');
 
   function select(name: string) {
     const params = new URLSearchParams(searchParams.toString());

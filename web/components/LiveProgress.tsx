@@ -3,7 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import { JobEvent, DoneEvent } from '@/lib/types';
 import { shortAddr } from '@/lib/types';
 
-const STAGES = ['guards', 'typecheck', 'record', 'verify', 'spot-check', 'sign', 'push'];
+const STAGES = ['build', 'record', 'verify', 'sign'];
+// The mock stream uses finer stages than the hub; they land on the nearest chip.
+const CHIP: Record<string, string> = { guards: 'build', typecheck: 'build', 'spot-check': 'verify', push: 'sign' };
+const chipOf = (stage: string): string => CHIP[stage] ?? stage;
 
 interface TaskCell {
   task: string;
@@ -38,7 +41,7 @@ export default function LiveProgress({ jobId, onDone }: LiveProgressProps) {
         const event: JobEvent = { type: type as JobEvent['type'], ...data };
 
         if (event.type === 'stage') {
-          setCurrentStage(event.stage);
+          setCurrentStage(chipOf(event.stage));
         } else if (event.type === 'progress') {
           setProgress({ done: event.done, of: event.of });
           if (event.tasks) {
@@ -65,7 +68,7 @@ export default function LiveProgress({ jobId, onDone }: LiveProgressProps) {
             });
           }
         } else if (event.type === 'attestation') {
-          setAttestationCards((prev) => [...prev, shortAddr(event.attestation.signer)]);
+          setAttestationCards((prev) => [...prev, shortAddr((event.attestation?.signer ?? (data as { signer: string }).signer))]);
         } else if (event.type === 'done') {
           const resultObj = (data as { result?: { change?: string; status?: string; code?: string; reason?: string; effectBp?: number | null } }).result;
           const doneEvt: DoneEvent = {

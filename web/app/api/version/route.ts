@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { resolveTree } from '@/lib/hub';
 import { getVersion } from '@/lib/demoStore';
 
 export const dynamic = 'force-dynamic';
@@ -7,7 +8,7 @@ export async function GET(req: NextRequest) {
   const tree = req.nextUrl.searchParams.get('tree') ?? 'coding-agent';
   const hub = process.env.HELLGATE_HUB;
   if (hub) {
-    const res = await fetch(`${hub}/v1/trees/${tree}/version`);
+    const res = await fetch(`${hub}/v1/trees/${await resolveTree(hub, tree)}/version`);
     return new NextResponse(res.body, {
       status: res.status,
       headers: { 'content-type': 'application/json' },
