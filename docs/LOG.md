@@ -316,3 +316,22 @@ the first real baseline score. Then the CLI.
 **Tests:** 152 pass. Typecheck is silent.
 **Next:** Stage 10, the hub: `serve`, `push`/`pull`, jobs with live events. That is the real data for the web app.
 **Blocked on:** nothing.
+
+### #015 · Kai · hub
+**Stage:** 10, Hub (done; `verify` jobs work, `challenge` jobs wait for the `code` domain)
+**Did:**
+- `engine/src/hub/`: the HTTP server (records, version, export cached until the ledger changes, several
+  trees), intake that checks every posted record, `push`/`pull`, and the job runner with a replayable
+  event stream. CLI: `hellgate serve`, `push`, `pull`.
+**Found:**
+- **The Stage 10 gate passes:** two separate homes exchange records over HTTP; a `verify` job as a demo
+  bot streams `log, stage, progress×12, stage, attestation, change, done` and, with a second key, the
+  change becomes `accepted`. Events were read while the job was still running (not buffered to the end),
+  a second job gets `409`, a late client is replayed the same stream.
+- A tampered record, one with a missing reference, one for another tree, and invalid JSON are refused
+  with the reasons; jobs are refused without the token, and a hub with no token configured has jobs off.
+**Tests:** 154 pass.
+**For Pritam:** the real data contract is live. Run `pnpm hub` (see FRONTEND.md section 2) and point
+`web/.env.local` at it; the first populated tree arrives with Stage 11.
+**Next:** Stage 11: build the real `ml` tree with the six scenario changes, verified by distinct keys.
+**Blocked on:** nothing.

@@ -14,6 +14,8 @@ import { benchText, graveyardText, digestText, showText, statusText, treeText, t
 import { Tree, readBuildDir, repoDir } from '../app/tree.ts';
 import { EXIT_CODES, HellgateError, messageOf } from '../core/errors.ts';
 import { buildExport } from '../export/build.ts';
+import { Hub } from '../hub/server.ts';
+import { pull, push } from '../hub/sync.ts';
 import { createIdentityFile, identityPath, loadIdentity, resolveIdentity } from '../identity/keys.ts';
 import { scoreAgainstBase } from '../measure/compare.ts';
 import type { BatchEvent } from '../measure/batch.ts';
@@ -38,6 +40,8 @@ const HELP = `hellgate: proof for changes to an AI system
   status [C] [--why] [--json]                  verdict, reason and what was ignored
   check C [--json]                             CI form: exit 0 accepted, 1 rejected, 2 pending
   tree | graveyard | show C | digest | export [--out FILE]
+  serve [--root DIR]… [--port N] [--host H]     the hub (HELLGATE_HUB_TOKEN enables jobs; HELLGATE_BOT_1_SECRET, _2_ are the demo verifiers)
+  pull [URL] | push [URL]                       copy the records the other side lacks (URL defaults to HELLGATE_HUB)
 
   --root DIR (any command) selects the tree; the default is the current folder.
   Exit codes: 0 ok · 1 rejected · 2 pending · 3 usage · 4 refused · 5 integrity · 6 environment`;
@@ -75,14 +79,15 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
     args: rest,
     allowPositionals: true,
     options: {
-      root: { type: 'string' }, domain: { type: 'string' }, name: { type: 'string' }, runs: { type: 'string' }, parent: { type: 'string' },
+      root: { type: 'string', multiple: true }, port: { type: 'string' }, host: { type: 'string' }, domain: { type: 'string' }, name: { type: 'string' }, runs: { type: 'string' }, parent: { type: 'string' },
       into: { type: 'string' }, from: { type: 'string' }, dir: { type: 'string' }, vs: { type: 'string' }, out: { type: 'string' },
       hypothesis: { type: 'string' }, 'falsified-if': { type: 'string' }, area: { type: 'string' }, motif: { type: 'string' },
       predict: { type: 'string' }, 'why-this-time': { type: 'string' }, contradicts: { type: 'string', multiple: true },
       why: { type: 'boolean' }, json: { type: 'boolean' },
     },
   });
-  const root = resolve(io.cwd, values.root ?? '.');
+  const roots = (values.root ?? ['.']).map((r) => resolve(io.cwd, r));
+  const root = roots[0]!;
   const runsOption = values.runs === undefined ? undefined : Number(values.runs);
   if (runsOption !== undefined && (!Number.isInteger(runsOption) || runsOption < 3 || runsOption % 2 === 0)) throw new HellgateError('usage', '--runs must be an odd whole number, at least 3');
 
@@ -225,6 +230,32 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
       else io.out(text);
       return EXIT_CODES.ok;
     }
+    case 'pull':
+    case 'push': {
+      const tree = open();
+      const url = positionals[0] ?? io.env.HELLGATE_HUB;
+      if (!url) throw new HellgateError('usage', `${command} needs the hub URL, or HELLGATE_HUB`);
+      const result = command === 'pull' ? await pull(url, tree.config.tree, tree.ledger, tree.config) : await push(url, tree.config.tree, tree.ledger);
+      io.out(`${command === 'pull' ? 'pulled' : 'pushed'} ${result.added} new, ${result.alreadyPresent} already there${result.rejected.length ? `, ${result.rejected.length} refused` : ''}`);
+      for (const r of result.rejected.slice(0, 5)) io.err(`  ${r.id.slice(0, 8)}  ${r.reason}`);
+      return result.rejected.length > 0 ? EXIT_CODES.integrity : EXIT_CODES.ok;
+    }
+
+    case 'serve': {
+      const trees = roots.map((r) => new Tree(r, repo));
+      const bots: Record<string, string> = {};
+      for (const [name, key] of [['bot-1', 'HELLGATE_BOT_1_SECRET'], ['bot-2', 'HELLGATE_BOT_2_SECRET']] as const) if (io.env[key]) bots[name] = io.env[key]!;
+      const hub = new Hub({ trees, token: io.env.HELLGATE_HUB_TOKEN, bots });
+      const port = await hub.listen(Number(values.port ?? 8787), values.host ?? '127.0.0.1');
+      io.out(`hub on http://${values.host ?? '127.0.0.1'}:${port} serving ${trees.map((t) => t.config.tree).join(', ')}${io.env.HELLGATE_HUB_TOKEN ? '' : ' (jobs are off: set HELLGATE_HUB_TOKEN)'}`);
+      await new Promise<void>((done) => {
+        process.once('SIGINT', done);
+        process.once('SIGTERM', done);
+      });
+      await hub.close();
+      return EXIT_CODES.ok;
+    }
+
     default:
       throw new HellgateError('usage', `unknown command "${command}". Run \`hellgate help\`.`);
   }

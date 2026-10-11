@@ -348,6 +348,12 @@ Every route above also exists under a tree prefix, and the plain routes serve th
 
 A job runs against one tree. Only one job runs at a time across all trees.
 
+A record posted to a tree's hub must belong to it: a `change` or `attestation` for another tree name or
+another suite is refused with `403`, and one that does not check out (bad signature, hash, or a
+reference the hub does not hold) with `400` and the reason. Reads send `Access-Control-Allow-Origin: *`;
+the job routes need the token. A job event stream is replayed from its first event to a client that
+connects late.
+
 ### 10.1 Jobs
 
 Jobs spend model calls, so they need the header `Authorization: Bearer <HELLGATE_HUB_TOKEN>`.

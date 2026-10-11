@@ -259,10 +259,10 @@ effect) and the cosine decay −5. Adam beats plain SGD on the badly-scaled use 
 **Gate:** on a temporary tree, three keys run `submit → verify → verify → check` offline,
 using a recording, and reach the expected verdict. `export` matches PROTOCOL §11.
 
-## Stage 10: Hub · K · `[ ]` 🔴
-- [ ] `serve`: records, export (cached until the ledger changes), version
-- [ ] `push` and `pull`
-- [ ] Jobs API with server-sent events (PROTOCOL §10.1), the token, one job at a time
+## Stage 10: Hub · K · `[x]` 🔴
+- [x] `serve`: records, export (cached until the ledger changes), version, several trees
+- [x] `push` and `pull`
+- [x] Jobs API with server-sent events (PROTOCOL §10.1), the token, one job at a time (`verify` jobs; `challenge` jobs arrive with the `code` domain)
 
 **Gate:** two `HELLGATE_HOME`s exchange records over HTTP, and a `verify` job streams its
 events to `curl`.

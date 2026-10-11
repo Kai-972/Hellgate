@@ -66,6 +66,16 @@ must never reach the browser.
 | `GET /api/jobs/[id]/events` | hub `GET /v1/jobs/:id/events` (stream passthrough) | replays `web/mock/job-events.sample.json`, waiting `delayMs` between events |
 | `GET /api/jobs/current` | hub `GET /v1/jobs/current` | `204` |
 
+**The real hub exists now.** From the repository root: `pnpm hub` serves `trees/ml` on
+`http://127.0.0.1:8787`. To follow jobs the hub needs `HELLGATE_HUB_TOKEN` (and the two demo verifier
+secrets) in its environment; ask Kai for a ready `.env`. Then in `web/.env.local` set
+`HELLGATE_HUB=http://127.0.0.1:8787` and `HELLGATE_HUB_TOKEN=…`, and your routes proxy instead of
+reading `web/mock/`. What to expect from the real data, which the mock already shows: `models` is
+`null` for the `ml` tree; `base`, `scoreBp`, `vsBaseBp`, `effectBp` and the interval can be `null` (see
+PROTOCOL §11.1); a verifier's `label` is a shortened address; a `verify` job emits `log, stage,
+progress…, stage, attestation, change, done`, and a client that connects late is replayed from the
+start. The read routes allow any origin, so you can also fetch them straight from the browser.
+
 Environment variables for `web/.env.local`, which is never committed:
 `HELLGATE_HUB=http://localhost:7777` and `HELLGATE_HUB_TOKEN=...`.
 
