@@ -167,3 +167,22 @@ workspace now includes `web/`, so your `web/package.json` will be picked up.
 Typecheck is silent.
 **Next:** Stage 3: the suite format for both domains, with a first few tasks.
 **Blocked on:** nothing.
+
+### #009 · Kai · docs, handoff to the web side
+**Stage:** 12, web app (ready to start)
+**Did:** Finished the frontend brief and the prompt in [FRONTEND.md](FRONTEND.md) section 11. It now
+covers setting the app up in a non-empty `web/`, the tree switcher and `/api/trees`, both mock
+trees, the score-vs-base chart, the use-case breakdown, null handling, and the wording rules.
+**Where to start, in order:**
+1. `git pull`, then run `pnpm install` from the repository root.
+2. Read [PIPELINE.md](PIPELINE.md) for what Hellgate does, then [FRONTEND.md](FRONTEND.md), then
+   "Who owns what" in [STAGES.md](STAGES.md).
+3. Paste the prompt from FRONTEND.md section 11 into your coding assistant.
+4. Build against `web/mock/` only. The real hub arrives at checkpoint C4 ([../PROGRESS.md](../PROGRESS.md));
+   switching to it changes only `web/.env.local`.
+**Rules that matter most:** only edit `web/`; never compute a verdict in the UI; say "distinct
+keys", never "independent people"; log each session here and keep your row in PROGRESS.md current.
+**If the data is missing something you need:** write it here. Do not invent fields. Kai changes
+the engine, PROTOCOL.md and the mock files together.
+**Next:** Frontend: app shell, tree switcher and the home page on mock data (checkpoint C1).
+**Blocked on:** nothing.

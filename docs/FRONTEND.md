@@ -39,6 +39,19 @@ all come from the data. If something looks wrong, it is an engine bug; report it
 - It must work on a laptop screen (1366 wide and up) and be readable on a phone (from 375
   wide).
 
+**Setting up the app.** `web/` already holds `README.md` and `mock/`. Do not delete them.
+1. From the repository root, create the Next.js app. If the generator refuses because `web/`
+   is not empty, generate it in a temporary folder and copy the files into `web/`, keeping
+   `mock/` and `README.md`:
+   `pnpm dlx create-next-app@latest <temp> --ts --tailwind --app --eslint --use-pnpm`.
+2. Set `"name": "@hellgate/web"` in `web/package.json`. The workspace file at the repository
+   root already lists `web`.
+3. Run `pnpm install` from the repository root (not inside `web/`), so there is one lockfile.
+4. Add `web/.env.example` with `HELLGATE_HUB=` and `HELLGATE_HUB_TOKEN=` (empty means mock
+   mode), and keep `web/.env.local` out of git (the repository `.gitignore` already does).
+5. Your Node needs to be a current LTS or newer. The web app does not need Node 22.18; only
+   the engine does.
+
 ## 3. Data access
 
 All hub access goes through Next.js server routes, because jobs need a secret token that
@@ -276,28 +289,48 @@ Paste this into your coding assistant, run from the root of the repository:
 You are building the web app for Hellgate, in the `web/` folder of this repository.
 
 Read these files first, fully, before writing any code:
-- docs/FRONTEND.md   (the brief: pages, components, flows, visual direction, done checklist)
-- docs/PROTOCOL.md   §10.1 (job events) and §11 (the export document)
-- web/mock/export.sample.json and web/mock/job-events.sample.json (real-shaped sample data)
-- docs/LOG.md        (append an entry at the end of each session, using its template)
+- docs/FRONTEND.md   (the brief: data access, pages, components, flows, visual direction, done
+                      checklist, and how to set the app up)
+- docs/PIPELINE.md   (what Hellgate does, so the wording on screen is correct)
+- docs/PROTOCOL.md   §10.0 (several trees), §10.1 (job events), §11 and §11.1 (the export document
+                      and the score against the base)
+- web/mock/trees.sample.json, web/mock/export.sample.json (tree "coding-agent"),
+  web/mock/export.ml.sample.json (tree "optimizer") and web/mock/job-events.sample.json
+- docs/STAGES.md     ("Who owns what" and the git rules) and docs/LOG.md (append an entry at the
+                      end of each session, using its template)
 
-Build a Next.js (App Router) + TypeScript + Tailwind app in `web/`, as its own package in
-the pnpm workspace. Requirements:
+Build a Next.js (App Router) + TypeScript + Tailwind app in `web/`, as its own package in the
+pnpm workspace (FRONTEND.md section 2 says how). Do not touch anything outside `web/` except to
+append to docs/LOG.md and edit your own row in PROGRESS.md.
+
+Requirements:
 1. Server routes under /api proxy to the hub given by HELLGATE_HUB and attach the
-   HELLGATE_HUB_TOKEN header for jobs. With HELLGATE_HUB unset, they serve the mock files,
-   and /api/jobs/[id]/events replays job-events.sample.json using each item's delayMs.
+   HELLGATE_HUB_TOKEN header for jobs (the table in FRONTEND.md section 3 lists every route). With
+   HELLGATE_HUB unset they serve the mock files: /api/trees from trees.sample.json,
+   /api/export?tree=coding-agent from export.sample.json, ?tree=optimizer from
+   export.ml.sample.json, and /api/jobs/[id]/events replays job-events.sample.json using each
+   item's delayMs.
 2. Pages: /, /change/[id], /graveyard, /beat-the-gate, /verifiers, /how-it-works, exactly as
-   docs/FRONTEND.md §5 describes.
-3. Hand-written SVG for the tree (d3-hierarchy for layout is fine), the score curve, the
-   noise band chart and the per-run dots. No heavy chart libraries.
-4. The live progress panel from docs/FRONTEND.md §6, driven by EventSource.
-5. Live refresh: poll /api/version every 3 s and refetch /api/export when it changes.
-6. Never compute a verdict in the UI. Render status, code, reason and numbers exactly as
-   given. Format basis points as signed points with one decimal (2544 → "+25.4 pts").
-7. Follow the visual direction in docs/FRONTEND.md §4 and the wording rules in §8.
-8. Keep components small and typed. Put data types in web/lib/types.ts, matching PROTOCOL §11.
+   docs/FRONTEND.md section 5 describes. Every page works for both mock trees.
+3. A tree switcher at the top, driven by /api/trees, with the chosen tree kept in the URL
+   (?tree=).
+4. Hand-written SVG for the tree (d3-hierarchy for layout is fine), the score curve, the
+   "score vs base" chart (up and down from the base, using vsBaseBp), the noise band chart, the
+   per-run dots and the use-case breakdown (perGroup). No heavy chart libraries.
+5. The live progress panel from docs/FRONTEND.md section 6, driven by EventSource.
+6. Live refresh: poll /api/version?tree=<name> every 3 s and refetch /api/export?tree=<name>
+   when it changes.
+7. Never compute a verdict in the UI. Render status, code, reason and numbers exactly as given.
+   Format basis points as signed points with one decimal (2544 -> "+25.4 pts").
+8. Follow the visual direction in docs/FRONTEND.md section 4 and the wording rules in section 8.
+   In particular: say "distinct keys", never "independent people", and call a replay "recorded
+   real answers replayed through the real tests". The "optimizer" tree has no recordings, so say
+   its verifiers "re-ran the training".
+9. Keep components small and typed. Put data types in web/lib/types.ts, matching PROTOCOL
+   section 11. Fields can be null: handle that everywhere (a void change has no score, a tree
+   with no model API has models: null).
 
 Work in small steps. After each page, run the dev server and fix every console error before
 moving on. Finish with `pnpm -C web build` passing, then go through the done checklist in
-docs/FRONTEND.md §9.
+docs/FRONTEND.md section 9, then log the session.
 ```
