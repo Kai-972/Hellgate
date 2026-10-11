@@ -169,8 +169,8 @@ cases for `code`, hidden test labels for `ml`.
 **Use cases.** Tasks carry a `group`. The ML suite groups tasks by what they stress, for
 example `nonlinear-classification` (moons, circles, spirals), `badly-scaled-features`,
 `noisy-regression` and `imbalanced-classes`. The export reports the score for every group, so
-you can see that Adam helps on badly scaled data but makes no measurable difference on
-spirals. A change is judged on the whole suite, and the groups explain *where* it helped.
+you can see, for example, that rebalancing rare classes lifts only the imbalanced use case,
+while standardising features lifts the badly scaled one. A change is judged on the whole suite, and the groups explain *where* it helped.
 
 **What the ML domain makes possible**
 - *Real noise.* Different seeds give different initial weights and data samples, so run-to-run
@@ -313,11 +313,13 @@ Task concurrency defaults to 2 lanes, because the reference machine is a 2-core 
 data and the test inputs, returns its predictions, and the **parent** compares them with the
 hidden labels it holds in memory. The labels never enter the jail, so there is no second
 process. Predictions that are the wrong length or not finite numbers score 0. `Math.random`
-inside the jail is replaced by the seeded stream, and each task has a wall-clock budget (the
-process is killed when it runs over, and the task scores 0). The budget is measured from
-the moment the learner program starts (loading its files included). It is killed 1.5 s after
-the budget, and a learner that finishes late but before that is scored over budget, which is
-also 0. A full ML verification is designed to take under a minute on a 2-core laptop.
+inside the jail is replaced by the seeded stream, and each task has a **CPU-time budget**. A
+learner that uses more CPU time than its budget is scored over budget, which is 0 for that
+task. CPU time, not wall-clock time, because a busy machine stretches the wall clock but not
+the work: one verifier running two jobs at once must reach the same result as one running
+none. The wall clock only stops a runaway: the process is killed after four times the budget
+plus two seconds. The measured CPU time includes loading the learner's files. A full ML
+verification is designed to take under a minute on a 2-core laptop (about 16 s per side).
 
 **What the walls do and do not do.** They stop an agent or a solution from reading the hidden
 tests, from forging a result, from reaching the network or the parent's keys, and from running
@@ -325,8 +327,9 @@ other programs. They are not a hardened virtual machine: a solution is untrusted
 by a model, not by an attacker who has read this source, and a determined one could still
 interfere with the process it runs in (for example by exhausting memory, which kills the
 process and fails the task). The design goal is that cheating is detected or pointless, not
-that it is impossible. A learner's wall-clock budget is the one place a measurement depends on
-machine speed; budgets are set generously so honest verifiers on slower machines still agree.
+that it is impossible. A learner's CPU budget is the one place a measurement depends on machine
+speed; budgets are set generously (about eight times what the genesis learner needs) so honest
+verifiers on slower machines still agree.
 
 ### 6.6 `model/`: one gateway, many providers, three modes
 
@@ -563,15 +566,19 @@ These are built into the plan (STAGES.md). Each one must produce its verdict for
 
 | Scenario | What happens | Expected verdict |
 |---|---|---|
-| **Adam instead of plain SGD** | Replace the optimizer step | `accepted` GAIN. Largest on badly scaled features. |
-| **Standardise the features** | Rescale each feature before training | `accepted` GAIN |
+| **Standardise the features** | Rescale each feature before training | `accepted` GAIN, concentrated in the badly scaled use case |
+| **Adam instead of plain SGD** | Replace the optimizer step | `accepted` GAIN. It helps most where plain SGD underfits (noisy regression, rare classes) and only a little on badly scaled features, which standardising fixes |
+| **Momentum** | Keep part of the previous step | `accepted` GAIN. Helps the underfit tasks and does nothing for badly scaled features |
+| **Rebalance rare classes** | Repeat the rows of the rarer classes | `accepted` GAIN, only in the imbalanced use case |
+| **Cosine learning-rate decay** | Shrink the step size over the epochs | `rejected` REGRESSION: the genesis learner is underfit, so a smaller late step hurts |
 | **The learning-rate trap** | Nudge the learning rate by 10% because it looked better once | `rejected` NO_EFFECT |
 | **Remove the standardisation** | Undo the previous gain | `rejected` REGRESSION |
 | **Cheating learner** | Tries to read the data generator | `void` (import guard), or the jail denies the read |
 | **Lazy verifier** | Signs copied numbers | `contested` RESULTS_MISMATCH |
 
 We ship whatever the measurement says. These are the changes we try, and the table is not a
-promise about results.
+promise about results. The builds live in `scenarios/ml/<name>/learner/`, and
+`HELLGATE_SLOW=1` re-measures all of them against the table.
 
 ## 9. Cost model
 The defaults are R = 5 runs, 16 tasks, 3 spot-check tasks, and the baseline agent's one
@@ -667,7 +674,7 @@ are specified in [FRONTEND.md](FRONTEND.md).
 | The provider changes the model | The model id is in every record, recordings pin outputs, and spot-checks expose drift | drift inside the tolerance |
 | A key is stolen | Kept outside the repo, mode 0600, never logged | machine compromise |
 | A learner reads the hidden labels or the data generator | The labels and `data.mjs` stay in the parent. The jail reads only its own folder and the train data it is given. | bugs in Node's permission model |
-| A learner burns the whole time budget | Each task has a wall-clock budget. The process is killed and the task scores 0. | none |
+| A learner burns the whole time budget | Each task has a CPU-time budget. A learner over it scores 0, and a runaway is killed on the wall clock. | none |
 | A Beat-the-gate input abuses the hub | The input is length-limited and inserted as a quoted string; jobs need the hub token and run one at a time | quota exhaustion, mitigated by the rate limit |
 
 ## 15. What Hellgate does not prove

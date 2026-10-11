@@ -10,7 +10,7 @@ export function generate(rng, { trainSize, testSize }) {
       const t = Math.PI * rng();
       const px = label === 0 ? Math.cos(t) : 1 - Math.cos(t);
       const py = label === 0 ? Math.sin(t) : 0.5 - Math.sin(t);
-      x.push([px + 0.15 * gauss(), py + 0.15 * gauss()]);
+      x.push([px + 0.2 * gauss(), py + 0.2 * gauss()]);
       y.push(label);
     }
     for (let i = n - 1; i > 0; i--) {

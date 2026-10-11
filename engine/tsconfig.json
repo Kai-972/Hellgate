@@ -17,6 +17,6 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "agent/**/*.ts"],
+  "include": ["src/**/*.ts", "../learner/**/*.ts", "../scenarios/**/*.ts", "../agent/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -7,6 +7,7 @@ async function main(payload) {
   const random = lockdown(seed);
   const { events, trace } = makeTrace();
   const startedAt = nowMs();
+  const cpuStart = cpuUsage();
   const kit = Object.freeze({ random, trace, elapsedMs: () => nowMs() - startedAt });
 
   emit(nonce, { t: 'begin' });
@@ -31,7 +32,10 @@ async function main(payload) {
     emit(nonce, { t: 'end' });
     exitProcess(0);
   }
-  emit(nonce, { t: 'result', y: predictions, ms: Math.round(nowMs() - startedAt), trace: events });
+  // The budget is CPU time, not wall-clock time: it does not change when the machine is busy.
+  const used = cpuUsage(cpuStart);
+  const cpuMs = Math.round((used.user + used.system) / 1000);
+  emit(nonce, { t: 'result', y: predictions, ms: Math.round(nowMs() - startedAt), cpuMs, trace: events });
   emit(nonce, { t: 'end' });
   exitProcess(0);
 }

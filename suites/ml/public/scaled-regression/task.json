@@ -1,0 +1,12 @@
+{
+  "id": "scaled-regression",
+  "title": "A linear rule over features of very different size",
+  "kind": "regression",
+  "group": "badly-scaled-features",
+  "features": 2,
+  "tolerance": 0.3,
+  "trainSize": 150,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "scaling", "regression"]
+}

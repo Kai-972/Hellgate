@@ -1,0 +1,12 @@
+{
+  "id": "circles",
+  "title": "A ring inside a ring",
+  "kind": "classification",
+  "group": "nonlinear-classification",
+  "features": 2,
+  "classes": 2,
+  "trainSize": 200,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "2d"]
+}

@@ -101,9 +101,14 @@ test('the briefs of the real tasks never contain a line from their hidden cases'
 const mlTask = (id: string): LoadedTask<MlTaskMeta> => ml.tasks.find((t) => t.id === id)!;
 const SEED = seedHex(ml.id, 0);
 
-test('the pilot ml suite has the expected tasks and use cases', () => {
-  assert.deepEqual(ml.tasks.map((t) => t.id), ['moons', 'noisy-sine', 'scaled-blobs']);
-  assert.deepEqual(ml.groups.map((g) => g.id), ['nonlinear-classification', 'noisy-regression', 'badly-scaled-features']);
+test('the ml suite has twelve tasks in four use cases of three', () => {
+  assert.deepEqual(ml.tasks.map((t) => t.id), [
+    'circles', 'imbalanced-blobs', 'imbalanced-moons', 'imbalanced-rings', 'moons', 'noisy-parabola',
+    'noisy-sine', 'noisy-wave', 'scaled-blobs', 'scaled-moons', 'scaled-regression', 'spirals',
+  ]);
+  assert.deepEqual(ml.groups.map((g) => [g.id, g.tasks.length]), [
+    ['nonlinear-classification', 3], ['imbalanced-classes', 3], ['noisy-regression', 3], ['badly-scaled-features', 3],
+  ]);
 });
 
 test('generated data is deterministic, well-formed, and differs between seeds and tasks', async () => {

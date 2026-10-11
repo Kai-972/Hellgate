@@ -2,6 +2,7 @@
   "name": "hellgate",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Proof for AI agent changes: a change passes the gate only when other keys re-measure a real gain.",
   "license": "MIT",
   "packageManager": "pnpm@10.24.0"

@@ -1,0 +1,12 @@
+{
+  "id": "scaled-moons",
+  "title": "Two half-circles, one feature squeezed and one stretched",
+  "kind": "classification",
+  "group": "badly-scaled-features",
+  "features": 2,
+  "classes": 2,
+  "trainSize": 200,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "scaling", "2d"]
+}

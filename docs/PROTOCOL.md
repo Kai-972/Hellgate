@@ -517,7 +517,7 @@ export interface MlTask {
   readonly tolerance?: number;                     // regression: how close a prediction must be
   readonly train: { readonly x: number[][]; readonly y: number[] };
   readonly testX: number[][];                      // test INPUTS only. The labels never leave the parent.
-  readonly budgetMs: number;                       // wall-clock budget for this task
+  readonly budgetMs: number;                       // CPU-time budget for this task, in milliseconds
 }
 
 export interface MlKit {
@@ -618,8 +618,10 @@ return ((t ^ (t >>> 14)) >>> 0) / 4294967296
 - classification: `round(prediction[j]) === testY[j]`;
 - regression: `|prediction[j] − testY[j]| ≤ tolerance`.
 
-A run that returns the wrong number of predictions, a non-finite value, or runs over the time
-budget scores 0 for that task. The dataset for run `i` is generated with `seed(i)` (§6), so both
+A run that returns the wrong number of predictions, a non-finite value, or uses more CPU time than
+`budgetMs` (loading the learner's files included) scores 0 for that task. The budget is CPU time so
+that machine load cannot change a result; a process is also killed on the wall clock after four
+times the budget plus two seconds, to stop a runaway. The dataset for run `i` is generated with `seed(i)` (§6), so both
 sides of a comparison see identical data, and different runs see different samples.
 
 **Mode.** An attestation for an `ml` tree has `mode: "live"`, because the verifier really

@@ -1,0 +1,12 @@
+{
+  "id": "noisy-wave",
+  "title": "A rippled surface seen through noise",
+  "kind": "regression",
+  "group": "noisy-regression",
+  "features": 2,
+  "tolerance": 0.12,
+  "trainSize": 250,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "2d", "regression"]
+}

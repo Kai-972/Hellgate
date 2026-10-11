@@ -4,7 +4,7 @@
   "kind": "regression",
   "group": "noisy-regression",
   "features": 1,
-  "tolerance": 0.2,
+  "tolerance": 0.15,
   "trainSize": 150,
   "testSize": 200,
   "budgetMs": 4000,

@@ -578,13 +578,23 @@ test('a learner that returns the wrong thing scores 0 for the task, whatever it 
   assert.deepEqual(accepted.y, [0, 1, 2]);
 });
 
-test('a learner over its time budget scores 0, and one that never returns is stopped', async () => {
+test('a learner over its CPU budget scores 0, one that merely waits does not, and one that never returns is stopped', async () => {
   const slow = await runLearner({
     files: learner('export async function fit(task) { const t = performance.now(); while (performance.now() - t < 500); return { y: task.testX.map(() => 0) }; }'),
     view: view({ budgetMs: 200 }), seed: 1,
   });
   assert.equal(slow.status, 'over-budget');
   assert.equal(slow.y, null);
+  assert.ok(slow.cpuMs > 200);
+
+  // Waiting is not computing: a sleep costs wall-clock time but almost no CPU, so a busy machine
+  // that stretches the wall clock cannot push an honest learner over its budget.
+  const waiting = await runLearner({
+    files: learner('export async function fit(task) { await new Promise((r) => setTimeout(r, 600)); return { y: task.testX.map(() => 0) }; }'),
+    view: view({ budgetMs: 200 }), seed: 1,
+  });
+  assert.equal(waiting.status, 'ok', waiting.detail);
+  assert.ok(waiting.ms >= 600 && waiting.cpuMs < 200, `wall ${waiting.ms} ms, cpu ${waiting.cpuMs} ms`);
 
   const stuck = await runLearner({ files: learner('export async function fit() { for (;;) {} }'), view: view({ budgetMs: 200 }), seed: 1 });
   assert.equal(stuck.status, 'timeout');

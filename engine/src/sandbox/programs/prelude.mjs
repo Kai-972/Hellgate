@@ -11,6 +11,7 @@ const jsonStringify = JSON.stringify.bind(JSON);
 const jsonParse = JSON.parse.bind(JSON);
 const bufferFrom = Buffer.from.bind(Buffer);
 const nowMs = performance.now.bind(performance);
+const cpuUsage = process.cpuUsage.bind(process);
 const exitProcess = process.exit.bind(process);
 const setTimer = globalThis.setTimeout;
 const clearTimer = globalThis.clearTimeout;

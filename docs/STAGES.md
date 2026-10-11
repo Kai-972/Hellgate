@@ -154,7 +154,7 @@ Canonical JSON, ids, errors, identity and signing.
   tasks, built without the hidden labels
 - [x] **3 pilot coding tasks** in `suites/code/public/` and **3 pilot ML tasks** in
   `suites/ml/public/`, with a reference solution for each coding task in `suites/code/reference/`
-- [ ] The rest of the tasks: 13 more coding tasks (Stage 7) and 6 to 9 more ML tasks (Stage 7M)
+- [ ] The rest of the tasks: 13 more coding tasks (Stage 7). The nine remaining ML tasks were written in Stage 7M.
 
 **Tests:**
 - the suite id changes when any file changes, including the hidden tests, and ignores line endings;
@@ -223,17 +223,23 @@ an identical result.
 **Gate:** the genesis build scores **30–55%** on the suite. If it doesn't, tune the tasks,
 not the agent, and record it again.
 
-## Stage 7M: The `ml` domain · K · `[ ]` 🔴
-- [ ] `learner/contract.ts` (frozen), `learner/index.ts`, `model.ts`, `optim.ts`, `prep.ts`,
+## Stage 7M: The `ml` domain · K · `[x]` 🔴
+- [x] `learner/contract.ts` (frozen), `learner/index.ts`, `model.ts`, `optim.ts`, `prep.ts`,
   `schedule.ts`: a small neural network with plain SGD, as the baseline
-- [ ] The `ml` suite: 10–12 tasks in at least four use cases (nonlinear classification, badly
+- [x] The `ml` suite: 12 tasks in four use cases of three (nonlinear classification, badly
   scaled features, noisy regression, imbalanced classes), each with a deterministic `data.mjs`
-- [ ] Ready-made changes: momentum, Adam, standardised features, learning-rate decay, and a
-  learning-rate nudge that should come out as noise
+- [x] Ready-made changes in `scenarios/ml/`: standardised features, momentum, Adam, learning-rate
+  decay, a learning-rate nudge that should come out as noise, and class rebalancing
 
 **Gate:** the baseline scores **40–70%**, a full verification takes **under a minute** on the
 2-core laptop, and Adam beats plain SGD on the badly-scaled use case. If the baseline is outside
 the band, tune the tasks, not the learner.
+
+**Measured** (5 runs, shared seeds): the genesis learner scores 63%, a batch takes 16 s, so
+verifying a change takes about 30 s. Standardising gives +21 points, Adam +13, momentum +16,
+rebalancing +5 (all of it in one use case), the learning-rate nudge about +1 (below the minimum
+effect) and the cosine decay −5. Adam beats plain SGD on the badly-scaled use case (54% against
+50%), though the large cure for that use case is standardising. Kai reviews every `data.mjs`.
 
 ## Stage 8: The verdict · K · `[x]`
 - [x] `decide()`, exactly as PROTOCOL §9, as a pure function

@@ -261,7 +261,33 @@ effect, the bootstrap interval, the results digest and the score against the bas
   digest would ever have been checked. The verdict now takes the tree's domain.
 - A gain needs every counted verifier to report a gain. A test with a third verifier at +0.5 points
   showed the spread rule fires first (as designed), so the "not a majority" test uses a close one.
-**Tests:** 141 pass. Typecheck is silent.
+**Tests:** 141 pass at the time. Typecheck is silent.
 **Next:** Stage 7M: the genesis learner (a small neural network with plain SGD), the full ml suite, and
 the first real baseline score. Then the CLI.
+**Blocked on:** nothing.
+
+### #013 · Kai · ml domain
+**Stage:** 7M, The `ml` domain (done; Kai still has to review the nine new `data.mjs` files)
+**Did:**
+- `learner/`: the genesis learner. A one-hidden-layer network trained by plain SGD with no
+  preprocessing and a constant step size, split into `model`, `optim`, `prep` and `schedule` so that
+  one idea is one small diff. The frozen contract is `learner/contract.ts`.
+- `suites/ml/public/`: 12 tasks in four use cases of three: nonlinear classification, badly scaled
+  features, noisy regression and imbalanced classes (imbalanced in training, balanced in testing).
+- `scenarios/ml/`: six ready-made changes: standardise, momentum, Adam, lr-decay, lr-nudge, balance.
+- The learner budget is now **CPU time**, not wall-clock time (PROTOCOL §13.2, ARCHITECTURE §6.5).
+**Found:**
+- Measured on 5 runs: genesis 63%; standardise +21 points; momentum +16; Adam +13; balance +5 (all of
+  it in the imbalanced use case, and nothing anywhere else); lr-nudge about +1, below the minimum
+  effect; lr-decay −5, a real regression.
+- **My own design note was wrong.** I had written that Adam helps most on badly scaled features. The
+  measurement says it helps most where plain SGD underfits (noisy regression, rare classes) and only a
+  little on badly scaled features, which standardising fixes. The docs now say what was measured.
+- **Wall-clock budgets break under load.** A test that ran six batches at once pushed learners over a
+  4 s wall-clock budget and scored them 0. A score must not depend on how busy the machine is, so the
+  budget is CPU time; the wall clock only stops a runaway. A learner that merely waits is not penalised.
+- The baseline started at 65% with one task near 98%. Per the gate rule, the tasks were tuned
+  (noisier moons and circles, a tighter tolerance on the wave and the sine), not the learner.
+**Tests:** 148 pass (one slow test is skipped by default), and `HELLGATE_SLOW=1` re-measures all six scenarios against the table (82 s).
+**Next:** Stage 9, the CLI: `init`, `keygen`, `bench`, `propose`, `record`, `verify`, `check`, `status`.
 **Blocked on:** nothing.

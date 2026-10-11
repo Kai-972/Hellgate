@@ -1,0 +1,12 @@
+{
+  "id": "imbalanced-blobs",
+  "title": "Overlapping blobs, one of them rare in training",
+  "kind": "classification",
+  "group": "imbalanced-classes",
+  "features": 2,
+  "classes": 2,
+  "trainSize": 300,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "2d", "imbalanced", "blobs"]
+}

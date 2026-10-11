@@ -14,11 +14,11 @@ Status: `todo` · `doing` · `done` · `blocked`
 
 | Workstream | Owner | Status | Doing now | Next | Blocked on |
 |---|---|---|---|---|---|
-| Engine core (Stages 1–4, 6, 8) | Kai + Claude | done | Done: core, identity, records, ledger, config, suite format, sandbox, measurement, verdict | Stage 7M: the genesis learner and the full ml suite | nothing |
+| Engine core (Stages 1–4, 6, 8) | Kai + Claude | done | Done: core, identity, records, ledger, config, suite format, sandbox, measurement, verdict | Stage 9: the CLI and the offline loop | nothing |
 | Sandbox (Stage 4) | Kai + Claude | done | All five canaries pass for both the `code` jails and the `ml` runner | Used by Stage 6 | nothing |
-| `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | doing | The `ml` sandbox runner is done and tested on the three pilot tasks | Stage 6, then the genesis learner and the full ml suite (7M) | nothing |
+| `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | done | Genesis learner (63%), 12-task suite in 4 use cases, six ready-made changes, all re-measured | Used by the CLI (Stage 9) and the real tree (Stage 11) | Kai's review of the data generators |
 | Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Both keys available (kept in the git-ignored `.env`) |
-| Benchmark tasks (Stages 3, 7) | Kai | doing | 3 coding and 3 ML pilot tasks written, reference solutions pass | Kai reviews the pilot `cases.mjs` and `data.mjs`; then the task spec for the free-tier agents | |
+| Benchmark tasks (Stages 3, 7, 7M) | Kai | doing | 3 coding pilot tasks and all 12 ML tasks written; reference solutions pass | Kai reviews every `cases.mjs` and `data.mjs`; then the task spec for the free-tier agents (13 more coding tasks) | |
 | CLI and hub (Stages 9–10) | Kai + Claude | todo | The verdict (Stage 8) is done | After the genesis learner: the CLI and the offline loop, then the hub | |
 | Web app (Stage 12) | Frontend teammate | todo | | Start from [docs/FRONTEND.md](docs/FRONTEND.md) with the mock data | docs reach `main` |
 | Demo, README, video | Both | todo | | After Tier 1 works | |
