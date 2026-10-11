@@ -14,10 +14,10 @@ Status: `todo` · `doing` · `done` · `blocked`
 
 | Workstream | Owner | Status | Doing now | Next | Blocked on |
 |---|---|---|---|---|---|
-| Engine core (Stages 1–2) | Kai + Claude | done | Stages 1 to 3 done: core, identity, records, ledger, config, suite format | Stage 4: the `ml` sandbox runner first | nothing |
-| Sandbox (Stage 4) | Kai + Claude | todo | | After records | |
-| `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | todo | | First domain built end to end: no model API needed | |
-| Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Groq key (not yet provided); Gemini key available |
+| Engine core (Stages 1–4) | Kai + Claude | done | Stages 1 to 4 done: core, identity, records, ledger, config, suite format, sandbox | Stage 6: measurement (runner, paired effect, bootstrap, score vs base) | nothing |
+| Sandbox (Stage 4) | Kai + Claude | done | All five canaries pass for both the `code` jails and the `ml` runner | Used by Stage 6 | nothing |
+| `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | doing | The `ml` sandbox runner is done and tested on the three pilot tasks | Stage 6, then the genesis learner and the full ml suite (7M) | nothing |
+| Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Both keys available (kept in the git-ignored `.env`) |
 | Benchmark tasks (Stages 3, 7) | Kai | doing | 3 coding and 3 ML pilot tasks written, reference solutions pass | Kai reviews the pilot `cases.mjs` and `data.mjs`; then the task spec for the free-tier agents | |
 | Verdict, CLI, hub (Stages 8–10) | Kai + Claude | todo | | After measurement | |
 | Web app (Stage 12) | Frontend teammate | todo | | Start from [docs/FRONTEND.md](docs/FRONTEND.md) with the mock data | docs reach `main` |
@@ -30,7 +30,7 @@ A checkpoint is passed when everything listed works, not when it is started.
 | # | Engine side | Web side | Passed |
 |---|---|---|---|
 | C1 | Core, identity, records and store done and tested (done) | App shell, home page and tree on mock data | engine side yes |
-| C2 | Sandbox canaries pass (gate); first tasks reviewed | Change page and the noise-band chart | no |
+| C2 | Sandbox canaries pass (gate, passed); first tasks reviewed (waiting on Kai) | Change page and the noise-band chart | engine side: canaries yes, review pending |
 | C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events | no |
 | C4 | Verdict and the offline loop work; hub is up (gates) | **Switch from mock to the hub** | no |
 | C5 | Real tree and demo scenarios recorded and verified (gate); Beat the gate | Beat the gate page; verifiers page; polish | no |

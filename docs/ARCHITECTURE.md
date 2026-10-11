@@ -277,22 +277,33 @@ sequenceDiagram
 - The agent process may only read the jail. It has no write access, no network (checked
   on Node 26), no child processes and no worker threads.
 - The only way to the model is the IPC channel, served by the parent, which owns the
-  budget.
+  budget. Every request is checked against the request schema before it is served, and a
+  run is capped at 64 requests whatever the budget says.
 - The IPC `send` function is captured and removed before the agent's code loads, so the
   agent cannot forge a reply or a result.
+- The jail starts with a scrubbed environment: no variable of the parent's reaches it, so API
+  keys never enter. The program arrives over stdin, so it is not in `argv` either.
+- Time spent waiting for the model is not the agent's compute time. The compute deadline
+  restarts after each reply.
 
 **Wall 2: the solution never reads the tests from disk.**
 - The solution is written to a fresh directory. The test cases travel over stdin inside
   a bootstrap program and never touch disk.
-- The bootstrap captures `assert`, its result writer and the JSON encoder before it
-  imports the solution.
+- The bootstrap captures the platform primitives it needs (the result writer, the JSON
+  encoder, the timers, `process.exit`) before it imports the solution. The cases receive a
+  frozen copy of `assert`, and the standard error constructors, `JSON`, `Math` and `Reflect`
+  cannot be reassigned, so a solution cannot weaken the checks it is tested by.
 - It runs each case with a timeout and reports per-case results, tagged with a fresh
   nonce, on file descriptor 3.
-- If the exit code and the report disagree, the task is `tampered`: it scores 0 and
-  the batch is marked unclean.
+- A line without the nonce, a run that exits 0 before it finished, a closing record followed
+  by a different exit code, or case records out of order: the task is `tampered`. It scores
+  0 and the batch is marked unclean.
+- A case that hangs (a loop no timer can interrupt) or crashes the process fails. The cases
+  after it run again in a fresh process, up to three restarts. After that the rest fail.
+  A hung or crashing case is not tampering: it just did not pass.
 
-**Determinism:** the agent gets a seeded `random()`, `Date` is frozen, and tasks start in
-a seeded order. With the same model replies, the same build sends the same requests and
+**Determinism:** the agent gets a seeded `random()` (and `Math.random` is that same stream),
+`Date` is frozen, and tasks start in a seeded order. With the same model replies, the same build sends the same requests and
 writes the same files. Replay depends on this.
 
 Task concurrency defaults to 2 lanes, because the reference machine is a 2-core laptop.
@@ -303,8 +314,19 @@ data and the test inputs, returns its predictions, and the **parent** compares t
 hidden labels it holds in memory. The labels never enter the jail, so there is no second
 process. Predictions that are the wrong length or not finite numbers score 0. `Math.random`
 inside the jail is replaced by the seeded stream, and each task has a wall-clock budget (the
-process is killed when it runs over, and the task scores 0). A full ML verification is
-designed to take under a minute on a 2-core laptop.
+process is killed when it runs over, and the task scores 0). The budget is measured from
+the moment the learner program starts (loading its files included). It is killed 1.5 s after
+the budget, and a learner that finishes late but before that is scored over budget, which is
+also 0. A full ML verification is designed to take under a minute on a 2-core laptop.
+
+**What the walls do and do not do.** They stop an agent or a solution from reading the hidden
+tests, from forging a result, from reaching the network or the parent's keys, and from running
+other programs. They are not a hardened virtual machine: a solution is untrusted code written
+by a model, not by an attacker who has read this source, and a determined one could still
+interfere with the process it runs in (for example by exhausting memory, which kills the
+process and fails the task). The design goal is that cheating is detected or pointless, not
+that it is impossible. A learner's wall-clock budget is the one place a measurement depends on
+machine speed; budgets are set generously so honest verifiers on slower machines still agree.
 
 ### 6.6 `model/`: one gateway, many providers, three modes
 

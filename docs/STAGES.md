@@ -100,12 +100,11 @@ The pipeline is domain-independent, so we build it end to end on the **`ml` doma
 it needs no model API, runs fast and gives real run-to-run noise. Then the LLM domain plugs in.
 
 1. Stages 1–3 (core, records, suite format for both kinds)
-2. Stage 4 (sandbox), the `ml` runner first
+2. Stage 4 (sandbox) for both domains: done
 3. Stage 6 (measurement), 8 (verdict), 9 (CLI), 10 (hub). **The pipeline now works end to end**
    on real measurements, and the web app can switch from the mock to the hub.
 4. Stage 7M (the `ml` genesis learner and suite), then Stage 11 on the `ml` tree
-5. Stage 4 (the `code` runner), 5 (Gemini and Groq), 7 (the `code` genesis agent), then Stage 11 on
-   the `code` tree
+5. Stage 5 (Gemini and Groq), 7 (the `code` genesis agent), then Stage 11 on the `code` tree
 6. Stages 14, 13, 16, 15
 
 ---
@@ -166,19 +165,26 @@ Canonical JSON, ids, errors, identity and signing.
 
 **Review:** Kai reviews every `cases.mjs` and `data.mjs`.
 
-## Stage 4: Sandbox · K · `[ ]` 🔴
-- [ ] Agent jail: Node permission model, a read grant on the jail only, IPC for the model,
-  `send` captured and removed before the agent loads, seeded `random`, frozen `Date`
-- [ ] Test runner: the cases travel over stdin, per-case results with a nonce on fd 3,
-  primitives captured first, per-case timeout, and the exit code cross-checked
-- [ ] Lanes (`HELLGATE_LANES`, default 2)
+## Stage 4: Sandbox · K · `[x]` 🔴
+- [x] Agent jail: Node permission model, a read grant on the jail only, IPC for the model,
+  `send` captured and removed before the agent loads, seeded `random`, frozen `Date`, and a
+  scrubbed environment
+- [x] Test runner: the cases travel over stdin, per-case results with a nonce on fd 3,
+  primitives captured first, per-case timeout, the exit code cross-checked, and a restart
+  after a hung case
+- [x] The `ml` runner: one jailed process; the parent scores against labels it holds
+- [x] Lanes (`HELLGATE_LANES`, default 2)
 
-**Gate:** all five canaries pass.
+**Gate:** all five canaries pass. They are the tests whose names start with `CANARY` in
+`engine/src/sandbox/sandbox.test.ts`.
 1. An empty agent scores 0.
 2. An agent that reads a file outside the jail is denied.
 3. A solution that opens a test file gets `ENOENT`.
 4. Agent and solution network access are both denied.
 5. A solution that forges a result is marked `tampered`.
+
+Each defence was also switched off in turn to confirm that the matching tests fail (the permission
+flag, the environment scrub, the `assert` copy, the exit-code check, the nonce check).
 
 ## Stage 5: Model gateway · K · `[ ]` 🔴
 - [ ] Provider interface with two clients: **Gemini** and **Groq** (ARCHITECTURE §6.6 mapping)

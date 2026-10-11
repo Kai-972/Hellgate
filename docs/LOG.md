@@ -209,3 +209,35 @@ the engine, PROTOCOL.md and the mock files together.
 **Tests:** 69 pass. Typecheck is silent.
 **Next:** Stage 4, the sandbox. The `ml` runner first (one jailed process, the parent scores).
 **Blocked on:** Kai's review of the pilot task files.
+
+### #011 · Kai · engine, sandbox
+**Stage:** 4, Sandbox (done; all five canaries pass)
+**Did:**
+- `engine/src/sandbox/`: the jail runner (Node permission model, a read grant on one directory, a
+  scrubbed environment, the program sent over stdin, a report channel on file descriptor 3, IPC for
+  the agent), the code test runner, the agent jail, the `ml` learner runner, and lanes.
+- `engine/src/model/types.ts`: the request and reply of PROTOCOL §12.1 with the schema that checks an
+  untrusted request, and the error a model service throws to refuse one call.
+- Both child programs capture the platform primitives before untrusted code loads, replace
+  `Math.random` with the seeded stream, and freeze `Date`.
+**Found:**
+- **The parent's environment leaks into a child by default.** `process.env` inside a jail would have
+  held the API keys. The jail now starts with four harmless variables, and a canary checks it.
+- A solution could overwrite `assert.equal` on the shared module and turn failing cases into passing
+  ones. The cases now get a frozen copy of `assert`, and the error constructors cannot be reassigned.
+- A task that tampers while loading still has to report how many cases it failed. The first version
+  returned an empty list; the forged-result canary caught it.
+- A case that hangs in a loop used to be able to cost the whole task. It now fails alone: the cases
+  after it run again in a fresh process (up to three restarts).
+- Every defence was switched off in turn (the permission flag, the environment scrub, the `assert`
+  copy, the exit-code cross-check, the nonce check). The matching tests went red each time.
+**Decisions:**
+- `ml` budgets are measured from the start of the learner program and a late finish scores 0; the
+  process is killed 1.5 s after the budget.
+- An infrastructure failure (a model service that fails with anything other than a refusal) throws and
+  is never scored. An agent that crashes, runs too long or answers badly scores 0 through the real tests.
+- ARCHITECTURE §6.5 now says plainly what the walls do and do not do.
+**Tests:** 100 pass, 31 of them in the sandbox. Typecheck is silent.
+**Next:** Stage 6, measurement: the runner over R runs with seeded order, per-case scoring, the paired
+effect, the bootstrap interval, the results digest and the score against the base build.
+**Blocked on:** Kai's review of the pilot task files (not blocking the engine).

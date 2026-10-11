@@ -27,5 +27,8 @@ export function taskOrder(taskIds: readonly string[], seed: string): string[] {
 /** The stream a task's data generator (`data.mjs`) draws from in one run. */
 export const dataRng = (seed: string, taskId: string): Rng => mulberry32(seedFromLabel(`hellgate/data/1|${seed}|${taskId}`));
 
-/** The stream handed to a learner or an agent as `kit.random` in one run. */
-export const learnRng = (seed: string, taskId: string): Rng => mulberry32(seedFromLabel(`hellgate/learn/1|${seed}|${taskId}`));
+/** The 32-bit seed of the stream handed to a learner or an agent as `kit.random` in one run. */
+export const learnSeed = (seed: string, taskId: string): number => seedFromLabel(`hellgate/learn/1|${seed}|${taskId}`);
+
+/** That stream. The jails build the same one from `learnSeed`. */
+export const learnRng = (seed: string, taskId: string): Rng => mulberry32(learnSeed(seed, taskId));
