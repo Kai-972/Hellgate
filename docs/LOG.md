@@ -409,3 +409,28 @@ page's request into the hub's, and the stepper uses the hub's stage names (`buil
 Please pull before you push, and run with `HELLGATE_HUB=http://127.0.0.1:8787`.
 **Next:** commit the finished coding tree, a live spot-check (Stage 13), the evolve loop (Stage 15).
 **Blocked on:** nothing.
+
+### #018 · Kai · merged the web app; demo runbook and judge page
+**Stage:** 11 (both trees committed), 12 (merged, wired to the hub), 17 (runbook started)
+**Did:**
+- Merged the web branch and made it talk to the real hub (see #017). `next build` passes and the API
+  proxies were checked against `pnpm hub:demo` for both trees.
+- `trees/code` is committed with 5 changes. `summary-only` and a second-model `review` are in
+  `scripts/build-code-tree.ts` but were not recorded: the free Gemini quota for the day ran out
+  (500 requests per model per day). The script resumes where the tree stops.
+- `trees/ml` has a pending change (`optimizer/weight-decay`, one verifier so far) for the live-verify scene.
+- [DEMO.md](DEMO.md) (setup, a timed script, fallbacks), [JUDGES.md](JUDGES.md) (the technical overview and
+  the limits), `pnpm demo`, `pnpm preflight [--probe]`, `.env.example`.
+**Found:** Beat the gate records about 80 live calls, so a free Gemini key supports about six challenges a day.
+**Tests:** 167 pass, 1 optional slow test skipped. Typecheck is silent.
+**For Pritam, what is left:**
+1. Run `pnpm demo` and click every page on **both** trees against real data (mock data hid some cases:
+   `null` models for `ml`, `vsBaseBp: null`, a void change with no scores, a contested change).
+2. Beat the gate end to end once the model key has quota; check the three failure states (`400` text,
+   `409` busy, `501`/error) read well.
+3. Empty and error states, phone layout, keyboard focus, `pnpm -C web lint`.
+4. Remove or fold the root-level `JUDGE_*.md`, `FULL_DETAILS.md`, `RECOMMENDED_CHANGES.md` and
+   `REPLICATION_SUGGESTION.md` files into `docs/` if they are still wanted (they duplicate the docs and may
+   drift from what is built), then the README screenshots and the demo video.
+**Next:** a pass on whatever the browser run turns up; live spot-checks only if time is left.
+**Blocked on:** a Gemini key with quota, for the live Beat the gate demo.

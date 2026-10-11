@@ -18,12 +18,12 @@ Status: `todo` · `doing` · `done` · `blocked`
 | Sandbox (Stage 4) | Kai + Claude | done | All five canaries pass for both the `code` jails and the `ml` runner | Used by Stage 6 | nothing |
 | `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | done | Genesis learner (63%), 12-task suite in 4 use cases, six ready-made changes, all re-measured | Used by the CLI (Stage 9) and the real tree (Stage 11) | Kai's review of the data generators |
 | Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | done | Both providers live; record, replay, budgets, limits and retries; tested against fake servers | Used by the `code` domain | nothing |
-| `code` domain: agent, suite, tree (Stages 7, 11) | Kai + Claude | doing | Genesis agent (43%), 16 tasks in 5 use cases; the real coding tree is recorded live and verified by replay | Commit the tree; Kai reviews every `cases.mjs` | Kai's review of the cases |
+| `code` domain: agent, suite, tree (Stages 7, 11) | Kai + Claude | done | Genesis agent (44.5%), 16 tasks in 5 use cases; the coding tree (5 changes) is committed, recorded live and verified by replay | Two more changes when Gemini quota returns | Kai's review of the cases |
 | Beat the gate (Stage 14) | Kai + Claude | doing | Engine side done: `challenge` jobs on the hub, tested | The web form (Pritam) | the web app |
 | Benchmark tasks (Stages 3, 7, 7M) | Kai | doing | 3 coding pilot tasks and all 12 ML tasks written; reference solutions pass | Kai reviews every `cases.mjs` and `data.mjs`; then the task spec for the free-tier agents (13 more coding tasks) | |
 | CLI and hub (Stages 9–10) | Kai + Claude | done | CLI, hub, push/pull, live job events; both real trees; `pnpm hub:demo` starts the hub with the demo keys | Stage 13 spot-checks, Stage 15 evolve | |
 | Web app (Stage 12) | Frontend teammate | done on mock data | All 6 pages, SVG charts, live progress, tree switcher; production build clean | Switch from mock to the live hub (`pnpm hub:demo`, both trees); wire Beat the gate to `/v1/trees/code/jobs` | |
-| Demo, README, video | Both | todo | | After Tier 1 works | |
+| Demo, README, video | Both | doing | Runbook ([docs/DEMO.md](docs/DEMO.md)), judge page ([docs/JUDGES.md](docs/JUDGES.md)), `pnpm demo`, `pnpm preflight` | Rehearse twice; screenshots; the video | a Gemini key with quota for the live Beat the gate |
 
 ## Checkpoints
 

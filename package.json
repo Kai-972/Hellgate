@@ -10,6 +10,9 @@
     "hub": "node engine/src/cli/main.ts serve --root trees/ml --root trees/code",
     "test": "pnpm --filter @hellgate/engine test",
     "typecheck": "pnpm --filter @hellgate/engine typecheck",
-    "hub:demo": "node --env-file-if-exists=.env scripts/serve-demo.ts"
+    "hub:demo": "node --env-file-if-exists=.env scripts/serve-demo.ts",
+    "demo": "bash scripts/demo.sh",
+    "preflight": "node --env-file-if-exists=.env scripts/preflight.ts",
+    "hellgate": "node engine/src/cli/main.ts"
   }
 }

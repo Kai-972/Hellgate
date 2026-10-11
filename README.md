@@ -8,7 +8,16 @@ A change only gets **through the gate** when verifiers with other keys re-run it
 measure a real gain. Everything else goes to **the graveyard**, with the numbers that
 killed it, so nobody tries it again.
 
-> Work in progress. What is built so far is tracked in [docs/STAGES.md](docs/STAGES.md).
+## Run it
+
+```bash
+pnpm install
+pnpm preflight        # checks the trees and the keys
+pnpm demo             # hub on :8787, web app on :3000 (see docs/DEMO.md)
+pnpm test             # the engine's tests
+```
+
+What is built is tracked in [docs/STAGES.md](docs/STAGES.md).
 
 ## Repository
 
@@ -16,8 +25,10 @@ killed it, so nobody tries it again.
 |---|---|
 | `engine/` | The engine: CLI, hub server, sandbox, model gateway, statistics and the verdict rule (TypeScript, Node ≥ 22.18) |
 | `web/` | The web app: the gate, the graveyard, change pages and Beat the gate (Next.js) |
-| `agent/` | The agent under test (added in Stage 7) |
-| `suites/` | The benchmark tasks (added in Stage 3) |
+| `agent/`, `learner/` | The two things under test: an LLM coding agent and a small neural-network learner |
+| `suites/` | The benchmark tasks (hidden test cases and data generators) |
+| `trees/` | The committed ledgers: every change, claim, recording and attestation, as files |
+| `scenarios/`, `scripts/` | The ready-made changes, and the scripts that built the trees and run the demo |
 | `docs/` | Design, protocol, build stages, frontend brief and team log |
 
 ## Docs
@@ -25,6 +36,8 @@ killed it, so nobody tries it again.
 - [Pipeline](docs/PIPELINE.md): a change from idea to verdict, step by step
 - [Architecture](docs/ARCHITECTURE.md): what it is, how it works and why
 - [Protocol](docs/PROTOCOL.md): records, hashing, signing, scoring and the verdict rule
+- [For judges](docs/JUDGES.md): what is built, how a change is judged, and the honest limits
+- [Demo runbook](docs/DEMO.md): setup, the script, and what to do when something fails
 - [Stages](docs/STAGES.md): the build plan and its status
 - [Progress](PROGRESS.md): the current state at a glance
 - [Frontend](docs/FRONTEND.md): the web app brief
