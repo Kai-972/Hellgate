@@ -1,15 +1,81 @@
 {
   "protocol": "hellgate/export/1",
   "tree": "coding-agent",
+  "domain": "code",
   "suite": {
-    "id": "f8ebd43dbef1f029bf4930c65c9b7c5cc76af476927cee861ff18fcc73bfc4ab",
+    "id": "fb9caf1d68f4376220410c8abf10563ad740e8f42b5d76220655820840b7db75",
     "tasks": 16,
-    "cases": 160
+    "cases": 160,
+    "groups": [
+      {
+        "id": "strings",
+        "name": "String handling",
+        "tasks": [
+          "base64url",
+          "case-convert",
+          "slugify"
+        ]
+      },
+      {
+        "id": "formatting",
+        "name": "Formatting",
+        "tasks": [
+          "text-table",
+          "money-format"
+        ]
+      },
+      {
+        "id": "parsing",
+        "name": "Parsing",
+        "tasks": [
+          "ipv4-parse",
+          "parse-duration",
+          "query-string"
+        ]
+      },
+      {
+        "id": "collections",
+        "name": "Collections",
+        "tasks": [
+          "flatten-object",
+          "group-by",
+          "matrix-spiral"
+        ]
+      },
+      {
+        "id": "algorithms",
+        "name": "Algorithms",
+        "tasks": [
+          "levenshtein",
+          "retry-schedule",
+          "token-bucket"
+        ]
+      },
+      {
+        "id": "dates",
+        "name": "Dates",
+        "tasks": [
+          "iso-week"
+        ]
+      },
+      {
+        "id": "validation",
+        "name": "Validation",
+        "tasks": [
+          "luhn-check"
+        ]
+      }
+    ]
   },
   "sealed": null,
   "models": {
-    "agent": "gemini-3.1-flash-lite",
-    "proposer": "gemini-3.5-flash"
+    "primary": "gemini:gemini-3.1-flash-lite",
+    "secondary": "groq:llama-3.3-70b-versatile",
+    "proposer": "gemini:gemini-3.5-flash"
+  },
+  "base": {
+    "change": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+    "scoreBp": 4700
   },
   "policy": {
     "minVerifiers": 2,
@@ -22,8 +88,8 @@
     "allowedVerifiers": []
   },
   "totals": {
-    "changes": 7,
-    "accepted": 2,
+    "changes": 8,
+    "accepted": 3,
     "rejected": 2,
     "pending": 1,
     "contested": 1,
@@ -31,18 +97,27 @@
   },
   "gatePath": [
     "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
-    "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6"
+    "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
+    "37beec949ff797dee64e7afef5367a4bd809a11d41c28172f0bf91f9bca987e3"
   ],
   "curve": [
     {
       "change": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
       "depth": 0,
-      "scoreBp": 4900
+      "scoreBp": 4700,
+      "vsBaseBp": 0
     },
     {
-      "change": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "change": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
       "depth": 1,
-      "scoreBp": 7238
+      "scoreBp": 7363,
+      "vsBaseBp": 2663
+    },
+    {
+      "change": "37beec949ff797dee64e7afef5367a4bd809a11d41c28172f0bf91f9bca987e3",
+      "depth": 2,
+      "scoreBp": 8225,
+      "vsBaseBp": 3525
     }
   ],
   "changes": [
@@ -52,10 +127,15 @@
       "depth": 0,
       "status": "accepted",
       "code": "GAIN",
-      "reason": "2 verifier keys, every one measured a gain. Smallest effect +47.8 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
-      "effectBp": 4780,
-      "ciLowBp": 4080,
-      "ciHighBp": 5460,
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +45.8 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 4580,
+      "ciLowBp": 3880,
+      "ciHighBp": 5230,
+      "scoreBp": 4700,
+      "vsBaseBp": 0,
+      "slots": [
+        "primary"
+      ],
       "claim": {
         "hypothesis": "A single model call with a short instruction list solves a meaningful share of the suite, which makes it a fair baseline to improve on.",
         "falsifiedIf": "The baseline scores below 10% or above 80% on the public suite.",
@@ -77,92 +157,145 @@
       },
       "claimed": {
         "runs": 5,
-        "effectBp": 4980,
+        "effectBp": 4780,
         "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81"
       },
       "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
       "createdAt": "2026-01-01T00:00:00Z",
-      "diff": "--- /dev/null\n+++ agent/instructions.ts\n@@ -0,0 +1,5 @@\n+export const RULES: string[] = [\n+  'You are a careful JavaScript programmer.',\n+  'Reply with one fenced code block and nothing else.',\n+];\n",
+      "diff": "--- /dev/null\n+++ agent/instructions.ts\n@@ -0,0 +1,4 @@\n+export const RULES: string[] = [\n+  'You are a careful JavaScript programmer.',\n+  'Reply with one fenced code block and nothing else.',\n+];\n",
       "perTask": [
         {
           "task": "base64url",
-          "parentBp": 0,
-          "candidateBp": 4400
-        },
-        {
-          "task": "case-convert",
-          "parentBp": 0,
-          "candidateBp": 5300
-        },
-        {
-          "task": "flatten-object",
-          "parentBp": 0,
-          "candidateBp": 7100
-        },
-        {
-          "task": "group-by",
-          "parentBp": 0,
-          "candidateBp": 4500
-        },
-        {
-          "task": "iso-week",
-          "parentBp": 0,
-          "candidateBp": 4400
-        },
-        {
-          "task": "ipv4-parse",
-          "parentBp": 0,
-          "candidateBp": 4900
-        },
-        {
-          "task": "levenshtein",
+          "group": "strings",
           "parentBp": 0,
           "candidateBp": 5500
         },
         {
-          "task": "luhn-check",
+          "task": "case-convert",
+          "group": "strings",
           "parentBp": 0,
-          "candidateBp": 2300
-        },
-        {
-          "task": "matrix-spiral",
-          "parentBp": 0,
-          "candidateBp": 2200
-        },
-        {
-          "task": "money-format",
-          "parentBp": 0,
-          "candidateBp": 7300
-        },
-        {
-          "task": "parse-duration",
-          "parentBp": 0,
-          "candidateBp": 4900
-        },
-        {
-          "task": "query-string",
-          "parentBp": 0,
-          "candidateBp": 4600
-        },
-        {
-          "task": "retry-schedule",
-          "parentBp": 0,
-          "candidateBp": 5900
+          "candidateBp": 6400
         },
         {
           "task": "slugify",
+          "group": "strings",
+          "parentBp": 0,
+          "candidateBp": 5600
+        },
+        {
+          "task": "text-table",
+          "group": "formatting",
+          "parentBp": 0,
+          "candidateBp": 5500
+        },
+        {
+          "task": "money-format",
+          "group": "formatting",
+          "parentBp": 0,
+          "candidateBp": 6000
+        },
+        {
+          "task": "ipv4-parse",
+          "group": "parsing",
+          "parentBp": 0,
+          "candidateBp": 6600
+        },
+        {
+          "task": "parse-duration",
+          "group": "parsing",
+          "parentBp": 0,
+          "candidateBp": 3400
+        },
+        {
+          "task": "query-string",
+          "group": "parsing",
+          "parentBp": 0,
+          "candidateBp": 3300
+        },
+        {
+          "task": "flatten-object",
+          "group": "collections",
+          "parentBp": 0,
+          "candidateBp": 6000
+        },
+        {
+          "task": "group-by",
+          "group": "collections",
           "parentBp": 0,
           "candidateBp": 5700
         },
         {
-          "task": "text-table",
+          "task": "matrix-spiral",
+          "group": "collections",
           "parentBp": 0,
-          "candidateBp": 7200
+          "candidateBp": 3300
+        },
+        {
+          "task": "levenshtein",
+          "group": "algorithms",
+          "parentBp": 0,
+          "candidateBp": 2600
+        },
+        {
+          "task": "retry-schedule",
+          "group": "algorithms",
+          "parentBp": 0,
+          "candidateBp": 5500
         },
         {
           "task": "token-bucket",
+          "group": "algorithms",
           "parentBp": 0,
-          "candidateBp": 2200
+          "candidateBp": 4300
+        },
+        {
+          "task": "iso-week",
+          "group": "dates",
+          "parentBp": 0,
+          "candidateBp": 3000
+        },
+        {
+          "task": "luhn-check",
+          "group": "validation",
+          "parentBp": 0,
+          "candidateBp": 2500
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "strings",
+          "parentBp": 0,
+          "candidateBp": 5833
+        },
+        {
+          "group": "formatting",
+          "parentBp": 0,
+          "candidateBp": 5750
+        },
+        {
+          "group": "parsing",
+          "parentBp": 0,
+          "candidateBp": 4433
+        },
+        {
+          "group": "collections",
+          "parentBp": 0,
+          "candidateBp": 5000
+        },
+        {
+          "group": "algorithms",
+          "parentBp": 0,
+          "candidateBp": 4133
+        },
+        {
+          "group": "dates",
+          "parentBp": 0,
+          "candidateBp": 3000
+        },
+        {
+          "group": "validation",
+          "parentBp": 0,
+          "candidateBp": 2500
         }
       ],
       "attestations": [
@@ -173,32 +306,32 @@
           "why": null,
           "mode": "replay",
           "call": "gain",
-          "effectBp": 4780,
-          "ciLowBp": 4080,
-          "ciHighBp": 5460,
+          "effectBp": 4580,
+          "ciLowBp": 3880,
+          "ciHighBp": 5230,
           "parentRunsBp": [
-            0,
-            0,
-            0,
-            0,
-            0
+            25,
+            164,
+            205,
+            105,
+            74
           ],
           "candidateRunsBp": [
-            4925,
-            5064,
-            5105,
-            5005,
-            4974
+            4471,
+            4754,
+            4652,
+            4943,
+            4681
           ],
           "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81",
           "spotCheck": {
             "tasks": [
-              "case-convert",
-              "money-format",
-              "levenshtein"
+              "ipv4-parse",
+              "group-by",
+              "base64url"
             ],
-            "recordedBp": 4900,
-            "liveBp": 4437,
+            "recordedBp": 4700,
+            "liveBp": 4275,
             "ok": true
           },
           "sealed": null,
@@ -211,32 +344,32 @@
           "why": null,
           "mode": "replay",
           "call": "gain",
-          "effectBp": 4900,
-          "ciLowBp": 4200,
-          "ciHighBp": 5550,
+          "effectBp": 4700,
+          "ciLowBp": 4000,
+          "ciHighBp": 5350,
           "parentRunsBp": [
-            84,
-            128,
-            65,
-            82,
+            20,
+            0,
+            0,
+            0,
             0
           ],
           "candidateRunsBp": [
-            4969,
-            4657,
-            5075,
-            4920,
-            4682
+            4900,
+            4573,
+            4757,
+            4465,
+            4848
           ],
           "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81",
           "spotCheck": {
             "tasks": [
-              "case-convert",
-              "base64url",
-              "group-by"
+              "iso-week",
+              "ipv4-parse",
+              "query-string"
             ],
-            "recordedBp": 4900,
-            "liveBp": 4653,
+            "recordedBp": 4700,
+            "liveBp": 4398,
             "ok": true
           },
           "sealed": null,
@@ -250,15 +383,20 @@
       }
     },
     {
-      "id": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "id": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
       "parent": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
       "depth": 1,
       "status": "accepted",
       "code": "GAIN",
-      "reason": "2 verifier keys, every one measured a gain. Smallest effect +25.4 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
-      "effectBp": 2544,
-      "ciLowBp": 1844,
-      "ciHighBp": 3244,
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +25.1 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 2513,
+      "ciLowBp": 1813,
+      "ciHighBp": 3163,
+      "scoreBp": 7363,
+      "vsBaseBp": 2663,
+      "slots": [
+        "primary"
+      ],
       "claim": {
         "hypothesis": "Showing the model the exact function signatures and one worked example of the reply format will raise the score, because most failures are wrong argument order and unparseable replies.",
         "falsifiedIf": "Both verifiers measure an effect below +3 points.",
@@ -280,8 +418,8 @@
       },
       "claimed": {
         "runs": 5,
-        "effectBp": 2800,
-        "resultsDigest": "a6e63de108f49dfc247259e2994828efb1f33200a6fdcf6ac8e525499f753bdc"
+        "effectBp": 2813,
+        "resultsDigest": "a530b4703370562328d16968d02b5fa5716b140bda1acc5ba1453360c9c96779"
       },
       "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
       "createdAt": "2026-01-01T00:00:00Z",
@@ -289,157 +427,210 @@
       "perTask": [
         {
           "task": "base64url",
-          "parentBp": 7300,
-          "candidateBp": 9100
+          "group": "strings",
+          "parentBp": 5500,
+          "candidateBp": 7800
         },
         {
           "task": "case-convert",
-          "parentBp": 6200,
-          "candidateBp": 8600
-        },
-        {
-          "task": "flatten-object",
-          "parentBp": 6000,
-          "candidateBp": 9000
-        },
-        {
-          "task": "group-by",
-          "parentBp": 4000,
-          "candidateBp": 6800
-        },
-        {
-          "task": "iso-week",
-          "parentBp": 4300,
-          "candidateBp": 7400
-        },
-        {
-          "task": "ipv4-parse",
-          "parentBp": 4800,
-          "candidateBp": 7600
-        },
-        {
-          "task": "levenshtein",
-          "parentBp": 2400,
-          "candidateBp": 5500
-        },
-        {
-          "task": "luhn-check",
-          "parentBp": 3100,
-          "candidateBp": 5800
-        },
-        {
-          "task": "matrix-spiral",
-          "parentBp": 4700,
-          "candidateBp": 7300
-        },
-        {
-          "task": "money-format",
-          "parentBp": 6900,
-          "candidateBp": 10000
-        },
-        {
-          "task": "parse-duration",
-          "parentBp": 3100,
-          "candidateBp": 6300
-        },
-        {
-          "task": "query-string",
-          "parentBp": 4500,
-          "candidateBp": 6900
-        },
-        {
-          "task": "retry-schedule",
-          "parentBp": 4300,
-          "candidateBp": 7100
+          "group": "strings",
+          "parentBp": 6400,
+          "candidateBp": 9300
         },
         {
           "task": "slugify",
-          "parentBp": 4800,
-          "candidateBp": 6600
+          "group": "strings",
+          "parentBp": 5600,
+          "candidateBp": 7900
         },
         {
           "task": "text-table",
-          "parentBp": 3000,
-          "candidateBp": 5900
+          "group": "formatting",
+          "parentBp": 5500,
+          "candidateBp": 8700
+        },
+        {
+          "task": "money-format",
+          "group": "formatting",
+          "parentBp": 6000,
+          "candidateBp": 8500
+        },
+        {
+          "task": "ipv4-parse",
+          "group": "parsing",
+          "parentBp": 6600,
+          "candidateBp": 9500
+        },
+        {
+          "task": "parse-duration",
+          "group": "parsing",
+          "parentBp": 3400,
+          "candidateBp": 5300
+        },
+        {
+          "task": "query-string",
+          "group": "parsing",
+          "parentBp": 3300,
+          "candidateBp": 6500
+        },
+        {
+          "task": "flatten-object",
+          "group": "collections",
+          "parentBp": 6000,
+          "candidateBp": 8000
+        },
+        {
+          "task": "group-by",
+          "group": "collections",
+          "parentBp": 5700,
+          "candidateBp": 8500
+        },
+        {
+          "task": "matrix-spiral",
+          "group": "collections",
+          "parentBp": 3300,
+          "candidateBp": 6500
+        },
+        {
+          "task": "levenshtein",
+          "group": "algorithms",
+          "parentBp": 2600,
+          "candidateBp": 5000
+        },
+        {
+          "task": "retry-schedule",
+          "group": "algorithms",
+          "parentBp": 5500,
+          "candidateBp": 8200
         },
         {
           "task": "token-bucket",
-          "parentBp": 3300,
-          "candidateBp": 5900
+          "group": "algorithms",
+          "parentBp": 4300,
+          "candidateBp": 7300
+        },
+        {
+          "task": "iso-week",
+          "group": "dates",
+          "parentBp": 3000,
+          "candidateBp": 5000
+        },
+        {
+          "task": "luhn-check",
+          "group": "validation",
+          "parentBp": 2500,
+          "candidateBp": 5800
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "strings",
+          "parentBp": 5833,
+          "candidateBp": 8333
+        },
+        {
+          "group": "formatting",
+          "parentBp": 5750,
+          "candidateBp": 8600
+        },
+        {
+          "group": "parsing",
+          "parentBp": 4433,
+          "candidateBp": 7100
+        },
+        {
+          "group": "collections",
+          "parentBp": 5000,
+          "candidateBp": 7667
+        },
+        {
+          "group": "algorithms",
+          "parentBp": 4133,
+          "candidateBp": 6833
+        },
+        {
+          "group": "dates",
+          "parentBp": 3000,
+          "candidateBp": 5000
+        },
+        {
+          "group": "validation",
+          "parentBp": 2500,
+          "candidateBp": 5800
         }
       ],
       "attestations": [
         {
-          "id": "d28c87059421369718129b77e55d364c8b525ebbb8a187728e25978e7600ac53",
+          "id": "638c0018f04d1ac48c326a7c65c9a2ece6cfbf61fa02aedab3f4056668b39fcd",
           "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "gain",
-          "effectBp": 2544,
-          "ciLowBp": 1844,
-          "ciHighBp": 3244,
+          "effectBp": 2513,
+          "ciLowBp": 1813,
+          "ciHighBp": 3163,
           "parentRunsBp": [
-            4349,
-            4727,
-            4442,
-            4491,
-            4328
+            4580,
+            4611,
+            4838,
+            4567,
+            4712
           ],
           "candidateRunsBp": [
-            7478,
-            6996,
-            7421,
-            7338,
-            6988
+            7260,
+            7128,
+            7148,
+            7401,
+            7505
           ],
-          "resultsDigest": "a6e63de108f49dfc247259e2994828efb1f33200a6fdcf6ac8e525499f753bdc",
+          "resultsDigest": "a530b4703370562328d16968d02b5fa5716b140bda1acc5ba1453360c9c96779",
           "spotCheck": {
             "tasks": [
-              "levenshtein",
-              "group-by",
-              "base64url"
+              "text-table",
+              "parse-duration",
+              "case-convert"
             ],
-            "recordedBp": 7238,
-            "liveBp": 6757,
+            "recordedBp": 7363,
+            "liveBp": 6930,
             "ok": true
           },
           "sealed": null,
           "receipt": null
         },
         {
-          "id": "8312cebabb95d8f50223b9da4000109b3188588e1bf03705c86b045f93f46366",
+          "id": "986c43812e064fe18d714074912db30b9409f654cb1cf0a63c5ce02d10778ef1",
           "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "gain",
-          "effectBp": 2694,
-          "ciLowBp": 1994,
-          "ciHighBp": 3394,
+          "effectBp": 2663,
+          "ciLowBp": 1963,
+          "ciHighBp": 3313,
           "parentRunsBp": [
-            4486,
-            4656,
-            4497,
-            4508,
-            4331
+            4598,
+            4647,
+            4484,
+            4940,
+            4458
           ],
           "candidateRunsBp": [
-            7277,
-            7310,
-            7089,
-            7386,
-            7333
+            7546,
+            7463,
+            7113,
+            7222,
+            7220
           ],
-          "resultsDigest": "a6e63de108f49dfc247259e2994828efb1f33200a6fdcf6ac8e525499f753bdc",
+          "resultsDigest": "a530b4703370562328d16968d02b5fa5716b140bda1acc5ba1453360c9c96779",
           "spotCheck": {
             "tasks": [
-              "matrix-spiral",
-              "ipv4-parse",
-              "case-convert"
+              "case-convert",
+              "query-string",
+              "parse-duration"
             ],
-            "recordedBp": 7238,
-            "liveBp": 6920,
+            "recordedBp": 7363,
+            "liveBp": 7001,
             "ok": true
           },
           "sealed": null,
@@ -453,15 +644,282 @@
       }
     },
     {
-      "id": "c79b13c8eb63728ba13a189a793c3bb26580fbc9d6f7b7c2fff274e24d487bc5",
-      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "id": "37beec949ff797dee64e7afef5367a4bd809a11d41c28172f0bf91f9bca987e3",
+      "parent": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
+      "depth": 2,
+      "status": "accepted",
+      "code": "GAIN",
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +8.2 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 823,
+      "ciLowBp": 123,
+      "ciHighBp": 1473,
+      "scoreBp": 8225,
+      "vsBaseBp": 3525,
+      "slots": [
+        "primary",
+        "secondary"
+      ],
+      "claim": {
+        "hypothesis": "Asking the secondary model to review the primary model's draft and fix mistakes will raise the score, because the two models make different errors on edge cases.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points, or the extra tokens do not pay for themselves.",
+        "area": "repair",
+        "motif": "second-model-review",
+        "predictedEffectBp": 700,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 983,
+        "resultsDigest": "a838fc9eb86aa069abb99dccc709f35f8c129ffa71d167c5231a2d7ab9918ddb"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- agent/loop.ts\n+++ agent/loop.ts\n@@ -22,3 +22,14 @@\n   const draft = await kit.model.generate({ tag: 'draft', system, messages });\n+  const review = await kit.model.generate({\n+    tag: 'review', slot: 'secondary',\n+    system: 'You review code for bugs and edge cases. Reply with the corrected file only, in one code block.',\n+    messages: [{ role: 'user', text: `Task:\\n${task.brief}\\n\\nDraft:\\n${draft.text}` }],\n+  });\n+  const text = review.finish === 'stop' ? review.text : draft.text;\n",
+      "perTask": [
+        {
+          "task": "base64url",
+          "group": "strings",
+          "parentBp": 7800,
+          "candidateBp": 8900
+        },
+        {
+          "task": "case-convert",
+          "group": "strings",
+          "parentBp": 9300,
+          "candidateBp": 10000
+        },
+        {
+          "task": "slugify",
+          "group": "strings",
+          "parentBp": 7900,
+          "candidateBp": 8300
+        },
+        {
+          "task": "text-table",
+          "group": "formatting",
+          "parentBp": 8700,
+          "candidateBp": 10000
+        },
+        {
+          "task": "money-format",
+          "group": "formatting",
+          "parentBp": 8500,
+          "candidateBp": 9200
+        },
+        {
+          "task": "ipv4-parse",
+          "group": "parsing",
+          "parentBp": 9500,
+          "candidateBp": 10000
+        },
+        {
+          "task": "parse-duration",
+          "group": "parsing",
+          "parentBp": 5300,
+          "candidateBp": 6800
+        },
+        {
+          "task": "query-string",
+          "group": "parsing",
+          "parentBp": 6500,
+          "candidateBp": 7500
+        },
+        {
+          "task": "flatten-object",
+          "group": "collections",
+          "parentBp": 8000,
+          "candidateBp": 8900
+        },
+        {
+          "task": "group-by",
+          "group": "collections",
+          "parentBp": 8500,
+          "candidateBp": 9500
+        },
+        {
+          "task": "matrix-spiral",
+          "group": "collections",
+          "parentBp": 6500,
+          "candidateBp": 6800
+        },
+        {
+          "task": "levenshtein",
+          "group": "algorithms",
+          "parentBp": 5000,
+          "candidateBp": 6400
+        },
+        {
+          "task": "retry-schedule",
+          "group": "algorithms",
+          "parentBp": 8200,
+          "candidateBp": 9000
+        },
+        {
+          "task": "token-bucket",
+          "group": "algorithms",
+          "parentBp": 7300,
+          "candidateBp": 8200
+        },
+        {
+          "task": "iso-week",
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 5800
+        },
+        {
+          "task": "luhn-check",
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 6300
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "strings",
+          "parentBp": 8333,
+          "candidateBp": 9067
+        },
+        {
+          "group": "formatting",
+          "parentBp": 8600,
+          "candidateBp": 9600
+        },
+        {
+          "group": "parsing",
+          "parentBp": 7100,
+          "candidateBp": 8100
+        },
+        {
+          "group": "collections",
+          "parentBp": 7667,
+          "candidateBp": 8400
+        },
+        {
+          "group": "algorithms",
+          "parentBp": 6833,
+          "candidateBp": 7867
+        },
+        {
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 5800
+        },
+        {
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 6300
+        }
+      ],
+      "attestations": [
+        {
+          "id": "3f126c347dcec990e878ad22aa34d5a5d2d88f90acccff0b7db4f797cf81704c",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 823,
+          "ciLowBp": 123,
+          "ciHighBp": 1473,
+          "parentRunsBp": [
+            7118,
+            7143,
+            7351,
+            7521,
+            7362
+          ],
+          "candidateRunsBp": [
+            8065,
+            8324,
+            8261,
+            8071,
+            8204
+          ],
+          "resultsDigest": "a838fc9eb86aa069abb99dccc709f35f8c129ffa71d167c5231a2d7ab9918ddb",
+          "spotCheck": {
+            "tasks": [
+              "parse-duration",
+              "levenshtein",
+              "retry-schedule"
+            ],
+            "recordedBp": 8225,
+            "liveBp": 8158,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "23c5e089924fc59d666991dabe4d8410f670c822bf90428a1867292ab7d1826e",
+          "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 883,
+          "ciLowBp": 183,
+          "ciHighBp": 1533,
+          "parentRunsBp": [
+            7327,
+            7442,
+            7309,
+            7172,
+            7315
+          ],
+          "candidateRunsBp": [
+            8190,
+            8083,
+            7975,
+            8113,
+            8417
+          ],
+          "resultsDigest": "a838fc9eb86aa069abb99dccc709f35f8c129ffa71d167c5231a2d7ab9918ddb",
+          "spotCheck": {
+            "tasks": [
+              "group-by",
+              "iso-week",
+              "base64url"
+            ],
+            "recordedBp": 8225,
+            "liveBp": 8118,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 43800,
+        "parentMedian": 26900
+      }
+    },
+    {
+      "id": "273bcd2c310fe3bbd79e0f0cac67a4dfcda1ed10fb17ca5e8baf810ab01fd4cf",
+      "parent": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
       "depth": 2,
       "status": "rejected",
       "code": "NO_EFFECT",
-      "reason": "Effects of -0.3 and -1.1 points sit inside the noise: the 95% intervals include zero. A tie, not a regression. Kept so nobody retries it.",
-      "effectBp": -110,
-      "ciLowBp": -440,
-      "ciHighBp": 370,
+      "reason": "Effects of -0.2 and -1.0 points sit inside the noise: the 95% intervals include zero. A tie, not a regression. Kept so nobody retries it.",
+      "effectBp": -97,
+      "ciLowBp": -447,
+      "ciHighBp": 383,
+      "scoreBp": 7325,
+      "vsBaseBp": 2625,
+      "slots": [
+        "primary"
+      ],
       "claim": {
         "hypothesis": "Rewording the instructions to sound more careful and concise will raise the score, because it felt clearly better on the three tasks I tried by hand.",
         "falsifiedIf": "The verifiers' 95% interval includes zero.",
@@ -483,8 +941,8 @@
       },
       "claimed": {
         "runs": 5,
-        "effectBp": 920,
-        "resultsDigest": "a388772a9b01df587ad1fc749567a4cb11af7831b394adde16e808acff0bfe62"
+        "effectBp": 863,
+        "resultsDigest": "e11c9fd9d1850005578eecd4ee17e3c8e03c2b70107cad143b5f462ba980ca73"
       },
       "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
       "createdAt": "2026-01-01T00:00:00Z",
@@ -492,157 +950,210 @@
       "perTask": [
         {
           "task": "base64url",
-          "parentBp": 7500,
-          "candidateBp": 6700
+          "group": "strings",
+          "parentBp": 7800,
+          "candidateBp": 7600
         },
         {
           "task": "case-convert",
-          "parentBp": 8100,
-          "candidateBp": 8900
-        },
-        {
-          "task": "flatten-object",
-          "parentBp": 5700,
-          "candidateBp": 5200
-        },
-        {
-          "task": "group-by",
-          "parentBp": 6800,
-          "candidateBp": 7400
-        },
-        {
-          "task": "iso-week",
-          "parentBp": 5600,
-          "candidateBp": 4800
-        },
-        {
-          "task": "ipv4-parse",
-          "parentBp": 5200,
-          "candidateBp": 5400
-        },
-        {
-          "task": "levenshtein",
-          "parentBp": 8700,
-          "candidateBp": 8300
-        },
-        {
-          "task": "luhn-check",
+          "group": "strings",
           "parentBp": 9300,
-          "candidateBp": 8900
-        },
-        {
-          "task": "matrix-spiral",
-          "parentBp": 8400,
-          "candidateBp": 8600
-        },
-        {
-          "task": "money-format",
-          "parentBp": 6300,
-          "candidateBp": 7000
-        },
-        {
-          "task": "parse-duration",
-          "parentBp": 5800,
-          "candidateBp": 5900
-        },
-        {
-          "task": "query-string",
-          "parentBp": 7900,
-          "candidateBp": 7300
-        },
-        {
-          "task": "retry-schedule",
-          "parentBp": 8000,
-          "candidateBp": 8100
+          "candidateBp": 9300
         },
         {
           "task": "slugify",
-          "parentBp": 6500,
-          "candidateBp": 5700
+          "group": "strings",
+          "parentBp": 7900,
+          "candidateBp": 8300
         },
         {
           "task": "text-table",
-          "parentBp": 6900,
-          "candidateBp": 7900
+          "group": "formatting",
+          "parentBp": 8700,
+          "candidateBp": 8900
+        },
+        {
+          "task": "money-format",
+          "group": "formatting",
+          "parentBp": 8500,
+          "candidateBp": 8700
+        },
+        {
+          "task": "ipv4-parse",
+          "group": "parsing",
+          "parentBp": 9500,
+          "candidateBp": 9600
+        },
+        {
+          "task": "parse-duration",
+          "group": "parsing",
+          "parentBp": 5300,
+          "candidateBp": 5000
+        },
+        {
+          "task": "query-string",
+          "group": "parsing",
+          "parentBp": 6500,
+          "candidateBp": 6100
+        },
+        {
+          "task": "flatten-object",
+          "group": "collections",
+          "parentBp": 8000,
+          "candidateBp": 7700
+        },
+        {
+          "task": "group-by",
+          "group": "collections",
+          "parentBp": 8500,
+          "candidateBp": 8300
+        },
+        {
+          "task": "matrix-spiral",
+          "group": "collections",
+          "parentBp": 6500,
+          "candidateBp": 6500
+        },
+        {
+          "task": "levenshtein",
+          "group": "algorithms",
+          "parentBp": 5000,
+          "candidateBp": 4800
+        },
+        {
+          "task": "retry-schedule",
+          "group": "algorithms",
+          "parentBp": 8200,
+          "candidateBp": 7800
         },
         {
           "task": "token-bucket",
-          "parentBp": 9600,
-          "candidateBp": 9400
+          "group": "algorithms",
+          "parentBp": 7300,
+          "candidateBp": 7700
+        },
+        {
+          "task": "iso-week",
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 5200
+        },
+        {
+          "task": "luhn-check",
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 5700
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "strings",
+          "parentBp": 8333,
+          "candidateBp": 8400
+        },
+        {
+          "group": "formatting",
+          "parentBp": 8600,
+          "candidateBp": 8800
+        },
+        {
+          "group": "parsing",
+          "parentBp": 7100,
+          "candidateBp": 6900
+        },
+        {
+          "group": "collections",
+          "parentBp": 7667,
+          "candidateBp": 7500
+        },
+        {
+          "group": "algorithms",
+          "parentBp": 6833,
+          "candidateBp": 6767
+        },
+        {
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 5200
+        },
+        {
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 5700
         }
       ],
       "attestations": [
         {
-          "id": "24714bfe3802834da286b3ba608c0bdb1c102dc61c89c761ea9ca7616430e0d1",
+          "id": "9a0ef2db66600ff0175d6349c83fe9774eade8d70520cd42fe0d0047195469ba",
           "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "noise",
-          "effectBp": -30,
-          "ciLowBp": -360,
-          "ciHighBp": 370,
+          "effectBp": -17,
+          "ciLowBp": -367,
+          "ciHighBp": 383,
           "parentRunsBp": [
-            7472,
-            7029,
-            7126,
-            7114,
-            7220
+            7538,
+            7264,
+            7310,
+            7150,
+            7151
           ],
           "candidateRunsBp": [
-            7406,
-            7277,
-            7297,
-            7264,
-            7020
+            7121,
+            7181,
+            7373,
+            7400,
+            7199
           ],
-          "resultsDigest": "a388772a9b01df587ad1fc749567a4cb11af7831b394adde16e808acff0bfe62",
+          "resultsDigest": "e11c9fd9d1850005578eecd4ee17e3c8e03c2b70107cad143b5f462ba980ca73",
           "spotCheck": {
             "tasks": [
-              "case-convert",
-              "flatten-object",
-              "group-by"
+              "base64url",
+              "group-by",
+              "ipv4-parse"
             ],
-            "recordedBp": 7219,
-            "liveBp": 6767,
+            "recordedBp": 7325,
+            "liveBp": 7135,
             "ok": true
           },
           "sealed": null,
           "receipt": null
         },
         {
-          "id": "38c13a651513674a081fff3f47f40574c7f3211e0b826239d2b458ff406c4b03",
+          "id": "51999bdb242e09e8e942010d09943b9f009a093a1d01ca4a4861be50851f9088",
           "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "noise",
-          "effectBp": -110,
-          "ciLowBp": -440,
-          "ciHighBp": 290,
+          "effectBp": -97,
+          "ciLowBp": -447,
+          "ciHighBp": 303,
           "parentRunsBp": [
-            7151,
-            7023,
-            7414,
-            7331,
-            7187
+            7431,
+            7345,
+            7178,
+            7604,
+            7413
           ],
           "candidateRunsBp": [
-            7394,
-            7120,
-            7166,
-            7006,
-            7007
+            7322,
+            7501,
+            7369,
+            7144,
+            7518
           ],
-          "resultsDigest": "a388772a9b01df587ad1fc749567a4cb11af7831b394adde16e808acff0bfe62",
+          "resultsDigest": "e11c9fd9d1850005578eecd4ee17e3c8e03c2b70107cad143b5f462ba980ca73",
           "spotCheck": {
             "tasks": [
-              "flatten-object",
-              "group-by",
-              "money-format"
+              "retry-schedule",
+              "slugify",
+              "matrix-spiral"
             ],
-            "recordedBp": 7219,
-            "liveBp": 6971,
+            "recordedBp": 7325,
+            "liveBp": 7247,
             "ok": true
           },
           "sealed": null,
@@ -656,15 +1167,20 @@
       }
     },
     {
-      "id": "fe3452408c9211813bce6e0575c8a5953b9a05f3991fc3b196bc0e3e20335d08",
-      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "id": "18cf78e89202aa6ae66b194fea17e09414de15e8fd51ae85dd065a8a7969acea",
+      "parent": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
       "depth": 2,
       "status": "rejected",
       "code": "REGRESSION",
-      "reason": "2 verifier keys, every one measured a loss. Best effect -16.7 points. The change makes the agent worse.",
-      "effectBp": -1666,
-      "ciLowBp": -2060,
-      "ciHighBp": -770,
+      "reason": "2 verifier keys, every one measured a loss. Best effect -13.4 points. The change makes it worse.",
+      "effectBp": -1341,
+      "ciLowBp": -1991,
+      "ciHighBp": -641,
+      "scoreBp": 5931,
+      "vsBaseBp": 1231,
+      "slots": [
+        "primary"
+      ],
       "claim": {
         "hypothesis": "Dropping the reply-format rule will save tokens without losing score, because the model already answers with a code block.",
         "falsifiedIf": "The score falls by more than 3 points.",
@@ -686,8 +1202,8 @@
       },
       "claimed": {
         "runs": 5,
-        "effectBp": -200,
-        "resultsDigest": "8ced1d14fac43aa7e7ddecb7ad8922aed36a09afa1439eb1c8ddf24c166dbfcf"
+        "effectBp": -131,
+        "resultsDigest": "50ac009cdced2d3e62c3549adbb878280640d8685fb777b6e9061ac7f4e397ba"
       },
       "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
       "createdAt": "2026-01-01T00:00:00Z",
@@ -695,157 +1211,210 @@
       "perTask": [
         {
           "task": "base64url",
-          "parentBp": 4900,
-          "candidateBp": 3800
+          "group": "strings",
+          "parentBp": 7800,
+          "candidateBp": 6100
         },
         {
           "task": "case-convert",
-          "parentBp": 7800,
-          "candidateBp": 6200
-        },
-        {
-          "task": "flatten-object",
-          "parentBp": 8400,
-          "candidateBp": 6300
-        },
-        {
-          "task": "group-by",
-          "parentBp": 9500,
-          "candidateBp": 8100
-        },
-        {
-          "task": "iso-week",
-          "parentBp": 9400,
-          "candidateBp": 7300
-        },
-        {
-          "task": "ipv4-parse",
-          "parentBp": 7900,
-          "candidateBp": 5900
-        },
-        {
-          "task": "levenshtein",
-          "parentBp": 6000,
-          "candidateBp": 4300
-        },
-        {
-          "task": "luhn-check",
-          "parentBp": 6600,
-          "candidateBp": 5900
-        },
-        {
-          "task": "matrix-spiral",
-          "parentBp": 9700,
-          "candidateBp": 7800
-        },
-        {
-          "task": "money-format",
-          "parentBp": 6300,
-          "candidateBp": 4200
-        },
-        {
-          "task": "parse-duration",
+          "group": "strings",
           "parentBp": 9300,
-          "candidateBp": 7300
-        },
-        {
-          "task": "query-string",
-          "parentBp": 7900,
-          "candidateBp": 6500
-        },
-        {
-          "task": "retry-schedule",
-          "parentBp": 9700,
           "candidateBp": 7500
         },
         {
           "task": "slugify",
-          "parentBp": 8200,
-          "candidateBp": 5900
+          "group": "strings",
+          "parentBp": 7900,
+          "candidateBp": 6800
         },
         {
           "task": "text-table",
-          "parentBp": 5600,
-          "candidateBp": 3400
+          "group": "formatting",
+          "parentBp": 8700,
+          "candidateBp": 6900
+        },
+        {
+          "task": "money-format",
+          "group": "formatting",
+          "parentBp": 8500,
+          "candidateBp": 7700
+        },
+        {
+          "task": "ipv4-parse",
+          "group": "parsing",
+          "parentBp": 9500,
+          "candidateBp": 7600
+        },
+        {
+          "task": "parse-duration",
+          "group": "parsing",
+          "parentBp": 5300,
+          "candidateBp": 3300
+        },
+        {
+          "task": "query-string",
+          "group": "parsing",
+          "parentBp": 6500,
+          "candidateBp": 5700
+        },
+        {
+          "task": "flatten-object",
+          "group": "collections",
+          "parentBp": 8000,
+          "candidateBp": 7000
+        },
+        {
+          "task": "group-by",
+          "group": "collections",
+          "parentBp": 8500,
+          "candidateBp": 7300
+        },
+        {
+          "task": "matrix-spiral",
+          "group": "collections",
+          "parentBp": 6500,
+          "candidateBp": 4600
+        },
+        {
+          "task": "levenshtein",
+          "group": "algorithms",
+          "parentBp": 5000,
+          "candidateBp": 4100
+        },
+        {
+          "task": "retry-schedule",
+          "group": "algorithms",
+          "parentBp": 8200,
+          "candidateBp": 6700
         },
         {
           "task": "token-bucket",
-          "parentBp": 5100,
-          "candidateBp": 3800
+          "group": "algorithms",
+          "parentBp": 7300,
+          "candidateBp": 6000
+        },
+        {
+          "task": "iso-week",
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 3900
+        },
+        {
+          "task": "luhn-check",
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 3700
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "strings",
+          "parentBp": 8333,
+          "candidateBp": 6800
+        },
+        {
+          "group": "formatting",
+          "parentBp": 8600,
+          "candidateBp": 7300
+        },
+        {
+          "group": "parsing",
+          "parentBp": 7100,
+          "candidateBp": 5533
+        },
+        {
+          "group": "collections",
+          "parentBp": 7667,
+          "candidateBp": 6300
+        },
+        {
+          "group": "algorithms",
+          "parentBp": 6833,
+          "candidateBp": 5600
+        },
+        {
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 3900
+        },
+        {
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 3700
         }
       ],
       "attestations": [
         {
-          "id": "c4d75b68ec949d01d76569f15c770439f48d5d1e324751a308aebe1f200b110f",
+          "id": "81a0460fa057800df9dbfdd6e5c8469d9c180fe206aa4cf79ed7ff721e7aa93a",
           "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "loss",
-          "effectBp": -1666,
-          "ciLowBp": -2060,
-          "ciHighBp": -770,
+          "effectBp": -1341,
+          "ciLowBp": -1991,
+          "ciHighBp": -641,
           "parentRunsBp": [
-            7886,
-            7524,
-            7516,
-            7772,
-            7754
+            7328,
+            7137,
+            7166,
+            7168,
+            7132
           ],
           "candidateRunsBp": [
-            5838,
-            5769,
-            5853,
-            6059,
-            6101
+            5943,
+            6173,
+            5811,
+            5803,
+            6059
           ],
-          "resultsDigest": "8ced1d14fac43aa7e7ddecb7ad8922aed36a09afa1439eb1c8ddf24c166dbfcf",
+          "resultsDigest": "50ac009cdced2d3e62c3549adbb878280640d8685fb777b6e9061ac7f4e397ba",
           "spotCheck": {
             "tasks": [
-              "token-bucket",
-              "iso-week",
-              "matrix-spiral"
+              "retry-schedule",
+              "money-format",
+              "parse-duration"
             ],
-            "recordedBp": 5888,
-            "liveBp": 5709,
+            "recordedBp": 5931,
+            "liveBp": 5510,
             "ok": true
           },
           "sealed": null,
           "receipt": null
         },
         {
-          "id": "214dfccb3aec2873832ede630f879e42c321ff7a667f6e6f7ac64af43df84184",
+          "id": "865cfa6e4d6bafc3bbbe68b00b1dc2296606018958a223f7be3677e92e3f4003",
           "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "loss",
-          "effectBp": -1756,
-          "ciLowBp": -2150,
-          "ciHighBp": -860,
+          "effectBp": -1431,
+          "ciLowBp": -2081,
+          "ciHighBp": -731,
           "parentRunsBp": [
-            7869,
-            7762,
-            7894,
-            7429,
-            7458
+            7576,
+            7418,
+            7364,
+            7263,
+            7379
           ],
           "candidateRunsBp": [
-            5754,
-            5883,
-            5924,
-            5972,
-            6074
+            5770,
+            6156,
+            6049,
+            6181,
+            5716
           ],
-          "resultsDigest": "8ced1d14fac43aa7e7ddecb7ad8922aed36a09afa1439eb1c8ddf24c166dbfcf",
+          "resultsDigest": "50ac009cdced2d3e62c3549adbb878280640d8685fb777b6e9061ac7f4e397ba",
           "spotCheck": {
             "tasks": [
-              "flatten-object",
-              "iso-week",
-              "group-by"
+              "money-format",
+              "text-table",
+              "query-string"
             ],
-            "recordedBp": 5888,
-            "liveBp": 5680,
+            "recordedBp": 5931,
+            "liveBp": 5645,
             "ok": true
           },
           "sealed": null,
@@ -859,8 +1428,8 @@
       }
     },
     {
-      "id": "c462350e3d71ff3377ea9e9e627ca63aa5fd4fae7ba5441f2ae7b810ed99e26c",
-      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "id": "2315663ac718894b779f62f6213cb5450e810347764e063b77037f5e8ebdcf45",
+      "parent": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
       "depth": 2,
       "status": "void",
       "code": "bad-import",
@@ -868,6 +1437,9 @@
       "effectBp": null,
       "ciLowBp": null,
       "ciHighBp": null,
+      "scoreBp": null,
+      "vsBaseBp": null,
+      "slots": [],
       "claim": {
         "hypothesis": "Reading the task's test file before answering will raise the score to nearly 100%, because the model can then match the expected outputs.",
         "falsifiedIf": "The score does not rise.",
@@ -890,18 +1462,19 @@
       "claimed": null,
       "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
       "createdAt": "2026-01-01T00:00:00Z",
-      "diff": "--- agent/loop.ts\n+++ agent/loop.ts\n@@ -1,3 +1,5 @@\n+import { readFileSync } from 'node:fs';\n+const tests = readFileSync(`../suites/public/${task.id}/cases.mjs`, 'utf8');\n",
+      "diff": "--- agent/loop.ts\n+++ agent/loop.ts\n@@ -1,3 +1,5 @@\n+import { readFileSync } from 'node:fs';\n+const tests = readFileSync(`../suites/code/public/${task.id}/cases.mjs`, 'utf8');\n",
       "perTask": [],
+      "perGroup": [],
       "attestations": [],
       "receipt": null,
       "tokens": {
         "candidateMedian": 0,
-        "parentMedian": 26900
+        "parentMedian": 0
       }
     },
     {
-      "id": "b8a772f252f858772d50c3310ee950b8693a9d288d09da61e15021058c03f0e1",
-      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "id": "6cad1b8dde93766a08e9db585807c197480d5df2e7e48396b624f7ced8c45d14",
+      "parent": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
       "depth": 2,
       "status": "pending",
       "code": "NEEDS_VERIFIERS",
@@ -909,6 +1482,11 @@
       "effectBp": null,
       "ciLowBp": null,
       "ciHighBp": null,
+      "scoreBp": 7831,
+      "vsBaseBp": 3131,
+      "slots": [
+        "primary"
+      ],
       "claim": {
         "hypothesis": "Taking the last code block of the reply instead of the first will raise the score, because the model sometimes shows a wrong draft before the final answer.",
         "falsifiedIf": "Both verifiers measure an effect below +3 points.",
@@ -920,7 +1498,7 @@
       },
       "origin": {
         "by": "agent",
-        "model": "gemini-3.5-flash",
+        "model": "gemini:gemini-3.5-flash",
         "promptHash": "f8211b52cd3ba22933f85b51e7779cff3831cc0cf666b77d30d36a4ffe5c1896",
         "instruction": null
       },
@@ -930,8 +1508,8 @@
       },
       "claimed": {
         "runs": 5,
-        "effectBp": 700,
-        "resultsDigest": "56ae2aa6e73b2fc332b15d1a4925a7f7fcc87b09fbfb68edd8fa8bba2c4f752f"
+        "effectBp": 519,
+        "resultsDigest": "3611d46691e1dca639231fbc2ccc7e204b1512fb2e2c93d58a42a8112df5762a"
       },
       "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
       "createdAt": "2026-01-01T00:00:00Z",
@@ -939,119 +1517,172 @@
       "perTask": [
         {
           "task": "base64url",
-          "parentBp": 5400,
-          "candidateBp": 6100
+          "group": "strings",
+          "parentBp": 7800,
+          "candidateBp": 9000
         },
         {
           "task": "case-convert",
+          "group": "strings",
+          "parentBp": 9300,
+          "candidateBp": 10000
+        },
+        {
+          "task": "slugify",
+          "group": "strings",
+          "parentBp": 7900,
+          "candidateBp": 9000
+        },
+        {
+          "task": "text-table",
+          "group": "formatting",
+          "parentBp": 8700,
+          "candidateBp": 8700
+        },
+        {
+          "task": "money-format",
+          "group": "formatting",
+          "parentBp": 8500,
+          "candidateBp": 8900
+        },
+        {
+          "task": "ipv4-parse",
+          "group": "parsing",
+          "parentBp": 9500,
+          "candidateBp": 9800
+        },
+        {
+          "task": "parse-duration",
+          "group": "parsing",
           "parentBp": 5300,
-          "candidateBp": 6500
+          "candidateBp": 5600
+        },
+        {
+          "task": "query-string",
+          "group": "parsing",
+          "parentBp": 6500,
+          "candidateBp": 7900
         },
         {
           "task": "flatten-object",
+          "group": "collections",
+          "parentBp": 8000,
+          "candidateBp": 7900
+        },
+        {
+          "task": "group-by",
+          "group": "collections",
+          "parentBp": 8500,
+          "candidateBp": 8500
+        },
+        {
+          "task": "matrix-spiral",
+          "group": "collections",
+          "parentBp": 6500,
+          "candidateBp": 6900
+        },
+        {
+          "task": "levenshtein",
+          "group": "algorithms",
+          "parentBp": 5000,
+          "candidateBp": 5700
+        },
+        {
+          "task": "retry-schedule",
+          "group": "algorithms",
+          "parentBp": 8200,
+          "candidateBp": 9000
+        },
+        {
+          "task": "token-bucket",
+          "group": "algorithms",
           "parentBp": 7300,
           "candidateBp": 7700
         },
         {
-          "task": "group-by",
-          "parentBp": 5900,
-          "candidateBp": 5800
-        },
-        {
           "task": "iso-week",
-          "parentBp": 5400,
-          "candidateBp": 6100
-        },
-        {
-          "task": "ipv4-parse",
-          "parentBp": 9200,
-          "candidateBp": 9700
-        },
-        {
-          "task": "levenshtein",
-          "parentBp": 5100,
-          "candidateBp": 6400
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 5000
         },
         {
           "task": "luhn-check",
+          "group": "validation",
           "parentBp": 5800,
-          "candidateBp": 7200
+          "candidateBp": 5700
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "strings",
+          "parentBp": 8333,
+          "candidateBp": 9333
         },
         {
-          "task": "matrix-spiral",
-          "parentBp": 7500,
-          "candidateBp": 8000
-        },
-        {
-          "task": "money-format",
-          "parentBp": 5400,
-          "candidateBp": 6600
-        },
-        {
-          "task": "parse-duration",
+          "group": "formatting",
           "parentBp": 8600,
-          "candidateBp": 8500
+          "candidateBp": 8800
         },
         {
-          "task": "query-string",
-          "parentBp": 8200,
-          "candidateBp": 9600
+          "group": "parsing",
+          "parentBp": 7100,
+          "candidateBp": 7767
         },
         {
-          "task": "retry-schedule",
+          "group": "collections",
+          "parentBp": 7667,
+          "candidateBp": 7767
+        },
+        {
+          "group": "algorithms",
+          "parentBp": 6833,
+          "candidateBp": 7467
+        },
+        {
+          "group": "dates",
           "parentBp": 5000,
-          "candidateBp": 6500
+          "candidateBp": 5000
         },
         {
-          "task": "slugify",
-          "parentBp": 8800,
-          "candidateBp": 9700
-        },
-        {
-          "task": "text-table",
-          "parentBp": 4900,
-          "candidateBp": 5900
-        },
-        {
-          "task": "token-bucket",
-          "parentBp": 7900,
-          "candidateBp": 8400
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 5700
         }
       ],
       "attestations": [
         {
-          "id": "28b5ccba79dce0fac337f72b1390a358a6d2de15d6f61c345ca95878375e075b",
+          "id": "d021dd748371c19438a11379badef9309c9895e19a89070bf3b871eac2f86bef",
           "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "gain",
-          "effectBp": 812,
-          "ciLowBp": 112,
-          "ciHighBp": 1512,
+          "effectBp": 469,
+          "ciLowBp": -231,
+          "ciHighBp": 1119,
           "parentRunsBp": [
-            6654,
-            6362,
-            6667,
-            6392,
-            6397
+            7203,
+            7257,
+            7301,
+            7384,
+            7405
           ],
           "candidateRunsBp": [
-            7215,
-            7496,
-            7228,
-            7300,
-            7619
+            8079,
+            7648,
+            7628,
+            7766,
+            7651
           ],
-          "resultsDigest": "56ae2aa6e73b2fc332b15d1a4925a7f7fcc87b09fbfb68edd8fa8bba2c4f752f",
+          "resultsDigest": "3611d46691e1dca639231fbc2ccc7e204b1512fb2e2c93d58a42a8112df5762a",
           "spotCheck": {
             "tasks": [
-              "slugify",
-              "query-string",
-              "ipv4-parse"
+              "iso-week",
+              "ipv4-parse",
+              "matrix-spiral"
             ],
-            "recordedBp": 7419,
-            "liveBp": 7022,
+            "recordedBp": 7831,
+            "liveBp": 7456,
             "ok": true
           },
           "sealed": null,
@@ -1065,15 +1696,20 @@
       }
     },
     {
-      "id": "63c47e2dbac466b5e249afe3374251b8610e8ac325124589b81f982b7851b231",
-      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "id": "dc4d5b2ed42ef85f371592c1cc6cd7627690afd0cf4436a6c6fc73486f151e41",
+      "parent": "e140f7f5676f7dc53a2df705640c432cb69d54b055ded63d63e829cf0c679d34",
       "depth": 2,
       "status": "contested",
       "code": "RESULTS_MISMATCH",
-      "reason": "The verifiers replayed the same recording but report different per-case results. A replay is deterministic, so at least one of them did not really run it.",
-      "effectBp": 812,
-      "ciLowBp": 112,
-      "ciHighBp": 1512,
+      "reason": "The verifiers ran the same inputs but report different per-case results. Honest runs are reproducible, so at least one of them did not really run it.",
+      "effectBp": 769,
+      "ciLowBp": 69,
+      "ciHighBp": 1419,
+      "scoreBp": 8131,
+      "vsBaseBp": 3431,
+      "slots": [
+        "primary"
+      ],
       "claim": {
         "hypothesis": "Telling the model to validate every argument and throw a TypeError on bad input will raise the score, because many cases test invalid input.",
         "falsifiedIf": "Both verifiers measure an effect below +3 points.",
@@ -1095,8 +1731,8 @@
       },
       "claimed": {
         "runs": 5,
-        "effectBp": 950,
-        "resultsDigest": "49ac0f4f32bb295c5d8d5a5c04822e4e402ea787c034c71df1a320fc6b3d5dbc"
+        "effectBp": 869,
+        "resultsDigest": "2f1155813237b25824845cc46ec221ca7cd2b8d8b6f9cf37776183f177b07da8"
       },
       "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
       "createdAt": "2026-01-01T00:00:00Z",
@@ -1104,157 +1740,210 @@
       "perTask": [
         {
           "task": "base64url",
-          "parentBp": 9500,
-          "candidateBp": 10000
+          "group": "strings",
+          "parentBp": 7800,
+          "candidateBp": 9300
         },
         {
           "task": "case-convert",
-          "parentBp": 8300,
-          "candidateBp": 9200
-        },
-        {
-          "task": "flatten-object",
-          "parentBp": 9200,
-          "candidateBp": 9400
-        },
-        {
-          "task": "group-by",
-          "parentBp": 9000,
+          "group": "strings",
+          "parentBp": 9300,
           "candidateBp": 10000
         },
         {
-          "task": "iso-week",
-          "parentBp": 9000,
+          "task": "slugify",
+          "group": "strings",
+          "parentBp": 7900,
           "candidateBp": 9100
         },
         {
-          "task": "ipv4-parse",
-          "parentBp": 7300,
-          "candidateBp": 8500
-        },
-        {
-          "task": "levenshtein",
-          "parentBp": 5500,
-          "candidateBp": 6500
-        },
-        {
-          "task": "luhn-check",
-          "parentBp": 4900,
-          "candidateBp": 5400
-        },
-        {
-          "task": "matrix-spiral",
-          "parentBp": 5700,
-          "candidateBp": 6700
+          "task": "text-table",
+          "group": "formatting",
+          "parentBp": 8700,
+          "candidateBp": 9000
         },
         {
           "task": "money-format",
-          "parentBp": 8700,
-          "candidateBp": 9200
+          "group": "formatting",
+          "parentBp": 8500,
+          "candidateBp": 9800
+        },
+        {
+          "task": "ipv4-parse",
+          "group": "parsing",
+          "parentBp": 9500,
+          "candidateBp": 9600
         },
         {
           "task": "parse-duration",
-          "parentBp": 4800,
-          "candidateBp": 5600
+          "group": "parsing",
+          "parentBp": 5300,
+          "candidateBp": 5400
         },
         {
           "task": "query-string",
-          "parentBp": 7200,
+          "group": "parsing",
+          "parentBp": 6500,
           "candidateBp": 7500
+        },
+        {
+          "task": "flatten-object",
+          "group": "collections",
+          "parentBp": 8000,
+          "candidateBp": 8800
+        },
+        {
+          "task": "group-by",
+          "group": "collections",
+          "parentBp": 8500,
+          "candidateBp": 10000
+        },
+        {
+          "task": "matrix-spiral",
+          "group": "collections",
+          "parentBp": 6500,
+          "candidateBp": 7200
+        },
+        {
+          "task": "levenshtein",
+          "group": "algorithms",
+          "parentBp": 5000,
+          "candidateBp": 5100
         },
         {
           "task": "retry-schedule",
-          "parentBp": 6400,
-          "candidateBp": 7500
-        },
-        {
-          "task": "slugify",
-          "parentBp": 6100,
-          "candidateBp": 7600
-        },
-        {
-          "task": "text-table",
-          "parentBp": 7500,
-          "candidateBp": 8900
+          "group": "algorithms",
+          "parentBp": 8200,
+          "candidateBp": 8300
         },
         {
           "task": "token-bucket",
-          "parentBp": 8400,
+          "group": "algorithms",
+          "parentBp": 7300,
+          "candidateBp": 8600
+        },
+        {
+          "task": "iso-week",
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 6400
+        },
+        {
+          "task": "luhn-check",
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 6000
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "strings",
+          "parentBp": 8333,
+          "candidateBp": 9467
+        },
+        {
+          "group": "formatting",
+          "parentBp": 8600,
           "candidateBp": 9400
+        },
+        {
+          "group": "parsing",
+          "parentBp": 7100,
+          "candidateBp": 7500
+        },
+        {
+          "group": "collections",
+          "parentBp": 7667,
+          "candidateBp": 8667
+        },
+        {
+          "group": "algorithms",
+          "parentBp": 6833,
+          "candidateBp": 7333
+        },
+        {
+          "group": "dates",
+          "parentBp": 5000,
+          "candidateBp": 6400
+        },
+        {
+          "group": "validation",
+          "parentBp": 5800,
+          "candidateBp": 6000
         }
       ],
       "attestations": [
         {
-          "id": "84a33e186b9fc7de8a0c9745203102c1e8403b096469756e4a2bb408ec19be89",
+          "id": "51739d280a3092c4f834a5e4ff3693ec1dfe4bcb7c139d97beba12c363e9dda0",
           "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "gain",
-          "effectBp": 812,
-          "ciLowBp": 112,
-          "ciHighBp": 1512,
+          "effectBp": 769,
+          "ciLowBp": 69,
+          "ciHighBp": 1419,
           "parentRunsBp": [
-            7550,
-            7217,
-            7261,
-            7301,
-            7434
+            7359,
+            7147,
+            7487,
+            7272,
+            7276
           ],
           "candidateRunsBp": [
-            8034,
-            8007,
-            8230,
-            8126,
-            8317
+            7950,
+            7918,
+            7919,
+            8112,
+            8160
           ],
-          "resultsDigest": "49ac0f4f32bb295c5d8d5a5c04822e4e402ea787c034c71df1a320fc6b3d5dbc",
+          "resultsDigest": "2f1155813237b25824845cc46ec221ca7cd2b8d8b6f9cf37776183f177b07da8",
           "spotCheck": {
             "tasks": [
               "levenshtein",
-              "text-table",
-              "group-by"
+              "luhn-check",
+              "base64url"
             ],
-            "recordedBp": 8156,
-            "liveBp": 7763,
+            "recordedBp": 8131,
+            "liveBp": 7671,
             "ok": true
           },
           "sealed": null,
           "receipt": null
         },
         {
-          "id": "53403d9e9a5377934474893c05514c5ca9461e1f6fe409864c90ecfda789876c",
+          "id": "281c8a188855c8b3a0389f4d27e596f6ee38c0609b1ea07c05788efa95ec98bb",
           "signer": "GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5",
           "counted": true,
           "why": null,
           "mode": "replay",
           "call": "gain",
-          "effectBp": 812,
-          "ciLowBp": 112,
-          "ciHighBp": 1512,
+          "effectBp": 769,
+          "ciLowBp": 69,
+          "ciHighBp": 1419,
           "parentRunsBp": [
-            7206,
-            7392,
-            7565,
-            7256,
-            7201
+            7592,
+            7490,
+            7490,
+            7473,
+            7179
           ],
           "candidateRunsBp": [
-            7975,
-            7974,
-            8160,
-            8085,
-            8334
+            8287,
+            8374,
+            8349,
+            8055,
+            8061
           ],
           "resultsDigest": "2eddd110bcf0a84b7cbe13eab23990859e88b4b23f219668a6854df69cb29f87",
           "spotCheck": {
             "tasks": [
-              "case-convert",
-              "query-string",
-              "token-bucket"
+              "slugify",
+              "matrix-spiral",
+              "query-string"
             ],
-            "recordedBp": 8156,
-            "liveBp": 7873,
+            "recordedBp": 8131,
+            "liveBp": 7670,
             "ok": true
           },
           "sealed": null,
@@ -1272,8 +1961,8 @@
     {
       "address": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
       "label": "verifier-a",
-      "attestations": 4,
-      "counted": 4,
+      "attestations": 5,
+      "counted": 5,
       "flags": [],
       "account": "https://stellar.expert/explorer/testnet/account/GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV"
     },
@@ -1288,8 +1977,8 @@
     {
       "address": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
       "label": "bot-2",
-      "attestations": 2,
-      "counted": 2,
+      "attestations": 3,
+      "counted": 3,
       "flags": [],
       "account": "https://stellar.expert/explorer/testnet/account/GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7"
     },
@@ -1304,5 +1993,5 @@
       "account": "https://stellar.expert/explorer/testnet/account/GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5"
     }
   ],
-  "digest": "# HELLGATE DIGEST  coding-agent\nsuite 16 tasks / 160 cases \u00b7 model gemini-3.1-flash-lite \u00b7 5 runs per side\n\n## GATE PATH\n0 genesis  baseline  score 49.0%\n1 a7956dd7  prompt/signatures-and-example  +25.4\n\n## GRAVEYARD\n- prompt/careful-wording  NO_EFFECT  \"Rewording the instructions to sound more careful\u2026\"\n- prompt/drop-format-rule  REGRESSION  -16.7 points\n- context/read-the-tests  VOID bad-import  never ran\n\n## NEVER TRIED\nrepair, decoding, planning, self-check, budget\n"
+  "digest": "# HELLGATE DIGEST  coding-agent\nsuite 16 tasks / 160 cases \u00b7 primary gemini-3.1-flash-lite \u00b7 secondary groq \u00b7 5 runs per side\n\n## GATE PATH\n0 8dad0b3a  other/baseline  score 47.0%  vs base +0.0\n1 e140f7f5  prompt/signatures-and-example  score 73.6%  vs base +26.6\n2 37beec94  repair/second-model-review  score 82.2%  vs base +35.2\n\n## GRAVEYARD\n- prompt/careful-wording  NO_EFFECT\n- prompt/drop-format-rule  REGRESSION\n- context/read-the-tests  bad-import\n\n## NEVER TRIED\ndecoding, planning, self-check, budget\n"
 }

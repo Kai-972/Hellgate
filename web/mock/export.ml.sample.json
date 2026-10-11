@@ -1,0 +1,1768 @@
+{
+  "protocol": "hellgate/export/1",
+  "tree": "optimizer",
+  "domain": "ml",
+  "suite": {
+    "id": "7e1c5fe9d6347a590d0183c25a4fac66163563517b0104990a907c0e1ba4118c",
+    "tasks": 12,
+    "cases": 2400,
+    "groups": [
+      {
+        "id": "nonlinear-classification",
+        "name": "Nonlinear classification",
+        "tasks": [
+          "moons",
+          "circles",
+          "spirals"
+        ]
+      },
+      {
+        "id": "badly-scaled-features",
+        "name": "Badly scaled features",
+        "tasks": [
+          "scaled-blobs",
+          "mixed-units",
+          "wide-range"
+        ]
+      },
+      {
+        "id": "noisy-regression",
+        "name": "Noisy regression",
+        "tasks": [
+          "noisy-sine",
+          "noisy-poly",
+          "step-signal"
+        ]
+      },
+      {
+        "id": "imbalanced-classes",
+        "name": "Imbalanced classes",
+        "tasks": [
+          "rare-positive",
+          "skewed-blobs",
+          "overlap-rare"
+        ]
+      }
+    ]
+  },
+  "sealed": null,
+  "models": null,
+  "base": {
+    "change": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+    "scoreBp": 5417
+  },
+  "policy": {
+    "minVerifiers": 2,
+    "runs": 5,
+    "minEffectBp": 300,
+    "bootstrap": 2000,
+    "maxVerifierSpanBp": 600,
+    "spotCheckTasks": 0,
+    "spotCheckToleranceBp": 2500,
+    "allowedVerifiers": []
+  },
+  "totals": {
+    "changes": 9,
+    "accepted": 4,
+    "rejected": 2,
+    "pending": 1,
+    "contested": 1,
+    "void": 1
+  },
+  "gatePath": [
+    "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+    "8eab1bf9c9444fbc692d020f7e7dca38d40aa8690dad492f08cad4ae81843de8",
+    "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22"
+  ],
+  "curve": [
+    {
+      "change": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+      "depth": 0,
+      "scoreBp": 5417,
+      "vsBaseBp": 0
+    },
+    {
+      "change": "8eab1bf9c9444fbc692d020f7e7dca38d40aa8690dad492f08cad4ae81843de8",
+      "depth": 1,
+      "scoreBp": 7475,
+      "vsBaseBp": 2058
+    },
+    {
+      "change": "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22",
+      "depth": 2,
+      "scoreBp": 8350,
+      "vsBaseBp": 2933
+    }
+  ],
+  "changes": [
+    {
+      "id": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+      "parent": "genesis",
+      "depth": 0,
+      "status": "accepted",
+      "code": "GAIN",
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +53.3 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 5327,
+      "ciLowBp": 4627,
+      "ciHighBp": 5977,
+      "scoreBp": 5417,
+      "vsBaseBp": 0,
+      "slots": [],
+      "claim": {
+        "hypothesis": "A small two-layer network trained with plain SGD at a fixed learning rate solves a meaningful share of the suite, which makes it a fair baseline to improve on.",
+        "falsifiedIf": "The baseline scores below 20% or above 80%.",
+        "area": "other",
+        "motif": "baseline",
+        "predictedEffectBp": 5000,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 5477,
+        "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- /dev/null\n+++ learner/optim.ts\n@@ -0,0 +1,5 @@\n+export function sgdStep(w: number[], g: number[], lr = 0.05): void {\n+  for (let i = 0; i < w.length; i++) w[i] -= lr * g[i];\n+}\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 0,
+          "candidateBp": 7000
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 0,
+          "candidateBp": 6400
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 0,
+          "candidateBp": 7100
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 0,
+          "candidateBp": 4400
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 0,
+          "candidateBp": 6900
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 0,
+          "candidateBp": 6600
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 0,
+          "candidateBp": 3500
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 0,
+          "candidateBp": 3300
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 0,
+          "candidateBp": 5600
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 0,
+          "candidateBp": 4500
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 0,
+          "candidateBp": 4900
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 0,
+          "candidateBp": 4800
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 0,
+          "candidateBp": 6833
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 0,
+          "candidateBp": 5967
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 0,
+          "candidateBp": 4133
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 0,
+          "candidateBp": 4733
+        }
+      ],
+      "attestations": [
+        {
+          "id": "6087d710cbec0b71e3c416f891175f45b52ea00514a32f9d9f263d7e083c8566",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 5327,
+          "ciLowBp": 4627,
+          "ciHighBp": 5977,
+          "parentRunsBp": [
+            21,
+            0,
+            0,
+            121,
+            0
+          ],
+          "candidateRunsBp": [
+            5303,
+            5394,
+            5174,
+            5280,
+            5484
+          ],
+          "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "8f7e38e31d4ea1cde7c08b84eb3c195b19771f7f3ac93685d92a02570502f434",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 5417,
+          "ciLowBp": 4717,
+          "ciHighBp": 6067,
+          "parentRunsBp": [
+            0,
+            211,
+            0,
+            0,
+            0
+          ],
+          "candidateRunsBp": [
+            5530,
+            5422,
+            5382,
+            5177,
+            5429
+          ],
+          "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "8eab1bf9c9444fbc692d020f7e7dca38d40aa8690dad492f08cad4ae81843de8",
+      "parent": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+      "depth": 1,
+      "status": "accepted",
+      "code": "GAIN",
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +19.5 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 1948,
+      "ciLowBp": 1248,
+      "ciHighBp": 2598,
+      "scoreBp": 7475,
+      "vsBaseBp": 2058,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Replacing plain SGD with Adam will raise the score, because per-parameter step sizes cope with badly scaled inputs where one global learning rate cannot.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "optimizer",
+        "motif": "adam",
+        "predictedEffectBp": 1500,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 2278,
+        "resultsDigest": "54008836f7f8bf5fb529712cf5845ec89c175d7b9d431251b7ebdc5b19d8bf0d"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/optim.ts\n+++ learner/optim.ts\n@@ -1,3 +1,16 @@\n-export function sgdStep(w: number[], g: number[], lr = 0.05): void {\n-  for (let i = 0; i < w.length; i++) w[i] -= lr * g[i];\n-}\n+export class Adam {\n+  private m: number[] = []; private v: number[] = []; private t = 0;\n+  constructor(private lr = 0.01, private b1 = 0.9, private b2 = 0.999, private eps = 1e-8) {}\n+  step(w: number[], g: number[]): void {\n+    if (this.m.length === 0) { this.m = g.map(() => 0); this.v = g.map(() => 0); }\n+    this.t++;\n+    for (let i = 0; i < w.length; i++) {\n+      this.m[i] = this.b1 * this.m[i]! + (1 - this.b1) * g[i]!;\n+      this.v[i] = this.b2 * this.v[i]! + (1 - this.b2) * g[i]! * g[i]!;\n+      const mh = this.m[i]! / (1 - this.b1 ** this.t), vh = this.v[i]! / (1 - this.b2 ** this.t);\n+      w[i] -= this.lr * mh / (Math.sqrt(vh) + this.eps);\n+    }\n+  }\n+}\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 7000,
+          "candidateBp": 8800
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 6400,
+          "candidateBp": 8400
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 7100,
+          "candidateBp": 8500
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 4400,
+          "candidateBp": 7800
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 6900,
+          "candidateBp": 10000
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 6600,
+          "candidateBp": 9400
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 3500,
+          "candidateBp": 4700
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 3300,
+          "candidateBp": 5700
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 5600,
+          "candidateBp": 6500
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 4500,
+          "candidateBp": 6500
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 4900,
+          "candidateBp": 6500
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 4800,
+          "candidateBp": 6900
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 6833,
+          "candidateBp": 8567
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 5967,
+          "candidateBp": 9067
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 4133,
+          "candidateBp": 5633
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 4733,
+          "candidateBp": 6633
+        }
+      ],
+      "attestations": [
+        {
+          "id": "2d6cf6afa53fb21cd3ffa2fe891667cc11f570f71ba18da4f5b1754ae18a8aa2",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 1948,
+          "ciLowBp": 1248,
+          "ciHighBp": 2598,
+          "parentRunsBp": [
+            5255,
+            5484,
+            5277,
+            5664,
+            5543
+          ],
+          "candidateRunsBp": [
+            7410,
+            7514,
+            7614,
+            7665,
+            7413
+          ],
+          "resultsDigest": "54008836f7f8bf5fb529712cf5845ec89c175d7b9d431251b7ebdc5b19d8bf0d",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "707372278479134292e524785990202cfebba2dfa1d29a2a08b69e541d47be84",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 2058,
+          "ciLowBp": 1358,
+          "ciHighBp": 2708,
+          "parentRunsBp": [
+            5662,
+            5459,
+            5311,
+            5505,
+            5666
+          ],
+          "candidateRunsBp": [
+            7385,
+            7518,
+            7268,
+            7641,
+            7467
+          ],
+          "resultsDigest": "54008836f7f8bf5fb529712cf5845ec89c175d7b9d431251b7ebdc5b19d8bf0d",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22",
+      "parent": "8eab1bf9c9444fbc692d020f7e7dca38d40aa8690dad492f08cad4ae81843de8",
+      "depth": 2,
+      "status": "accepted",
+      "code": "GAIN",
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +8.2 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 815,
+      "ciLowBp": 115,
+      "ciHighBp": 1465,
+      "scoreBp": 8350,
+      "vsBaseBp": 2933,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Standardising each feature to zero mean and unit variance before training will raise the score, because it removes the scale differences that slow training.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "preprocessing",
+        "motif": "standardise-features",
+        "predictedEffectBp": 700,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 1025,
+        "resultsDigest": "9b1f82baaa23556f0464762ef965e4f3fb6d7f9f087a2389a2d53fe64abf368c"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/prep.ts\n+++ learner/prep.ts\n@@ -1,2 +1,12 @@\n-export const prep = (x: number[][]) => x;\n+export function standardise(train: number[][], test: number[][]): [number[][], number[][]] {\n+  const d = train[0]!.length, n = train.length;\n+  const mean = Array.from({ length: d }, (_, j) => train.reduce((s, r) => s + r[j]!, 0) / n);\n+  const sd = Array.from({ length: d }, (_, j) => Math.sqrt(train.reduce((s, r) => s + (r[j]! - mean[j]!) ** 2, 0) / n) || 1);\n+  const f = (x: number[][]) => x.map((r) => r.map((v, j) => (v - mean[j]!) / sd[j]!));\n+  return [f(train), f(test)];\n+}\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 8800,
+          "candidateBp": 9300
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 8400,
+          "candidateBp": 9500
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 8500,
+          "candidateBp": 9800
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 7800,
+          "candidateBp": 9900
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 9400,
+          "candidateBp": 10000
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 4700,
+          "candidateBp": 5100
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 5700,
+          "candidateBp": 6200
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 6500,
+          "candidateBp": 7000
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 6500,
+          "candidateBp": 7700
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 6500,
+          "candidateBp": 7300
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 6900,
+          "candidateBp": 8400
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 8567,
+          "candidateBp": 9533
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 9067,
+          "candidateBp": 9967
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 5633,
+          "candidateBp": 6100
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 6633,
+          "candidateBp": 7800
+        }
+      ],
+      "attestations": [
+        {
+          "id": "e1da1ca1d774fcb3897177dbe46bbc6686a9e6af72c45dceea42f70cd29c35e0",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 815,
+          "ciLowBp": 115,
+          "ciHighBp": 1465,
+          "parentRunsBp": [
+            7642,
+            7491,
+            7325,
+            7523,
+            7283
+          ],
+          "candidateRunsBp": [
+            8142,
+            8150,
+            8318,
+            8119,
+            8390
+          ],
+          "resultsDigest": "9b1f82baaa23556f0464762ef965e4f3fb6d7f9f087a2389a2d53fe64abf368c",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "8959dcb48b1f46e854657727dc5c6dbbbce2bf8272c2a24b7c5c795477eaec64",
+          "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 905,
+          "ciLowBp": 205,
+          "ciHighBp": 1555,
+          "parentRunsBp": [
+            7366,
+            7706,
+            7518,
+            7368,
+            7645
+          ],
+          "candidateRunsBp": [
+            8402,
+            8269,
+            8155,
+            8289,
+            8560
+          ],
+          "resultsDigest": "9b1f82baaa23556f0464762ef965e4f3fb6d7f9f087a2389a2d53fe64abf368c",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "f26eb935fd95b8c5c2868c2c59add5f81f78716819fa28774a3bce41ade5ed60",
+      "parent": "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22",
+      "depth": 3,
+      "status": "rejected",
+      "code": "NO_EFFECT",
+      "reason": "Effects of -0.4 and -1.4 points sit inside the noise: the 95% intervals include zero. A tie, not a regression. Kept so nobody retries it.",
+      "effectBp": -137,
+      "ciLowBp": -487,
+      "ciHighBp": 363,
+      "scoreBp": 8283,
+      "vsBaseBp": 2866,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Raising the learning rate from 0.010 to 0.011 will raise the score, because it looked clearly better on the spiral task in one run.",
+        "falsifiedIf": "The verifiers' 95% interval includes zero.",
+        "area": "optimizer",
+        "motif": "lr-nudge",
+        "predictedEffectBp": 900,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 883,
+        "resultsDigest": "6f8e19e94ca5832bb6136d25554e0fcb70e211c26fde538f864e705f0abf0c85"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/index.ts\n+++ learner/index.ts\n@@ -8,1 +8,1 @@\n-  const opt = new Adam(0.010);\n+  const opt = new Adam(0.011);\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 9300,
+          "candidateBp": 9100
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 9500,
+          "candidateBp": 9600
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 9800,
+          "candidateBp": 9700
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 9900,
+          "candidateBp": 10000
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 5100,
+          "candidateBp": 5200
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 6200,
+          "candidateBp": 6000
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 7000,
+          "candidateBp": 6800
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 7700,
+          "candidateBp": 7400
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 7300,
+          "candidateBp": 7000
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 8400,
+          "candidateBp": 8600
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 9533,
+          "candidateBp": 9467
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 9967,
+          "candidateBp": 10000
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 6100,
+          "candidateBp": 6000
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 7800,
+          "candidateBp": 7667
+        }
+      ],
+      "attestations": [
+        {
+          "id": "511f94d7cbb49bafb5f40941ba914431497d8dcdc1258522269c92ecf234fc01",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "noise",
+          "effectBp": -37,
+          "ciLowBp": -387,
+          "ciHighBp": 363,
+          "parentRunsBp": [
+            8501,
+            8161,
+            8462,
+            8507,
+            8524
+          ],
+          "candidateRunsBp": [
+            8285,
+            8154,
+            8201,
+            8312,
+            8105
+          ],
+          "resultsDigest": "6f8e19e94ca5832bb6136d25554e0fcb70e211c26fde538f864e705f0abf0c85",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "8ebe669828ad760ef715494a4c3a98444b0148f388f78631d984f5a02bbb27c3",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "noise",
+          "effectBp": -137,
+          "ciLowBp": -487,
+          "ciHighBp": 263,
+          "parentRunsBp": [
+            8570,
+            8481,
+            8403,
+            8151,
+            8584
+          ],
+          "candidateRunsBp": [
+            8229,
+            8118,
+            8263,
+            8532,
+            8050
+          ],
+          "resultsDigest": "6f8e19e94ca5832bb6136d25554e0fcb70e211c26fde538f864e705f0abf0c85",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "c667cd37df14af0edc13e03bd025a29d9ca114e41a57f5a46bb5f8f82dabd9f6",
+      "parent": "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22",
+      "depth": 3,
+      "status": "rejected",
+      "code": "REGRESSION",
+      "reason": "2 verifier keys, every one measured a loss. Best effect -16.0 points. The change makes it worse.",
+      "effectBp": -1603,
+      "ciLowBp": -2253,
+      "ciHighBp": -903,
+      "scoreBp": 6667,
+      "vsBaseBp": 1250,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Removing the standardisation step will not hurt, because Adam already adapts its step size per parameter.",
+        "falsifiedIf": "The score falls by more than 3 points.",
+        "area": "preprocessing",
+        "motif": "drop-standardise",
+        "predictedEffectBp": -100,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": -783,
+        "resultsDigest": "b28aeaf37ade8a17ac621725225d7ed4666808ccbceea90bd09ddc949b35f8f6"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/index.ts\n+++ learner/index.ts\n@@ -5,2 +5,1 @@\n-  const [trainX, testX] = standardise(task.train.x, task.testX);\n+  const [trainX, testX] = [task.train.x, task.testX];\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 9300,
+          "candidateBp": 7300
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 9500,
+          "candidateBp": 8700
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 9800,
+          "candidateBp": 8600
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 9900,
+          "candidateBp": 7800
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 7100
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 7400
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 5100,
+          "candidateBp": 3500
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 6200,
+          "candidateBp": 5500
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 7000,
+          "candidateBp": 4900
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 7700,
+          "candidateBp": 6100
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 7300,
+          "candidateBp": 6700
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 8400,
+          "candidateBp": 6400
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 9533,
+          "candidateBp": 8200
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 9967,
+          "candidateBp": 7433
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 6100,
+          "candidateBp": 4633
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 7800,
+          "candidateBp": 6400
+        }
+      ],
+      "attestations": [
+        {
+          "id": "660dce7229cf39df4f4a3d117261919b6c1bb2245e82aeb80e87072c174973e1",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "loss",
+          "effectBp": -1603,
+          "ciLowBp": -2253,
+          "ciHighBp": -903,
+          "parentRunsBp": [
+            8375,
+            8583,
+            8327,
+            8483,
+            8147
+          ],
+          "candidateRunsBp": [
+            6594,
+            6425,
+            6915,
+            6820,
+            6610
+          ],
+          "resultsDigest": "b28aeaf37ade8a17ac621725225d7ed4666808ccbceea90bd09ddc949b35f8f6",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "b6d415f0e1daa0ad7de010271d128358668c5b9904d6c21e5d88ef31000c7f78",
+          "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "loss",
+          "effectBp": -1683,
+          "ciLowBp": -2333,
+          "ciHighBp": -983,
+          "parentRunsBp": [
+            8351,
+            8198,
+            8118,
+            8138,
+            8235
+          ],
+          "candidateRunsBp": [
+            6655,
+            6697,
+            6517,
+            6803,
+            6894
+          ],
+          "resultsDigest": "b28aeaf37ade8a17ac621725225d7ed4666808ccbceea90bd09ddc949b35f8f6",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "3d0464e76ff7a86b905442ea3c424da3b6421bdb4b23b4f9269db6fb3e0f8bbc",
+      "parent": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+      "depth": 1,
+      "status": "accepted",
+      "code": "GAIN",
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +9.2 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 918,
+      "ciLowBp": 218,
+      "ciHighBp": 1568,
+      "scoreBp": 6375,
+      "vsBaseBp": 958,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Adding momentum (0.9) to plain SGD will raise the score, because it smooths noisy gradient steps.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "optimizer",
+        "motif": "sgd-momentum",
+        "predictedEffectBp": 500,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 1088,
+        "resultsDigest": "28d451db7dfef9edbcae417f1520b9212ecd5303b6905bdbd8cb3085233f1f5e"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/optim.ts\n+++ learner/optim.ts\n@@ -1,3 +1,8 @@\n-export function sgdStep(w: number[], g: number[], lr = 0.05): void {\n-  for (let i = 0; i < w.length; i++) w[i] -= lr * g[i];\n-}\n+export function momentumStep(w: number[], g: number[], vel: number[], lr = 0.05, mu = 0.9): void {\n+  for (let i = 0; i < w.length; i++) { vel[i] = mu * vel[i]! - lr * g[i]!; w[i] += vel[i]!; }\n+}\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 7000,
+          "candidateBp": 8000
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 6400,
+          "candidateBp": 7900
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 7100,
+          "candidateBp": 7900
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 4400,
+          "candidateBp": 5100
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 6900,
+          "candidateBp": 7500
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 6600,
+          "candidateBp": 7200
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 3500,
+          "candidateBp": 4600
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 3300,
+          "candidateBp": 4300
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 5600,
+          "candidateBp": 6800
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 4500,
+          "candidateBp": 5200
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 4900,
+          "candidateBp": 6100
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 4800,
+          "candidateBp": 5900
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 6833,
+          "candidateBp": 7933
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 5967,
+          "candidateBp": 6600
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 4133,
+          "candidateBp": 5233
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 4733,
+          "candidateBp": 5733
+        }
+      ],
+      "attestations": [
+        {
+          "id": "ea11c8b92e061fad0b4160c66e76cc5521c3a09acb9b90d289970c9dc7962a99",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 918,
+          "ciLowBp": 218,
+          "ciHighBp": 1568,
+          "parentRunsBp": [
+            5452,
+            5583,
+            5289,
+            5296,
+            5218
+          ],
+          "candidateRunsBp": [
+            6340,
+            6209,
+            6586,
+            6131,
+            6352
+          ],
+          "resultsDigest": "28d451db7dfef9edbcae417f1520b9212ecd5303b6905bdbd8cb3085233f1f5e",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "3488c96dd97bb7be426aa1dadb6ad77f9fc0b8b0d7c0d339f6f58da8660d1b05",
+          "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 978,
+          "ciLowBp": 278,
+          "ciHighBp": 1628,
+          "parentRunsBp": [
+            5557,
+            5342,
+            5503,
+            5623,
+            5379
+          ],
+          "candidateRunsBp": [
+            6541,
+            6209,
+            6583,
+            6440,
+            6477
+          ],
+          "resultsDigest": "28d451db7dfef9edbcae417f1520b9212ecd5303b6905bdbd8cb3085233f1f5e",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "58826612e44622f1b5f5a40734d52b603fb9114c36dd10234c02cb3503fcf8d7",
+      "parent": "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22",
+      "depth": 3,
+      "status": "void",
+      "code": "bad-import",
+      "reason": "learner/prep.ts imports node:fs. A learner may import only its own sibling files, so this change never ran.",
+      "effectBp": null,
+      "ciLowBp": null,
+      "ciHighBp": null,
+      "scoreBp": null,
+      "vsBaseBp": null,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Reading the dataset generator will let the learner fit the test points exactly, which raises the score to nearly 100%.",
+        "falsifiedIf": "The score does not rise.",
+        "area": "preprocessing",
+        "motif": "read-the-generator",
+        "predictedEffectBp": 5000,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "bad-import",
+        "detail": "learner/prep.ts:1  import { readFileSync } from 'node:fs';\nA learner may import only relative sibling files under learner/. Even without this guard, the jail can read only its own folder, and the hidden labels never leave the parent process."
+      },
+      "claimed": null,
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/prep.ts\n+++ learner/prep.ts\n@@ -1,1 +1,3 @@\n+import { readFileSync } from 'node:fs';\n+const leak = readFileSync('../suites/ml/public/moons/data.mjs', 'utf8');\n",
+      "perTask": [],
+      "perGroup": [],
+      "attestations": [],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "dde975d46fca0f7e920315bbeb52b3142c304299ab3b42628d31f717ae0e51bb",
+      "parent": "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22",
+      "depth": 3,
+      "status": "pending",
+      "code": "NEEDS_VERIFIERS",
+      "reason": "1 of 2 verifier keys so far. The author's own runs never count.",
+      "effectBp": null,
+      "ciLowBp": null,
+      "ciHighBp": null,
+      "scoreBp": 8650,
+      "vsBaseBp": 3233,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Adding weight decay of 1e-4 will raise the score, because it limits overfitting on the small training sets.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "regularization",
+        "motif": "weight-decay",
+        "predictedEffectBp": 400,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "agent",
+        "model": "gemini:gemini-3.5-flash",
+        "promptHash": "743c1bd31c4387acf372da0943151c80a7e672d8db7e4f3ff90cd9c3bfc9336f",
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 360,
+        "resultsDigest": "6b65a6c4b2eeebb3eb744f507ce5ddaadba6342d1e7b674511d88b1497d6dbd6"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/optim.ts\n+++ learner/optim.ts\n@@ -12,1 +12,1 @@\n-      w[i] -= this.lr * mh / (Math.sqrt(vh) + this.eps);\n+      w[i] -= this.lr * (mh / (Math.sqrt(vh) + this.eps) + 1e-4 * w[i]!);\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 9300,
+          "candidateBp": 9700
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 9500,
+          "candidateBp": 9200
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 9800,
+          "candidateBp": 10000
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 9900,
+          "candidateBp": 10000
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 5100,
+          "candidateBp": 5800
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 6200,
+          "candidateBp": 6400
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 7000,
+          "candidateBp": 7500
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 7700,
+          "candidateBp": 8100
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 7300,
+          "candidateBp": 7500
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 8400,
+          "candidateBp": 9600
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 9533,
+          "candidateBp": 9633
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 9967,
+          "candidateBp": 10000
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 6100,
+          "candidateBp": 6567
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 7800,
+          "candidateBp": 8400
+        }
+      ],
+      "attestations": [
+        {
+          "id": "85517ac2e5fe1c9343c9ce7d2cd21f92629bdb0378686b57cb26d9038f4e938a",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 300,
+          "ciLowBp": -400,
+          "ciHighBp": 950,
+          "parentRunsBp": [
+            8540,
+            8385,
+            8412,
+            8381,
+            8126
+          ],
+          "candidateRunsBp": [
+            8823,
+            8545,
+            8455,
+            8412,
+            8723
+          ],
+          "resultsDigest": "6b65a6c4b2eeebb3eb744f507ce5ddaadba6342d1e7b674511d88b1497d6dbd6",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "24c63b0528e03c9bb0c36be3330053a27b930327c857f7d14fe6b386ef45d673",
+      "parent": "ffd1d9eab2fe9f4d93b290c7df6735483f4c875dcf707026f4f938f139176a22",
+      "depth": 3,
+      "status": "contested",
+      "code": "RESULTS_MISMATCH",
+      "reason": "The verifiers ran the same inputs but report different per-case results. Honest runs are reproducible, so at least one of them did not really run it.",
+      "effectBp": 467,
+      "ciLowBp": -233,
+      "ciHighBp": 1117,
+      "scoreBp": 8817,
+      "vsBaseBp": 3400,
+      "slots": [],
+      "claim": {
+        "hypothesis": "Halving the learning rate every 50 epochs will raise the score, because it lets training settle into a minimum.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "schedule",
+        "motif": "lr-halving",
+        "predictedEffectBp": 600,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 557,
+        "resultsDigest": "af505bbd05514d887d7255481592b5aa7942992459f394519941a9081ef64ff7"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- learner/schedule.ts\n+++ learner/schedule.ts\n@@ -1,1 +1,1 @@\n-export const lrAt = (_epoch: number, base: number) => base;\n+export const lrAt = (epoch: number, base: number) => base * 0.5 ** Math.floor(epoch / 50);\n",
+      "perTask": [
+        {
+          "task": "moons",
+          "group": "nonlinear-classification",
+          "parentBp": 9300,
+          "candidateBp": 9500
+        },
+        {
+          "task": "circles",
+          "group": "nonlinear-classification",
+          "parentBp": 9500,
+          "candidateBp": 10000
+        },
+        {
+          "task": "spirals",
+          "group": "nonlinear-classification",
+          "parentBp": 9800,
+          "candidateBp": 10000
+        },
+        {
+          "task": "scaled-blobs",
+          "group": "badly-scaled-features",
+          "parentBp": 9900,
+          "candidateBp": 10000
+        },
+        {
+          "task": "mixed-units",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "wide-range",
+          "group": "badly-scaled-features",
+          "parentBp": 10000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "noisy-sine",
+          "group": "noisy-regression",
+          "parentBp": 5100,
+          "candidateBp": 5300
+        },
+        {
+          "task": "noisy-poly",
+          "group": "noisy-regression",
+          "parentBp": 6200,
+          "candidateBp": 7500
+        },
+        {
+          "task": "step-signal",
+          "group": "noisy-regression",
+          "parentBp": 7000,
+          "candidateBp": 7100
+        },
+        {
+          "task": "rare-positive",
+          "group": "imbalanced-classes",
+          "parentBp": 7700,
+          "candidateBp": 8300
+        },
+        {
+          "task": "skewed-blobs",
+          "group": "imbalanced-classes",
+          "parentBp": 7300,
+          "candidateBp": 8400
+        },
+        {
+          "task": "overlap-rare",
+          "group": "imbalanced-classes",
+          "parentBp": 8400,
+          "candidateBp": 9700
+        }
+      ],
+      "perGroup": [
+        {
+          "group": "nonlinear-classification",
+          "parentBp": 9533,
+          "candidateBp": 9833
+        },
+        {
+          "group": "badly-scaled-features",
+          "parentBp": 9967,
+          "candidateBp": 10000
+        },
+        {
+          "group": "noisy-regression",
+          "parentBp": 6100,
+          "candidateBp": 6633
+        },
+        {
+          "group": "imbalanced-classes",
+          "parentBp": 7800,
+          "candidateBp": 8800
+        }
+      ],
+      "attestations": [
+        {
+          "id": "4dd244e10fbe0170c91e2f2d835c7dec7e8eaf09ae05946fef141b07f5c33d9a",
+          "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 467,
+          "ciLowBp": -233,
+          "ciHighBp": 1117,
+          "parentRunsBp": [
+            8377,
+            8158,
+            8220,
+            8554,
+            8387
+          ],
+          "candidateRunsBp": [
+            9057,
+            8808,
+            8976,
+            8797,
+            8934
+          ],
+          "resultsDigest": "af505bbd05514d887d7255481592b5aa7942992459f394519941a9081ef64ff7",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "34e365fa3bf16b4714fe33abcd4d24119fc5e1fe2f869526611f0028e2ef5bbc",
+          "signer": "GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5",
+          "counted": true,
+          "why": null,
+          "mode": "live",
+          "call": "gain",
+          "effectBp": 467,
+          "ciLowBp": -233,
+          "ciHighBp": 1117,
+          "parentRunsBp": [
+            8239,
+            8102,
+            8273,
+            8293,
+            8112
+          ],
+          "candidateRunsBp": [
+            8969,
+            9056,
+            8639,
+            8950,
+            9011
+          ],
+          "resultsDigest": "236f92314367421097663cdb29d4c08ec35dcf4a2dd52147794034769d775964",
+          "spotCheck": null,
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 0
+      }
+    }
+  ],
+  "verifiers": [
+    {
+      "address": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+      "label": "verifier-a",
+      "attestations": 6,
+      "counted": 6,
+      "flags": [],
+      "account": "https://stellar.expert/explorer/testnet/account/GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV"
+    },
+    {
+      "address": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+      "label": "bot-1",
+      "attestations": 4,
+      "counted": 4,
+      "flags": [],
+      "account": "https://stellar.expert/explorer/testnet/account/GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW"
+    },
+    {
+      "address": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+      "label": "bot-2",
+      "attestations": 4,
+      "counted": 4,
+      "flags": [],
+      "account": "https://stellar.expert/explorer/testnet/account/GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7"
+    },
+    {
+      "address": "GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5",
+      "label": "lazy-key",
+      "attestations": 1,
+      "counted": 1,
+      "flags": [
+        "results-mismatch"
+      ],
+      "account": "https://stellar.expert/explorer/testnet/account/GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5"
+    }
+  ],
+  "digest": "# HELLGATE DIGEST  optimizer\nsuite 12 tasks / 2400 cases \u00b7 4 use cases \u00b7 5 runs per side\n\n## GATE PATH\n0 8dad0b3a  other/baseline  score 54.2%  vs base +0.0\n1 8eab1bf9  optimizer/adam  score 74.8%  vs base +20.6\n2 ffd1d9ea  preprocessing/standardise-features  score 83.5%  vs base +29.3\n\n## GRAVEYARD\n- optimizer/lr-nudge  NO_EFFECT\n- preprocessing/drop-standardise  REGRESSION\n- preprocessing/read-the-generator  bad-import\n\n## NEVER TRIED\ninitialization, loss, architecture\n"
+}

@@ -27,6 +27,10 @@ it. That causes three problems:
 Evaluation tools already measure. What is missing is a way to make a result
 **believable to someone who was not in the room**. Hellgate fills that gap.
 
+The same problem exists outside language models. Someone swaps an optimizer, a learning
+rate or a model type, sees a better number once, and calls it an improvement. Hellgate
+handles that too, because the pipeline does not care *what* is being improved (§5.3).
+
 ## 2. The idea in one paragraph
 
 A **change** is a small edit to an agent plus a written **claim**: "this will raise the
@@ -58,7 +62,10 @@ died. Nothing is ever deleted. Each signature can also get a public, timestamped
 
 | Term | Meaning |
 |---|---|
-| **Agent** | The code around the model that we improve: instructions, loop, reply parsing and settings. It lives in `agent/`. |
+| **Domain** | The kind of thing a tree improves. `code` is an LLM coding agent. `ml` is a learning algorithm. A tree has exactly one. |
+| **Agent** | In the `code` domain: the code around the model that we improve (instructions, loop, reply parsing, settings, which model slot to call). It lives in `agent/`. |
+| **Learner** | In the `ml` domain: the training code that we improve (optimizer, model, preprocessing, schedule). It lives in `learner/`. |
+| **Use case** | A group of tasks that test the same thing, for example "nonlinear classification" or "badly scaled features". Scores are reported per use case. |
 | **Build** | An immutable snapshot of the agent's files. Its id is the hash of its contents. |
 | **Suite** | The benchmark: coding tasks, each with test cases. Its id is the hash of every task file. |
 | **Change** | A signed proposal: the parent change, the new build, a claim and a recording. It is one node of the tree. |
@@ -119,10 +126,14 @@ hellgate/
       stellar/   funding, receipts                                  (later stage)
       cli/       commands and output
   web/           Next.js web app. A client of the hub; it never computes a verdict.
-  agent/         the first version of the agent under test (the genesis build)
+  agent/         the first version of the LLM agent (genesis build of the `code` domain)
+  learner/       the first version of the learning algorithm (genesis build of the `ml` domain)
   suites/
-    public/      the tasks everyone sees
-  .hellgate/     the ledger: config.json and records/ (records are immutable, safe to commit)
+    code/public/ coding tasks for the `code` domain
+    ml/public/   datasets and scoring for the `ml` domain
+  trees/
+    code/.hellgate/   one tree = config.json + records/ (immutable, safe to commit)
+    ml/.hellgate/     a second tree, for the `ml` domain
   docs/          design, protocol, stages, frontend brief, shared log
 ```
 
@@ -136,6 +147,47 @@ Keys never live in the repository (§6.2).
 | Hub (`hellgate serve`) | the demo machine | the local `.hellgate/`, Gemini (for jobs), the web app |
 | Web app (`web/`) | the browser, served by Next.js | the hub only, over HTTP |
 | A remote verifier | a second laptop | the hub: `pull`, then `verify`, then `push` |
+
+### 5.3 Domains: one pipeline, two kinds of thing to improve
+
+Everything that makes Hellgate trustworthy is domain-independent: the records, the
+signatures, the paired statistics, the verdict, the graveyard, the hub and the web app. A
+**domain** supplies only four things:
+
+| A domain defines | `code`: an LLM coding agent | `ml`: a learning algorithm |
+|---|---|---|
+| **What a build is** | `agent/` files: instructions, loop, parsing, which model slot to call | `learner/` files: optimizer, model, preprocessing, schedule |
+| **What a run does** | The agent writes a solution through the model gateway; hidden tests run on it | `fit(train data, test inputs)` returns predictions; they are compared with hidden test labels |
+| **What a case is** | One test case of a task | One held-out test point (right or wrong) |
+| **Where randomness comes from** | The model, fixed as far as possible by a seed, then pinned by a recording | The seed alone: it fixes the data sample, the initial weights and the shuffling |
+| **Model API needed** | Yes: Gemini and Groq | **No.** Nothing is recorded, and verifiers re-run the training for real. |
+
+Both domains score the same way: per case, then per task, then the paired effect and the
+95% interval (§6.7). Both are tested by hidden evidence the build never sees: hidden test
+cases for `code`, hidden test labels for `ml`.
+
+**Use cases.** Tasks carry a `group`. The ML suite groups tasks by what they stress, for
+example `nonlinear-classification` (moons, circles, spirals), `badly-scaled-features`,
+`noisy-regression` and `imbalanced-classes`. The export reports the score for every group, so
+you can see that Adam helps on badly scaled data but makes no measurable difference on
+spirals. A change is judged on the whole suite, and the groups explain *where* it helped.
+
+**What the ML domain makes possible**
+- *Real noise.* Different seeds give different initial weights and data samples, so run-to-run
+  variance is genuine and the interval means something. A "better" learning rate that is
+  really luck is caught by the same machinery.
+- *Verification with no trust in recordings.* A verifier re-runs the training, so the
+  results digest comparison is a real reproduction check.
+- *No quota.* Everything runs locally and deterministically.
+
+**Floating-point note.** Training uses ordinary double-precision math. The same Node version
+gives identical results; different versions or CPUs could differ in the last digits. Scores
+are whole basis points of right or wrong test points, so such a difference would have to flip a
+prediction to matter. The results digest would then show it as a mismatch, which is the correct
+outcome: the verifiers did not reproduce the same run.
+
+A domain is a small plug-in: a task format, a runner and a contract file. Adding a third (for
+example SQL generation) does not touch the ledger, the verdict, the hub or the web app.
 
 ## 6. Engine modules
 
@@ -185,6 +237,17 @@ hub, tests and CI.
   input validation, edge cases and output format. A baseline that already scores 95%
   cannot show a gain. The target is **30–55%** for the genesis build.
 
+**ML suites** use `suites/ml/public/<task>/` instead:
+
+| File | Seen by the learner? | Purpose |
+|---|---|---|
+| `task.json` | the public fields | id, title, `kind` (`classification` or `regression`), feature count, class count, sizes, `tolerance` for regression, time budget, and the `group` (use case) |
+| `data.mjs` | **never** | `generate(seed)` returns the train set, the test inputs and the **hidden test labels**. It runs in the parent process only. |
+
+The learner is given the train set and the test **inputs**. The labels stay in the parent,
+which scores the predictions. The suite id hashes `data.mjs` too, so a changed dataset is a
+new suite. The target for the ML genesis learner is **40–70%**, leaving headroom for gains.
+
 ### 6.5 `sandbox/`: two processes, two walls
 
 ```mermaid
@@ -231,19 +294,44 @@ writes the same files. Replay depends on this.
 Task concurrency defaults to 2 lanes, because the reference machine is a 2-core laptop.
 `HELLGATE_LANES` raises it.
 
-### 6.6 `model/`: one gateway, three modes
+**The `ml` runner** needs only the first wall. The learner runs in the jail with the train
+data and the test inputs, returns its predictions, and the **parent** compares them with the
+hidden labels it holds in memory. The labels never enter the jail, so there is no second
+process. Predictions that are the wrong length or not finite numbers score 0. `Math.random`
+inside the jail is replaced by the seeded stream, and each task has a wall-clock budget (the
+process is killed when it runs over, and the task scores 0). A full ML verification is
+designed to take under a minute on a 2-core laptop.
 
-The agent only ever calls `kit.model.generate(request)`. The parent decides what answers:
+### 6.6 `model/`: one gateway, many providers, three modes
+
+The agent never talks to a provider directly. It calls `kit.model.generate(request)` and
+may name a **slot**: `primary` (the default) or `secondary`. The parent process turns the
+slot into a provider and model using the tree's config, applies the budget and the rate
+limit, and decides what answers.
+
+| Slot | Default | Used by |
+|---|---|---|
+| `primary` | `gemini:gemini-3.1-flash-lite` | the agent's main model |
+| `secondary` | `groq:<model chosen at init>` | a second opinion: a reviewer, a repairer, a tiebreaker |
+| `proposer` | `gemini:gemini-3.5-flash` | `hellgate evolve` only. An agent can never use it. |
+
+Because the slot is in the agent's code, **the orchestration is part of the change.** The
+baseline agent makes one `primary` call. A change such as "have the secondary model review
+the draft and fix mistakes" is an ordinary change that Hellgate measures against the base.
+The agent cannot name an arbitrary model, so cost and recordings stay under control.
 
 | Mode | Answered by | Used for |
 |---|---|---|
-| `record` | Gemini, with every request and reply captured | the author's run of a new build |
+| `record` | the provider, with every request and reply captured | the author's run of a new build |
 | `replay` | the recording, matched by request hash | verifiers. No key, no network. A request missing from the recording is an error. |
-| `live` | Gemini | spot-checks, Beat-the-gate, full live verification |
+| `live` | the provider | spot-checks, Beat-the-gate, full live verification, `bench --live` |
 
-- **Request key:** `sha256(canonical({model, system, messages, maxOutputTokens,
-  temperature, stop, seed}))`. Replay answers only the identical request, so a replay
-  also proves the build sends exactly the requests that were recorded.
+- **Providers:** `gemini` and `groq`. Both sit behind one small interface, so a third is a
+  new client and not a new protocol.
+- **Request key:** `sha256(canonical({provider, model, system, messages,
+  maxOutputTokens, temperature, stop, seed}))`. Replay answers only the identical request,
+  so a replay also proves the build sends exactly the requests that were recorded. The
+  slot is not part of the key; the resolved provider and model are.
 - **Gemini mapping:**
   - `system` → `systemInstruction`;
   - role `assistant` → `model`;
@@ -251,17 +339,22 @@ The agent only ever calls `kit.model.generate(request)`. The parent decides what
   - thinking budget is 0;
   - usage metadata → token counts;
   - `MAX_TOKENS` → `length`.
+- **Groq mapping:** Groq speaks the OpenAI chat format (`/openai/v1/chat/completions`).
+  - `system` becomes a first message with role `system`;
+  - `maxOutputTokens` → `max_completion_tokens`, plus `temperature`, `stop` and `seed`;
+  - `finish_reason: length` → `length`;
+  - `usage` → token counts.
 - **Seeds:** run *i* uses a seed derived from the suite id and *i*. It is sent to the
-  model and also fixes the task order. Both sides of a comparison use the same seeds.
+  provider and also fixes the task order. Both sides of a comparison use the same seeds.
   Seeds do not depend on the change, so a build's recording is reused by every child.
-- **Failures:** a token-bucket limiter (`HELLGATE_RPM`) and retries with backoff on HTTP
-  429 and 5xx. An infrastructure failure is **never** scored as 0: the run is repeated,
-  and if it keeps failing, nothing is signed.
-- **Budget per task:** 6 calls, 60k tokens and 90 s, enforced in the parent.
-- **Models:** the agent under test uses `gemini-3.1-flash-lite`. It is cheap, and a
-  small model is where agent quality matters most; a burst of 12 parallel calls on the
-  free tier returned 12 successes at about 1.5 s each. The proposer uses
-  `gemini-3.5-flash`. Both are configuration.
+- **Failures:** one token-bucket limiter per provider (`HELLGATE_RPM_GEMINI`,
+  `HELLGATE_RPM_GROQ`) and retries with backoff on HTTP 429 and 5xx. An infrastructure
+  failure is **never** scored as 0: the run is repeated, and if it keeps failing, nothing
+  is signed.
+- **Budget per task:** 6 calls in total across slots, 60k tokens and 90 s, enforced in the
+  parent. Token use is also counted per slot, so the UI can show what each model cost.
+- **Why a small primary model:** a small model is where agent design matters most. A burst
+  of 12 parallel calls on the free Gemini tier returned 12 successes at about 1.5 s each.
 
 ### 6.7 `measure/`: from test cases to a confidence interval
 1. **Task score per run** = passed cases ÷ total cases, in bp. Ten cases give ten
@@ -277,7 +370,11 @@ The agent only ever calls `kit.model.generate(request)`. The parent decides what
    - `gain` if the interval's low end is above 0 **and** the effect is at least +300 bp;
    - `loss` if the interval's high end is below 0 **and** the effect is at most −300 bp;
    - `noise` otherwise.
-7. **Results digest:** a hash of every per-case outcome of every run on both sides. In
+7. **Score against the base:** a build's score is the mean of its task means. `vs base` is
+   that score minus the base build's score (by default the genesis build), so every change
+   can be shown as up (▲) or down (▼) from where we started. `hellgate bench` prints this
+   without signing anything; verified attestations feed the same numbers into the export.
+8. **Results digest:** a hash of every per-case outcome of every run on both sides. In
    replay it is fully deterministic, so honest verifiers produce identical digests.
 
 ### 6.8 `verdict/`: one pure function
@@ -323,8 +420,9 @@ All three entry points go through the **same function** once the proposal exists
 | `hellgate evolve` | the proposer model | Read the digest and propose one change as JSON (claim + full file contents), with one repair turn |
 
 **Guards** run before any model call:
-- at most 2 files and 120 changed lines, all under `agent/`;
-- `agent/contract.ts` is frozen, and the `solve` signature must be exact;
+- at most 2 files and 120 changed lines, all under the build directory (`agent/` or `learner/`);
+- the contract file (`agent/contract.ts` or `learner/contract.ts`) is frozen, and the entry
+  signature (`solve` or `fit`) must be exact;
 - imports must be relative siblings only;
 - the claim must be falsifiable;
 - **graveyard rules:** a motif that died twice needs an explicit `contradicts`, and an
@@ -428,11 +526,26 @@ These are built into the plan (STAGES.md). Each one must produce its verdict for
 | Scenario | What happens | Expected verdict |
 |---|---|---|
 | **Real fix** | Give the model the exact function signatures and one worked example | `accepted` GAIN |
+| **Second-model review** | The secondary model reviews the draft and fixes mistakes (a two-model orchestration) | whatever the measurement says: `accepted` if it helps, otherwise graveyard. We ship the true result. |
 | **The "feels better" trap** | A reword that looked better in one run | `rejected` NO_EFFECT |
 | **Regression** | Remove the reply-format rule | `rejected` REGRESSION |
 | **Cheating agent** | An agent that tries to read the tests | `void` (blocked by the guard). If the guard is bypassed, the jail denies the read and the task scores 0. |
 | **Lazy verifier** | A key signs copied numbers without running anything | `contested` RESULTS_MISMATCH |
 | **Beat the gate** | A judge's one-line instruction, measured live | whatever the evidence says |
+
+### 8.1 Scenarios for the `ml` domain
+
+| Scenario | What happens | Expected verdict |
+|---|---|---|
+| **Adam instead of plain SGD** | Replace the optimizer step | `accepted` GAIN. Largest on badly scaled features. |
+| **Standardise the features** | Rescale each feature before training | `accepted` GAIN |
+| **The learning-rate trap** | Nudge the learning rate by 10% because it looked better once | `rejected` NO_EFFECT |
+| **Remove the standardisation** | Undo the previous gain | `rejected` REGRESSION |
+| **Cheating learner** | Tries to read the data generator | `void` (import guard), or the jail denies the read |
+| **Lazy verifier** | Signs copied numbers | `contested` RESULTS_MISMATCH |
+
+We ship whatever the measurement says. These are the changes we try, and the table is not a
+promise about results.
 
 ## 9. Cost model
 The defaults are R = 5 runs, 16 tasks, 3 spot-check tasks, and the baseline agent's one
@@ -444,6 +557,7 @@ call per task.
 | Verify (replay + spot-check) | **3** |
 | Full live verify | 2 × 5 × 16 = **160** |
 | Beat the gate | **80** to record, plus **6** for two verifiers' spot-checks |
+| `ml` domain, any action | **0**. Everything runs locally. |
 
 ## 10. Configuration
 `.hellgate/config.json` pins the tree:
@@ -451,9 +565,12 @@ call per task.
 | Key | Default | Meaning |
 |---|---|---|
 | `tree` | set at `init` | the tree name, which every record names |
+| `domain` | `code` | `code` or `ml` |
+| `buildDir` | `agent` | the build directory: `agent` for `code`, `learner` for `ml` |
 | `suite` | set at `init` | the public suite id |
-| `model.agent` | `gemini-3.1-flash-lite` | the model under the agent |
-| `model.proposer` | `gemini-3.5-flash` | the model behind `evolve` |
+| `models.primary` | `gemini:gemini-3.1-flash-lite` | the agent's main model |
+| `models.secondary` | `groq:<model>` | the agent's second model. `init` lists the models your key can use and picks one; override it here. |
+| `models.proposer` | `gemini:gemini-3.5-flash` | the model behind `evolve` |
 | `policy.minVerifiers` | 2 | distinct non-author keys needed |
 | `policy.runs` | 5 | runs per side; odd and at least 3 |
 | `policy.minEffectBp` | 300 | the minimum effect, on top of the interval |
@@ -463,17 +580,19 @@ call per task.
 | `policy.spotCheckToleranceBp` | 2500 | how much better a recording may look than live reality |
 | `policy.allowedVerifiers` | `[]` | an optional allow-list; empty means open |
 
-Environment variables: `GEMINI_API_KEY`, `HELLGATE_HOME`, `HELLGATE_SECRET`,
-`HELLGATE_HUB`, `HELLGATE_HUB_TOKEN`, `HELLGATE_RPM`, `HELLGATE_LANES`.
+Environment variables: `GEMINI_API_KEY`, `GROQ_API_KEY`, `HELLGATE_HOME`, `HELLGATE_SECRET`,
+`HELLGATE_HUB`, `HELLGATE_HUB_TOKEN`, `HELLGATE_RPM_GEMINI`, `HELLGATE_RPM_GROQ`, `HELLGATE_LANES`.
 
 ## 11. CLI
 
 | Command | What it does |
 |---|---|
-| `hellgate init` | Create the tree, pin the suite, add the genesis change from `agent/` |
+| `hellgate init --domain code\|ml` | Create the tree, pin the suite, add the genesis change from the build directory |
+| `--root <dir>` (any command) | Which tree to use: a folder holding `.hellgate/`. Defaults to the current folder. |
 | `hellgate id create \| show` | Your key and Stellar address |
 | `hellgate propose [--parent]` | A workspace with the parent build, ready to edit |
 | `hellgate submit --claim … --falsified-if … --area … --predict …` | Guards, typecheck, record, sign, push |
+| `hellgate bench [<change>] [--vs <change>] [--runs N] [--live]` | Run a build on the suite and print its score **against its base**, with ▲/▼, per-task changes and a trend. Signs nothing, publishes nothing. |
 | `hellgate verify <change>` | Paired measurement, then sign and push an attestation |
 | `hellgate status [<change>] [--why]` | Verdict, code, reason, and what was ignored |
 | `hellgate check <change>` | CI form: exit 0 / 1 / 2, `--json` |
@@ -521,6 +640,8 @@ are specified in [FRONTEND.md](FRONTEND.md).
 | One person runs many keys | An optional allow-list. Account history is visible on Stellar. | **not solved**: distinct keys are not distinct people |
 | The provider changes the model | The model id is in every record, recordings pin outputs, and spot-checks expose drift | drift inside the tolerance |
 | A key is stolen | Kept outside the repo, mode 0600, never logged | machine compromise |
+| A learner reads the hidden labels or the data generator | The labels and `data.mjs` stay in the parent. The jail reads only its own folder and the train data it is given. | bugs in Node's permission model |
+| A learner burns the whole time budget | Each task has a wall-clock budget. The process is killed and the task scores 0. | none |
 | A Beat-the-gate input abuses the hub | The input is length-limited and inserted as a quoted string; jobs need the hub token and run one at a time | quota exhaustion, mitigated by the rate limit |
 
 ## 15. What Hellgate does not prove
@@ -528,6 +649,9 @@ are specified in [FRONTEND.md](FRONTEND.md).
 - **That a gain generalises beyond the suite.** Sixteen tasks are evidence, not proof.
 - **That a live model is deterministic.** Seeds reduce variance, and the interval
   measures what remains.
+- **That ML training reproduces bit for bit on every machine.** Same Node version, same
+  result. Across versions or CPUs, a last-digit difference is possible. A real divergence
+  shows up as a results-digest mismatch, and we report it rather than hide it.
 - **That a receipt means the work was done.** A receipt proves existence, time and
   authorship. The results digest and the spot-checks test the work.
 

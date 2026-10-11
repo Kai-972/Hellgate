@@ -5,6 +5,9 @@ The whole journey of a change, from an idea to a verdict, step by step. This is 
 [STAGES.md](STAGES.md). The reasoning is in [ARCHITECTURE.md](ARCHITECTURE.md), and the exact
 bytes and formulas are in [PROTOCOL.md](PROTOCOL.md).
 
+The pipeline is the same for both domains (ARCHITECTURE §5.3): an LLM coding agent (`code`) and
+a learning algorithm (`ml`). Where they differ, this document says so.
+
 To avoid mixing the two: **pipeline steps** are P0–P7 here, and **build stages** are the
 numbered stages in STAGES.md.
 
@@ -119,6 +122,10 @@ exact tool output. It never runs, it costs nothing, and it appears in the gravey
 
 ### P2 Record
 **Input:** the new build.
+
+> **`ml` domain:** there is no recording. P2 only computes the author's own claimed result by
+> really running the training. A verifier in P4 re-runs everything, with no recording and no
+> spot-check, so verification does not depend on trusting anything the author saved.
 1. The build runs on the whole public suite, **5 runs**, in `record` mode. Every model request
    and reply is captured, keyed by a hash of the exact request.
 2. Seeds depend on the suite, not the change, so the **parent's recording is reused**. Only the
@@ -126,6 +133,13 @@ exact tool output. It never runs, it costs nothing, and it appears in the gravey
 3. Each run happens in the sandbox (section 4). Each task is scored per test case.
 4. The author's own effect (**claimed**) and its results digest are computed. They are shown
    in the UI and compared during decide, but **never counted** as evidence.
+
+Before signing anything, an author can run `hellgate bench` to see the new build's score
+against its base, with ▲/▼ per task and overall.
+
+The agent may use more than one model. It asks for the `primary` or `secondary` slot, and
+the parent routes each call to the configured provider (Gemini or Groq). Every call is
+recorded with its provider and model.
 
 **Output:** a `recording` and the claimed result. About 80 model calls for a new build.
 
@@ -201,6 +215,8 @@ A `void` change can never change: it never ran.
 ### P6 Present
 - **Accepted** → **through the gate.** It becomes the default parent for the next change, and the
   gate path extends.
+- Every verified change carries its **score and its difference from the base** (▲ up, ▼ down), so
+  the web app can draw how the agent's score moves from version to version.
 - **Rejected, contested and void** → the **graveyard**: the claim, how it died, the effect and
   interval, and "claimed X, measured Y".
 - `hellgate export` (or the hub's `GET /v1/export`) writes one document with everything the

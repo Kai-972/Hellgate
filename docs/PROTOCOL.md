@@ -92,15 +92,19 @@ Tasks are sorted by `id`, and `files` covers every file in the task directory, i
 
 ```json
 { "type": "recording", "v": 1,
-  "build": "Hex64", "suite": "Hex64", "model": "gemini-3.1-flash-lite", "runs": 5,
-  "entries": [ { "key": "Hex64",
+  "build": "Hex64", "suite": "Hex64", "runs": 5,
+  "models": { "primary": "gemini:gemini-3.1-flash-lite", "secondary": "groq:<model>" },
+  "entries": [ { "key": "Hex64", "slot": "primary|secondary",
                  "response": { "text": "...", "finish": "stop|length|other",
                                "inputTokens": 0, "outputTokens": 0 } } ] }
 ```
 
 - `entries` is sorted by `key`, and each key appears once.
-- `key = id({ "type": "request", "model", "system", "messages", "maxOutputTokens",
-  "temperature100", "stop", "seed" })`, where:
+- `slot` is informational (for display). It is not part of the key.
+- `key = id({ "type": "request", "provider", "model", "system", "messages",
+  "maxOutputTokens", "temperature100", "stop", "seed" })`, where `provider` and `model` are
+  the slot resolved through `models` (`"gemini:gemini-3.1-flash-lite"` gives provider
+  `gemini` and model `gemini-3.1-flash-lite`), and:
   - `temperature100` is the temperature × 100, rounded to an integer;
   - absent fields are encoded as `null`;
   - `messages` is `[{ "role": "user"|"assistant", "text": "..." }]`.
@@ -112,7 +116,7 @@ Tasks are sorted by `id`, and `files` covers every file in the task directory, i
   "tree": "string", "parent": "Hex64 | \"genesis\"",
   "build": "Hex64", "parentBuild": "Hex64", "suite": "Hex64",
   "claim": { "hypothesis": "30..600 chars", "falsifiedIf": "15..400 chars",
-             "area": "prompt|context|parsing|repair|decoding|planning|self-check|budget|other",
+             "area": "a string from the domain's list (§13.3)",
              "motif": "kebab-case, ≤ 40 chars", "predictedEffectBp": "non-zero int",
              "contradicts": [ { "change": "Hex64", "why": "≤ 300 chars" } ],
              "whyThisTime": "string | null" },
@@ -182,7 +186,8 @@ Both sides of an attestation use runs `0 … R−1`.
 
 ## 7. Scoring
 
-For a task `t` with `n_t` cases, in run `i`:
+A **case** is the smallest scored unit: one test case of a task in the `code` domain, or one
+held-out test point in the `ml` domain (§13.2). For a task `t` with `n_t` cases, in run `i`:
 
 ```
 score(t, i)  = floor( passed(t, i) × 10000 / n_t )                 // bp
@@ -306,6 +311,21 @@ The hub validates every posted record as in §4. Change and attestation records 
 reference records the hub already holds (builds, recordings and changes). The size limit
 is 8 MB per record.
 
+### 10.0 Several trees
+
+A hub can serve several trees at once (`hellgate serve --root trees/code --root trees/ml`).
+Every route above also exists under a tree prefix, and the plain routes serve the first tree.
+
+| Method and path | Response |
+|---|---|
+| `GET /v1/trees` | `[ { "name": "coding-agent", "domain": "code", "totals": { ... } }, ... ]` |
+| `GET /v1/trees/<name>/export` | `hellgate/export/1` for that tree |
+| `GET /v1/trees/<name>/version` | `{ "version": Hex64 }` |
+| `GET/POST /v1/trees/<name>/records…` | as above |
+| `POST /v1/trees/<name>/jobs`, `GET /v1/trees/<name>/jobs/<id>/events` | as in §10.1 |
+
+A job runs against one tree. Only one job runs at a time across all trees.
+
 ### 10.1 Jobs
 
 Jobs spend model calls, so they need the header `Authorization: Bearer <HELLGATE_HUB_TOKEN>`.
@@ -350,23 +370,28 @@ This is the only input of the web app. It is display output, so it is never hash
 {
   "protocol": "hellgate/export/1",
   "tree": "string",
-  "suite": { "id": "Hex64", "tasks": 16, "cases": 160 },
+  "domain": "code|ml",
+  "suite": { "id": "Hex64", "tasks": 16, "cases": 160,
+             "groups": [ { "id": "nonlinear-classification", "name": "Nonlinear classification", "tasks": ["moons", "spirals"] } ] },
   "sealed": null,
-  "models": { "agent": "string", "proposer": "string" },
+  "models": { "primary": "provider:model", "secondary": "provider:model", "proposer": "provider:model" },
+  "base": { "change": "Hex64", "scoreBp": 0 },
   "policy": { "...": "..." },
   "totals": { "changes": 0, "accepted": 0, "rejected": 0, "pending": 0,
               "contested": 0, "void": 0 },
   "gatePath": [ "Hex64" ],
-  "curve": [ { "change": "Hex64", "depth": 1, "scoreBp": 0 } ],
+  "curve": [ { "change": "Hex64", "depth": 1, "scoreBp": 0, "vsBaseBp": 0 } ],
   "changes": [ {
     "id": "Hex64", "parent": "Hex64|genesis", "depth": 0,
     "status": "accepted|rejected|pending|contested|void", "code": "GAIN|...",
     "reason": "string", "effectBp": 0, "ciLowBp": 0, "ciHighBp": 0,
+    "scoreBp": 0, "vsBaseBp": 0, "slots": ["primary", "secondary"],
     "claim": { "...": "as in §5.4" }, "origin": { "...": "..." },
     "mechanical": { "...": "..." }, "claimed": { "...": "..." },
     "author": "Addr", "createdAt": "ISO-8601",
     "diff": "unified diff against the parent build",
-    "perTask": [ { "task": "id", "parentBp": 0, "candidateBp": 0 } ],
+    "perTask": [ { "task": "id", "group": "string", "parentBp": 0, "candidateBp": 0 } ],
+    "perGroup": [ { "group": "id", "parentBp": 0, "candidateBp": 0 } ],
     "attestations": [ {
       "id": "Hex64", "signer": "Addr", "counted": true, "why": "string|null",
       "mode": "replay|live", "call": "gain|loss|noise",
@@ -385,7 +410,26 @@ This is the only input of the web app. It is display output, so it is never hash
 }
 ```
 
-## 12. Agent contract (`agent/contract.ts`, frozen)
+### 11.1 Score against the base
+
+- `base` is the change that every `vsBaseBp` is measured from. It is the genesis change unless
+  the tree's config names another.
+- `scoreBp` of a change is the mean of its task means, averaged over the **counted**
+  attestations. It is `null` for `void` changes and for changes with no counted attestation.
+- `vsBaseBp = scoreBp − base.scoreBp`. Positive means up from the base, negative means down.
+  It is `null` whenever `scoreBp` is `null`.
+- `models` is `null` for a domain with no model API (`ml`), and `slots` is then `[]`.
+- `slots` lists the model slots the change's recording used. It is derived from the
+  recording's entries, so a two-model orchestration shows both.
+- `curve` is the score along the gate path, one point per accepted change, with the same two
+  numbers.
+
+## 12. Build contracts (frozen)
+
+A build's contract file is part of every build, byte for byte. A change that touches it is
+stopped by the guards. Which contract applies depends on the tree's `domain`.
+
+### 12.1 `code`: `agent/contract.ts`
 
 ```ts
 export interface TaskBrief {
@@ -400,6 +444,7 @@ export interface TaskBrief {
 
 export interface ModelRequest {
   readonly tag: string;                                     // a distinct label per call site: "draft", "repair#1"
+  readonly slot?: 'primary' | 'secondary';                 // which model answers. Default "primary".
   readonly system?: string;
   readonly messages: readonly { role: 'user' | 'assistant'; text: string }[];
   readonly maxOutputTokens?: number;
@@ -438,9 +483,44 @@ export interface Answer {
 - Agent files use erasable TypeScript only (no enums or namespaces), so they run under
   Node's built-in type stripping with no build step.
 
+### 12.2 `ml`: `learner/contract.ts`
+
+```ts
+export interface MlTask {
+  readonly id: string;
+  readonly title: string;
+  readonly kind: 'classification' | 'regression';
+  readonly features: number;
+  readonly classes?: number;                       // classification: labels are integers 0 … classes−1
+  readonly tolerance?: number;                     // regression: how close a prediction must be
+  readonly train: { readonly x: number[][]; readonly y: number[] };
+  readonly testX: number[][];                      // test INPUTS only. The labels never leave the parent.
+  readonly budgetMs: number;                       // wall-clock budget for this task
+}
+
+export interface MlKit {
+  readonly random: () => number;                   // seeded per run. Math.random is replaced by it.
+  readonly trace: (event: string, data?: Record<string, unknown>) => void;
+  readonly elapsedMs: () => number;
+}
+
+export interface Predictions { readonly y: readonly number[]; }   // exactly one per test row, all finite
+
+// learner/index.ts must export exactly this signature:
+// export async function fit(task: MlTask, kit: MlKit): Promise<Predictions>
+```
+
+- The learner uses only erasable TypeScript and relative sibling imports. It reads only its own
+  folder, has no network and starts no processes.
+- The genesis learner is a small neural network trained with plain SGD. Optimizer, model,
+  preprocessing and schedule live in separate files (`optim.ts`, `model.ts`, `prep.ts`,
+  `schedule.ts`) so that one idea is one small diff.
+
 ## 13. Task format
 
-`suites/public/<task-id>/` (a later stage adds `suites/sealed/`, which is never committed):
+### 13.1 `code` tasks
+
+`suites/code/public/<task-id>/` (a later stage adds a sealed suite, which is never committed):
 
 `task.json`:
 
@@ -466,3 +546,47 @@ export default [
 `m` is the imported solution module and `assert` is `node:assert/strict`, captured
 before the solution loads. A case passes when `run` returns, or its returned promise
 resolves, within the task timeout.
+
+### 13.2 `ml` tasks
+
+`suites/ml/public/<task-id>/`:
+
+`task.json`:
+
+```json
+{ "id": "moons", "title": "Two interleaving half-circles", "kind": "classification",
+  "group": "nonlinear-classification", "features": 2, "classes": 2,
+  "trainSize": 200, "testSize": 200, "budgetMs": 4000, "tags": [ "synthetic", "2d" ] }
+```
+
+`data.mjs` runs in the parent only. The learner never sees it:
+
+```js
+// generate(seed) must be deterministic: the same seed gives the same data.
+// rng is a seeded function returning numbers in [0, 1). Use it for everything random.
+export function generate(rng, { trainSize, testSize }) {
+  // ... build trainX, trainY, testX, testY ...
+  return { trainX, trainY, testX, testY };
+}
+```
+
+**Scoring.** For each held-out test point `j` of a task in run `i`, the case passes when:
+- classification: `round(prediction[j]) === testY[j]`;
+- regression: `|prediction[j] − testY[j]| ≤ tolerance`.
+
+A run that returns the wrong number of predictions, a non-finite value, or runs over the time
+budget scores 0 for that task. The dataset for run `i` is generated with `seed(i)` (§6), so both
+sides of a comparison see identical data, and different runs see different samples.
+
+**Mode.** An attestation for an `ml` tree has `mode: "live"`, because the verifier really
+re-runs the training. There is no recording, `change.recording` is `null`, and there is no
+spot-check. The results digest still has to match between verifiers.
+
+### 13.3 Areas
+
+A claim's `area` must come from the tree's domain:
+
+| Domain | Areas |
+|---|---|
+| `code` | `prompt`, `context`, `parsing`, `repair`, `decoding`, `planning`, `self-check`, `budget`, `other` |
+| `ml` | `optimizer`, `schedule`, `preprocessing`, `architecture`, `regularization`, `initialization`, `loss`, `other` |

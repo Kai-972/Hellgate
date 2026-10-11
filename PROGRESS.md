@@ -16,7 +16,8 @@ Status: `todo` · `doing` · `done` · `blocked`
 |---|---|---|---|---|---|
 | Engine core (Stages 1–2) | Kai + Claude | doing | Core and identity written, tests being finished | Records, store, merge with the scaffold already on `main` | nothing |
 | Sandbox (Stage 4) | Kai + Claude | todo | | After records | |
-| Model gateway (Stage 5) | Kai + Claude | todo | | After the sandbox | Gemini key (available) |
+| `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | todo | | First domain built end to end: no model API needed | |
+| Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Groq key (not yet provided); Gemini key available |
 | Benchmark tasks (Stages 3, 7) | Kai | todo | | Task spec, then drafts, then review | |
 | Verdict, CLI, hub (Stages 8–10) | Kai + Claude | todo | | After measurement | |
 | Web app (Stage 12) | Frontend teammate | todo | | Start from [docs/FRONTEND.md](docs/FRONTEND.md) with the mock data | docs reach `main` |
@@ -51,6 +52,8 @@ What we build, in order. A tier starts only when the one above it works (see STA
 | Frontend teammate's job | The whole web app (`web/`), then the README and the demo video. Not the engine. |
 | Benchmark tasks | Kai drafts them with free-tier agents from a task spec, reviews them, and Claude writes a validator. |
 | Demo machine | Kai's laptop runs the hub and the web app. The teammate's laptop is a real second verifier. |
+| Domains | Two: `ml` (learning algorithms) and `code` (an LLM coding agent). The pipeline is domain-independent, so it is built end to end on `ml` first (no API, real run-to-run noise), then `code` plugs in. |
+| Models for the `code` domain | `primary` = Gemini, `secondary` = Groq. The agent asks for a slot, and the orchestration is part of the change. |
 | Toolchain | pnpm workspace, Node's built-in test runner, Node ≥ 22.18 for the engine. |
 | Duplicate root docs (`PIPELINE.md`, `SUMMARY.md`) | Removed in the merge. ARCHITECTURE.md and PROTOCOL.md are the single source. |
 | Whether Tier 3 gets any time | Decided at checkpoint C5 |

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "coding-agent",
+    "domain": "code",
+    "totals": {
+      "changes": 8,
+      "accepted": 3,
+      "rejected": 2,
+      "pending": 1,
+      "contested": 1,
+      "void": 1
+    }
+  },
+  {
+    "name": "optimizer",
+    "domain": "ml",
+    "totals": {
+      "changes": 9,
+      "accepted": 4,
+      "rejected": 2,
+      "pending": 1,
+      "contested": 1,
+      "void": 1
+    }
+  }
+]

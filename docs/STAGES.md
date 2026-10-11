@@ -68,8 +68,8 @@ Time is limited, so the work is in tiers. A tier is only started when the one ab
 
 Order of work after Stage 11: 14, 13, 16, 15.
 
-In Tier 1, the CLI needs only `init`, `submit`, `verify`, `status`, `check`, `export` and
-`serve`. The guards need only path, size, frozen-file and import checks. Everything else
+In Tier 1, the CLI needs only `init`, `submit`, `bench`, `verify`, `status`, `check`, `export`
+and `serve`. The guards need only path, size, frozen-file and import checks. Everything else
 in ARCHITECTURE §6.9 and §11 can wait.
 
 Anything in the docs that is not built when we stop is removed or marked "not built" in
@@ -91,6 +91,22 @@ Targets, not promises. If a stage runs over by half again, stop and re-plan in L
 
 The riskiest stages are 4 (sandbox), 5 (Gemini) and 7 (the baseline must land in the target
 score band). Their gates exist so a failure shows up early.
+
+---
+
+## Recommended order of work
+
+The pipeline is domain-independent, so we build it end to end on the **`ml` domain first**:
+it needs no model API, runs fast and gives real run-to-run noise. Then the LLM domain plugs in.
+
+1. Stages 1–3 (core, records, suite format for both kinds)
+2. Stage 4 (sandbox), the `ml` runner first
+3. Stage 6 (measurement), 8 (verdict), 9 (CLI), 10 (hub). **The pipeline now works end to end**
+   on real measurements, and the web app can switch from the mock to the hub.
+4. Stage 7M (the `ml` genesis learner and suite), then Stage 11 on the `ml` tree
+5. Stage 4 (the `code` runner), 5 (Gemini and Groq), 7 (the `code` genesis agent), then Stage 11 on
+   the `code` tree
+6. Stages 14, 13, 16, 15
 
 ---
 
@@ -156,36 +172,53 @@ Canonical JSON, ids, errors, identity and signing.
 5. A solution that forges a result is marked `tampered`.
 
 ## Stage 5: Model gateway · K · `[ ]` 🔴
-- [ ] Gemini client (ARCHITECTURE §6.6 mapping), budget, rate limiter, retries with backoff,
-  and infrastructure failures that are never scored
+- [ ] Provider interface with two clients: **Gemini** and **Groq** (ARCHITECTURE §6.6 mapping)
+- [ ] Slots (`primary`, `secondary`, `proposer`) resolved through `config.models`
+- [ ] Budget (calls, tokens and time, with a per-slot token count), one rate limiter per
+  provider, retries with backoff, and infrastructure failures that are never scored
 - [ ] Request key (PROTOCOL §5.3), `record` and `replay` modes; a replay miss is an error
 
 **Tests:**
-- the request key is stable and ignores `tag`;
-- replay serves exactly what was recorded;
-- a miss fails loudly;
-- the budget refuses the seventh call.
+- the request key is stable, ignores `tag` and `slot`, and changes with provider and model;
+- both clients map requests and replies correctly, checked against a fake HTTP server;
+- replay serves exactly what was recorded, and a miss fails loudly;
+- the budget refuses the seventh call, and token use is counted per slot.
 
-**Gate:** a live smoke test, one real task against Gemini, records and then replays to an
-identical result.
+**Gate:** a live smoke test, one real task, **on each provider**, records and then replays to
+an identical result.
 
 ## Stage 6: Measurement · K · `[ ]`
 - [ ] Runner: R runs, seeded order (PROTOCOL §6), per-case scoring (PROTOCOL §7)
 - [ ] Paired effect, bootstrap interval, call (PROTOCOL §8)
 - [ ] Results digest
+- [ ] Score against the base: a build's score, and its difference from the base build (PROTOCOL §11.1)
 
 **Tests:**
 - frozen vectors for seeds, order and the bootstrap on synthetic data;
-- the same recording replayed twice gives an identical digest.
+- the same recording replayed twice gives an identical digest;
+- `vsBaseBp` is positive for a better build and negative for a worse one.
 
 ## Stage 7: Genesis agent and the full suite · K · `[ ]` 🔴
 - [ ] `agent/contract.ts` (frozen), `agent/index.ts`, `agent/instructions.ts` (`RULES`),
-  and the loop: a deliberately simple single-call baseline
+  and the loop: a deliberately simple baseline with one `primary` call per task
+- [ ] A ready-made two-model change (the secondary model reviews the draft) to measure against the baseline
 - [ ] The full public suite: 16 tasks (13 more after the pilots). Kai reviews every case file.
 - [ ] Record the baseline live
 
 **Gate:** the genesis build scores **30–55%** on the suite. If it doesn't, tune the tasks,
 not the agent, and record it again.
+
+## Stage 7M: The `ml` domain · K · `[ ]` 🔴
+- [ ] `learner/contract.ts` (frozen), `learner/index.ts`, `model.ts`, `optim.ts`, `prep.ts`,
+  `schedule.ts`: a small neural network with plain SGD, as the baseline
+- [ ] The `ml` suite: 10–12 tasks in at least four use cases (nonlinear classification, badly
+  scaled features, noisy regression, imbalanced classes), each with a deterministic `data.mjs`
+- [ ] Ready-made changes: momentum, Adam, standardised features, learning-rate decay, and a
+  learning-rate nudge that should come out as noise
+
+**Gate:** the baseline scores **40–70%**, a full verification takes **under a minute** on the
+2-core laptop, and Adam beats plain SGD on the badly-scaled use case. If the baseline is outside
+the band, tune the tasks, not the learner.
 
 ## Stage 8: The verdict · K · `[ ]`
 - [ ] `decide()`, exactly as PROTOCOL §9, as a pure function
@@ -198,7 +231,7 @@ not the agent, and record it again.
 - the reported numbers follow the rule.
 
 ## Stage 9: CLI and the offline loop · K · `[ ]` 🔴
-- [ ] `init`, `id`, `propose`, `submit` (with guards and typecheck), `verify`, `status`,
+- [ ] `init`, `id`, `propose`, `submit` (with guards and typecheck), `bench`, `verify`, `status`,
   `check`, `tree`, `graveyard`, `show`, `digest`, `export`
 - [ ] Guards (ARCHITECTURE §6.9) and the scratch typecheck; failures become `void` changes
 

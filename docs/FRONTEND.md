@@ -46,8 +46,9 @@ must never reach the browser.
 
 | Web route (server) | Proxies to | Mock mode (no `HELLGATE_HUB` set) |
 |---|---|---|
-| `GET /api/export` | hub `GET /v1/export` | returns `web/mock/export.sample.json` |
-| `GET /api/version` | hub `GET /v1/version` | returns a constant |
+| `GET /api/trees` | hub `GET /v1/trees` | returns `web/mock/trees.sample.json` |
+| `GET /api/export?tree=<name>` | hub `GET /v1/trees/<name>/export` | `export.sample.json` (tree `coding-agent`) or `export.ml.sample.json` (tree `optimizer`) |
+| `GET /api/version?tree=<name>` | hub `GET /v1/trees/<name>/version` | returns a constant |
 | `POST /api/jobs` | hub `POST /v1/jobs` with `Authorization: Bearer $HELLGATE_HUB_TOKEN` | returns a fake job id |
 | `GET /api/jobs/[id]/events` | hub `GET /v1/jobs/:id/events` (stream passthrough) | replays `web/mock/job-events.sample.json`, waiting `delayMs` between events |
 | `GET /api/jobs/current` | hub `GET /v1/jobs/current` | `204` |
@@ -72,6 +73,10 @@ A real example is `web/mock/export.sample.json`. The fields that matter most:
 | `changes[].effectBp`, `ciLowBp`, `ciHighBp` | The verdict's effect and its 95% interval, in basis points. `null` while pending or void. |
 | `changes[].claim` | The hypothesis, what would falsify it, the area and the motif |
 | `changes[].claimed.effectBp` | What the **author** measured on their own. Show it as "claimed", next to the verified number. The gap between the two is the story. |
+| `domain`, `suite.groups`, `changes[].perGroup` | `code` or `ml`, and the score per **use case**. Show a use-case breakdown on the change page: a small bar pair per group, parent against candidate. |
+| `changes[].scoreBp`, `changes[].vsBaseBp` | The change's verified score and its difference from the base (PROTOCOL §11.1). Positive is up, negative is down; `null` when there is no counted evidence. |
+| `changes[].slots` | Which models the change used: `["primary"]` or `["primary","secondary"]`. |
+| `models`, `base` | The configured model for each slot, and the base change every `vsBaseBp` is measured from |
 | `changes[].attestations[]` | Each verifier's measurement: `effectBp`, interval, `call`, per-run scores for both sides, spot-check, and `counted` / `why` |
 | `changes[].origin.by` | `human` · `agent` (made by the proposer model) · `challenge` (Beat the gate, with `instruction`) |
 | `changes[].mechanical` | For `void` changes, `detail` holds the exact reason it never ran |
@@ -115,6 +120,9 @@ A real example is `web/mock/export.sample.json`. The fields that matter most:
 ## 5. Pages
 
 ### 5.1 `/`: The Gate (home)
+- **Tree switcher** at the top, from `/api/trees`. Each tree is one domain (a coding agent, a
+  learning algorithm). Everything below shows the selected tree. Remember the choice in the URL
+  (`?tree=`) so links work.
 - **Hero:** the one-line pitch, plus three numbers: changes tried, through the gate, in the
   graveyard.
 - **The tree:**
@@ -125,6 +133,9 @@ A real example is `web/mock/export.sample.json`. The fields that matter most:
   - click a node to open its change page;
   - a toggle switches between "gate path only" and "everything".
 - **Score curve:** the score at each generation along the gate path (`curve`).
+- **Score vs base** (the chart judges will remember): every verified change as a dot against
+  the base line. Above the line is up (ember, ▲), below is down (grey, ▼). Hovering shows the
+  change, its `vsBaseBp` and its models. A small toggle shows only the gate path.
 - **"At the gate right now":** pending and contested changes, each with a button to run a
   verifier.
 - **CTA:** "Beat the gate →".
@@ -135,6 +146,8 @@ A real example is `web/mock/export.sample.json`. The fields that matter most:
   Author address (shortened). Origin: human, agent or challenge, with the instruction shown
   for a challenge.
 - **The claim:** the hypothesis, "False if: …", the area and motif, and the predicted effect.
+- **Score vs base:** the change's score, and ▲ or ▼ with the difference from the base, shown
+  large. A badge row shows the models it used, for example "primary: Gemini · secondary: Groq".
 - **Claimed vs verified:** the author's own number against the verified effect, side by side.
 - **Noise band chart** (the key visual):
   - a horizontal axis in points, with zero marked;
@@ -236,6 +249,8 @@ change page updates within a few seconds through live refresh, with no click nee
 
 ## 9. Done checklist
 - [ ] Every page renders from `web/mock/export.sample.json` with no console errors
+- [ ] The score-vs-base chart shows ▲/▼ correctly, including a change that is down from the base
+- [ ] The tree switcher works with both mock trees, and the use-case breakdown renders for each
 - [ ] The job panel works with `web/mock/job-events.sample.json`
 - [ ] Switching to the hub needs only `.env.local`; nothing else changes
 - [ ] Live refresh picks up a new attestation within 5 seconds

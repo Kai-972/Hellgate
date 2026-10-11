@@ -88,3 +88,30 @@ They are replaced by PIPELINE.md and removed from the root so there is one sourc
 - Teammate: pull `main`, read PIPELINE.md, then FRONTEND.md, and start the web app on the mock data.
 - Kai: Stage 1.
 **Blocked on:** nothing.
+
+### #006 · Kai · docs, web contract
+**Stage:** 0, Foundation (design change, additive)
+**Did:**
+- **Two domains.** The pipeline now supports a second kind of thing to improve besides the LLM
+  agent: **learning algorithms** (optimizer, model, preprocessing, schedule), called the `ml`
+  domain. Tasks are grouped by **use case**, and scores are reported per use case. See
+  ARCHITECTURE §5.3, PROTOCOL §12–13 and STAGES ("Recommended order of work", Stage 7M).
+- **Two models for the agent.** The agent asks for a model *slot* (`primary` = Gemini,
+  `secondary` = Groq). The orchestration (for example "the secondary model reviews the draft")
+  is part of the change and is measured like any other. ARCHITECTURE §6.6.
+- **Score against the base.** Every change carries `scoreBp` and `vsBaseBp`, so the web app can
+  show the agent's score going up or down from where it started. `hellgate bench` prints the
+  same locally. PROTOCOL §11.1.
+- **Several trees.** One hub can serve several trees. New routes `/v1/trees…`
+  (PROTOCOL §10.0).
+**Web contract changes (all additive; nothing was removed or renamed):**
+- New top-level export fields: `domain`, `base`, `suite.groups`, `models` (can be `null`).
+- New per-change fields: `scoreBp`, `vsBaseBp`, `slots`, `perGroup`; `perTask[].group`.
+- `curve` points gain `vsBaseBp`.
+- Mock data regenerated: `export.sample.json` (coding agent), a new `export.ml.sample.json`
+  (optimizer) and `trees.sample.json`. The old mock numbers changed, the shapes did not.
+- FRONTEND.md has the tree switcher, the score-vs-base chart and the use-case breakdown.
+**Found:** Building the pipeline end to end on the `ml` domain first is cheaper and safer: it
+needs no model API and has real run-to-run noise from seeds. The LLM domain then plugs in.
+**Next:** Stage 1 (core primitives).
+**Blocked on:** a Groq API key, needed only when Stage 5 starts.

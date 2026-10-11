@@ -8,5 +8,7 @@ with a ready-to-paste prompt for your coding assistant.
 
 Until the hub is running, build against the mock data:
 
-- `mock/export.sample.json`: the whole tree, in the `hellgate/export/1` shape (PROTOCOL §11)
+- `mock/trees.sample.json`: the list of trees (one per domain) for the tree switcher
+- `mock/export.sample.json`: the `coding-agent` tree (an LLM agent using two models), in the `hellgate/export/1` shape (PROTOCOL §11)
+- `mock/export.ml.sample.json`: the `optimizer` tree (a learning algorithm), same shape, with use-case groups
 - `mock/job-events.sample.json`: a recorded Beat-the-gate job's event stream (PROTOCOL §10.1)
