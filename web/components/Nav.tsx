@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 function NavInner() {
   const pathname = usePathname();
@@ -9,6 +9,11 @@ function NavInner() {
   const tree = searchParams.get('tree') ?? '';
   const treeParam = tree ? `?tree=${tree}` : '';
 
+  // The seed and reset buttons only make sense on the mock data; with a real hub they would mislead.
+  const [mockMode, setMockMode] = useState(false);
+  useEffect(() => {
+    fetch('/api/demo/seed').then((r) => r.json()).then((d) => setMockMode(d?.demoMode === true)).catch(() => setMockMode(false));
+  }, []);
   const [seeding, setSeeding] = useState(false);
   const [seedNotice, setSeedNotice] = useState<string | null>(null);
 
@@ -80,6 +85,8 @@ function NavInner() {
         })}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        {mockMode && (
+          <>
         <button
           id="seed-demo-btn"
           onClick={() => handleSeed('seed')}
@@ -105,6 +112,8 @@ function NavInner() {
         >
           ↺ Reset
         </button>
+          </>
+        )}
         {seedNotice && (
           <span style={{ fontSize: '11px', color: 'var(--ember)', fontFamily: 'var(--font-mono)' }}>
             {seedNotice}

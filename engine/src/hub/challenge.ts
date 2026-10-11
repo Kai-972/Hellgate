@@ -82,6 +82,9 @@ export async function challengeJob(job: Job, options: ChallengeOptions): Promise
       hypothesis: `Adding this instruction to the agent's rules will make it write better code: "${instruction}"`,
       falsifiedIf: 'Both verifiers measure an effect below +3 points.',
       area: 'prompt', motif, predictedEffectBp: 300,
+      // The graveyard rule asks for a reason when an area has only failures. Every challenge is a visitor's own idea,
+      // so it is allowed through, and the reason says so.
+      whyThisTime: 'A visitor proposed this instruction through Beat the gate; it is judged on its own wording.',
     },
     origin: { by: 'challenge', model: null, promptHash: null, instruction },
     env: options.env ?? process.env,

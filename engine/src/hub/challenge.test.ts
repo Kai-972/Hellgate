@@ -94,6 +94,18 @@ test('a challenge streams through the hub and is judged like any other change', 
     assert.match(tree.buildFiles(row.body.build)['agent/instructions.ts']!, /Always return the empty string/);
     assert.equal(row.attestations.length, 2);
 
+    // after several rejected ideas in the same area, a new visitor's idea is still measured, not refused by the graveyard rule
+    for (const more of ['Name every variable clearly and keep functions short.', 'Prefer simple loops over clever one-liners in every function.', 'Add a short comment above each branch explaining why it exists.']) {
+      const r = await start({ kind: 'challenge', instruction: more });
+      assert.equal(r.status, 202);
+      await (await fetch(`${url}/v1/jobs/${((await r.json()) as any).job}/events`)).text();
+    }
+    const dead = tree.snapshot().changes.filter((c) => c.body.claim.area === 'prompt' && c.verdict.status === 'rejected').length;
+    assert.ok(dead >= 3, `at least three rejected prompt changes before the next challenge (${dead})`);
+    const fifth = await start({ kind: 'challenge', instruction: 'Return early for empty input, before any other work.' });
+    const fifthEnd = (await (await fetch(`${url}/v1/jobs/${((await fifth.json()) as any).job}/events`)).text()).split('\n\n').filter(Boolean).pop()!;
+    assert.match(fifthEnd, /"status":"rejected"/, 'measured and judged, not stopped as void');
+
     // the same instruction again is answered from the ledger and spends nothing
     const before = calls;
     const again = await start({ kind: 'challenge', instruction: `  ${instruction}  ` });
