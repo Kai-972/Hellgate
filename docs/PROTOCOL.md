@@ -434,6 +434,12 @@ This is the only input of the web app. It is display output, so it is never hash
 
 ### 11.1 Score against the base
 
+- Fields that depend on evidence can be `null`: `base` is `null` for a tree with no genesis change;
+  `base.scoreBp` is `null` until the genesis change has a counted attestation; a change's `effectBp`,
+  `ciLowBp`, `ciHighBp` are `null` when nothing is counted, and its `scoreBp` and `vsBaseBp` are `null`
+  for a `void` change or one with no counted attestation. `perTask` and `perGroup` are `[]` then.
+- A verifier's `label` is its address shortened (`GAWQ…TKTC`); the engine knows no names.
+
 - `base` is the change that every `vsBaseBp` is measured from. It is the genesis change unless
   the tree's config names another.
 - `scoreBp` of a change is the mean of its task means, averaged over the **counted**

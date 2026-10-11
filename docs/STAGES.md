@@ -251,10 +251,10 @@ effect) and the cosine decay −5. Adam beats plain SGD on the badly-scaled use 
 - mismatched attestations ignored;
 - the reported numbers follow the rule.
 
-## Stage 9: CLI and the offline loop · K · `[ ]` 🔴
-- [ ] `init`, `id`, `propose`, `submit` (with guards and typecheck), `bench`, `verify`, `status`,
-  `check`, `tree`, `graveyard`, `show`, `digest`, `export`
-- [ ] Guards (ARCHITECTURE §6.9) and the scratch typecheck; failures become `void` changes
+## Stage 9: CLI and the offline loop · K · `[x]` 🔴
+- [x] `init`, `id`, `propose`, `submit` (with guards and typecheck), `bench`, `verify`, `status`,
+  `check`, `tree`, `graveyard`, `show`, `digest`, `export` (for the `ml` domain; `code` waits for Stage 5)
+- [x] Guards (ARCHITECTURE §6.9) and the scratch typecheck; failures become `void` changes
 
 **Gate:** on a temporary tree, three keys run `submit → verify → verify → check` offline,
 using a recording, and reach the expected verdict. `export` matches PROTOCOL §11.

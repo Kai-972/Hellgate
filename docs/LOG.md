@@ -291,3 +291,28 @@ the first real baseline score. Then the CLI.
 **Tests:** 148 pass (one slow test is skipped by default), and `HELLGATE_SLOW=1` re-measures all six scenarios against the table (82 s).
 **Next:** Stage 9, the CLI: `init`, `keygen`, `bench`, `propose`, `record`, `verify`, `check`, `status`.
 **Blocked on:** nothing.
+
+### #014 · Kai · CLI and the offline loop
+**Stage:** 9, CLI and the offline loop (done for the `ml` domain; the `code` domain waits for Stage 5)
+**Did:**
+- `engine/src/propose/guards.ts`: build guards (paths, at most 2 files and 120 changed lines, frozen
+  contract and exact entry signature, relative sibling imports only), the falsifiability and graveyard
+  rules, and a TypeScript check on a scratch copy.
+- `engine/src/app/`: the tree (verdicts and the gate path derived from the ledger), `init`, `propose`,
+  `submit`, `verify`, a cached author-side measurement, and the text reports.
+- `engine/src/export/`: the `hellgate/export/1` document and a unified diff.
+- `engine/src/cli/main.ts`: `init id propose submit bench verify status check tree graveyard show digest export`.
+**Found:**
+- **The gate passes through the real CLI.** Three keys: init, verify twice, genesis accepted; a
+  standardise change submitted, verified twice, accepted; a reworded no-op rejected as NO_EFFECT; a
+  lazy verifier with a different digest contests a change (RESULTS_MISMATCH); `check` exits 0, 1, 2.
+- **The export has exactly the fields of the mock** the web app is built against; a test compares
+  the key sets of every level, so the two cannot drift apart unnoticed.
+- A bug the first run hid: the CLI read the repository location from the real environment instead of
+  its injected one, so the "small repository" tests silently used the full 12-task suite and took 150 s.
+  They now take 25 s.
+- Guards store a bad proposal as a `void` change with the verbatim reason: forbidden import,
+  type error with the compiler's own line, a changed contract, too many files, an unfalsifiable claim.
+**Tests:** 152 pass. Typecheck is silent.
+**Next:** Stage 10, the hub: `serve`, `push`/`pull`, jobs with live events. That is the real data for the web app.
+**Blocked on:** nothing.

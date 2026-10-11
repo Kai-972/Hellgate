@@ -620,11 +620,11 @@ Environment variables: `GEMINI_API_KEY`, `GROQ_API_KEY`, `HELLGATE_HOME`, `HELLG
 
 | Command | What it does |
 |---|---|
-| `hellgate init --domain code\|ml` | Create the tree, pin the suite, add the genesis change from the build directory |
+| `hellgate init --domain code\|ml [--name N] [--runs N]` | Create the tree, pin the suite, add the genesis change from the build directory (`ml` today; `code` after the gateway) |
 | `--root <dir>` (any command) | Which tree to use: a folder holding `.hellgate/`. Defaults to the current folder. |
 | `hellgate id create \| show` | Your key and Stellar address |
-| `hellgate propose [--parent]` | A workspace with the parent build, ready to edit |
-| `hellgate submit --claim … --falsified-if … --area … --predict …` | Guards, typecheck, record, sign, push |
+| `hellgate propose [--parent C] [--into DIR]` | A workspace with the parent build, ready to edit |
+| `hellgate submit --from DIR --hypothesis … --falsified-if … --area … --motif … --predict POINTS` | Guards, typecheck, measure as author, sign, store. A guard failure is stored as a `void` change with the verbatim reason. |
 | `hellgate bench [<change>] [--vs <change>] [--runs N] [--live]` | Run a build on the suite and print its score **against its base**, with ▲/▼, per-task changes and a trend. Signs nothing, publishes nothing. |
 | `hellgate verify <change>` | Paired measurement, then sign and push an attestation |
 | `hellgate status [<change>] [--why]` | Verdict, code, reason, and what was ignored |
