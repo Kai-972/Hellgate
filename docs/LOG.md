@@ -186,3 +186,26 @@ keys", never "independent people"; log each session here and keep your row in PR
 the engine, PROTOCOL.md and the mock files together.
 **Next:** Frontend: app shell, tree switcher and the home page on mock data (checkpoint C1).
 **Blocked on:** nothing.
+
+### #010 · Frontend teammate · complete web app implementation & verification
+**Stage:** 12, web app (complete)
+**Did:**
+- Built full Next.js (App Router) + TypeScript + Tailwind CSS application in `web/` conforming to `docs/FRONTEND.md`.
+- Implemented all server API routes: `/api/trees`, `/api/export`, `/api/version`, `/api/jobs`, `/api/jobs/current`, and `/api/jobs/[id]/events` (SSE streaming with mock delay replay).
+- Created all 6 pages:
+  - `/` (The Gate): Tree switcher with `?tree=` param sync, hero statistics, interactive SVG change tree, score curve chart across generations, score vs base scatter plot with ▲/▼ coloring and gate-path filter, pending changes list, and Beat the Gate CTA.
+  - `/change/[id]`: Receipt view with status badge, verified score, large score vs base delta, model slot badges, claimed vs verified side-by-side gap, Noise Band chart with ±3.0 pt shaded noise zone and 95% CI bars, per-run dots (5 parent vs 5 candidate with median line), use-case breakdown bars, sortable per-task table, attestation cards, unified diff block, and live verifier trigger.
+  - `/graveyard`: Epitaph cards for all rejected and void changes, filterable by area and cause of death with claimed vs measured comparisons.
+  - `/beat-the-gate`: 280-character instruction input with character counter, example prompt chips, SSE-driven live progress stepper, task grid, log tail, and verdict receipt link.
+  - `/verifiers`: Signing keys table with addresses, attestation counts, counted runs, flags, and Stellar account links.
+  - `/how-it-works`: 4 illustrated steps, honest limits, and proposal digest monospace block.
+- Implemented all SVG charts by hand without heavy dependencies (`ChangeTree`, `ScoreCurve`, `ScoreVsBase`, `NoiseBand`, `PerRunDots`, `UseCaseBreakdown`).
+- Tested with both `coding-agent` and `optimizer` (ML) mock datasets, handling null models and distinct wording ("recorded real answers replayed through the real tests" vs "re-ran the training").
+- Verified production build (`npm run build`) passing with 0 errors and tested end-to-end via headless browser.
+**Found:**
+- Next.js Turbopack strict type checking required explicit index signature on `Models` interface.
+- Route handlers with `204 No Content` require standard web `Response` with `force-dynamic` export.
+**Tests:** Production build succeeds (`next build`), all pages and charts render cleanly with 0 console errors.
+**Next:** Checkpoint C4: integration with live hub when engine arrives.
+**Blocked on:** nothing.
+

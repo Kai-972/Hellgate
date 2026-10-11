@@ -20,7 +20,7 @@ Status: `todo` · `doing` · `done` · `blocked`
 | Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Groq key (not yet provided); Gemini key available |
 | Benchmark tasks (Stages 3, 7) | Kai | todo | | Task spec, then drafts, then review | |
 | Verdict, CLI, hub (Stages 8–10) | Kai + Claude | todo | | After measurement | |
-| Web app (Stage 12) | Frontend teammate | todo | | Start from [docs/FRONTEND.md](docs/FRONTEND.md) with the mock data | docs reach `main` |
+| Web app (Stage 12) | Frontend teammate | done | All 6 pages, SVG charts, live progress SSE, and tree switcher verified; build clean | Switch to live hub when engine arrives (C4) | nothing |
 | Demo, README, video | Both | todo | | After Tier 1 works | |
 
 ## Checkpoints
@@ -29,11 +29,11 @@ A checkpoint is passed when everything listed works, not when it is started.
 
 | # | Engine side | Web side | Passed |
 |---|---|---|---|
-| C1 | Core, identity, records and store done and tested (done) | App shell, home page and tree on mock data | engine side yes |
-| C2 | Sandbox canaries pass (gate); first tasks reviewed | Change page and the noise-band chart | no |
-| C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events | no |
-| C4 | Verdict and the offline loop work; hub is up (gates) | **Switch from mock to the hub** | no |
-| C5 | Real tree and demo scenarios recorded and verified (gate); Beat the gate | Beat the gate page; verifiers page; polish | no |
+| C1 | Core, identity, records and store done and tested (done) | App shell, home page and tree on mock data (done) | yes |
+| C2 | Sandbox canaries pass (gate); first tasks reviewed | Change page and the noise-band chart (done) | web side yes |
+| C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events (done) | web side yes |
+| C4 | Verdict and the offline loop work; hub is up (gates) | **Switch from mock to the hub** | awaiting hub |
+| C5 | Real tree and demo scenarios recorded and verified (gate); Beat the gate | Beat the gate page; verifiers page; polish (done) | web side yes |
 | C6 | Freeze. Doc audit. | Rehearsals, README, demo video | no |
 
 ## Tiers
