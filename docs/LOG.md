@@ -434,3 +434,12 @@ Please pull before you push, and run with `HELLGATE_HUB=http://127.0.0.1:8787`.
    drift from what is built), then the README screenshots and the demo video.
 **Next:** a pass on whatever the browser run turns up; live spot-checks only if time is left.
 **Blocked on:** a Gemini key with quota, for the live Beat the gate demo.
+
+### #019 · Kai · the plain-language guide
+**Did:** [GUIDE.md](GUIDE.md): the problem, what `ml` and `code` are, how a change is judged, what "benchmark"
+means here (no model leaderboard; each score is the share of one tree's hidden tests, compared with the parent
+and the baseline), the site page by page, and every label and verdict code.
+**For Pritam:** the home page assumes the reader already knows all of this. Add a short plain explanation near
+the top of `/` (what Hellgate is, in two sentences), a legend for the node shapes, and a one-line description
+under each tree name in the switcher ("ml: improving a learning algorithm", "code: improving an AI that writes
+code"), taken from GUIDE §3 and §6.
