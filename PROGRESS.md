@@ -22,7 +22,7 @@ Status: `todo` · `doing` · `done` · `blocked`
 | Beat the gate (Stage 14) | Kai + Claude | doing | Engine side done: `challenge` jobs on the hub, tested | The web form (Pritam) | the web app |
 | Benchmark tasks (Stages 3, 7, 7M) | Kai | doing | 3 coding pilot tasks and all 12 ML tasks written; reference solutions pass | Kai reviews every `cases.mjs` and `data.mjs`; then the task spec for the free-tier agents (13 more coding tasks) | |
 | CLI and hub (Stages 9–10) | Kai + Claude | done | CLI, hub, push/pull, live job events; both real trees; `pnpm hub:demo` starts the hub with the demo keys | Stage 13 spot-checks, Stage 15 evolve | |
-| Web app (Stage 12) | Frontend teammate | doing | Building against the real hub | Everything the engine offers is ready: [docs/UI-PROMPT.md](docs/UI-PROMPT.md) and [docs/FRONTEND.md](docs/FRONTEND.md) | |
+| Web app (Stage 12) | Frontend teammate | done on mock data | All 6 pages, SVG charts, live progress, tree switcher; production build clean | Switch from mock to the live hub (`pnpm hub:demo`, both trees); wire Beat the gate to `/v1/trees/code/jobs` | |
 | Demo, README, video | Both | todo | | After Tier 1 works | |
 
 ## Checkpoints
@@ -31,11 +31,11 @@ A checkpoint is passed when everything listed works, not when it is started.
 
 | # | Engine side | Web side | Passed |
 |---|---|---|---|
-| C1 | Core, identity, records and store done and tested (done) | App shell, home page and tree on mock data | engine side yes |
-| C2 | Sandbox canaries pass (gate, passed); first tasks reviewed (waiting on Kai) | Change page and the noise-band chart | engine side: canaries yes, review pending |
-| C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events | engine side yes |
-| C4 | Verdict and the offline loop work; hub is up (gates) | **Switch from mock to the hub** | no |
-| C5 | Real tree and demo scenarios recorded and verified (gate); Beat the gate | Beat the gate page; verifiers page; polish | no |
+| C1 | Core, identity, records and store done and tested (done) | App shell, home page and tree on mock data (done) | yes |
+| C2 | Sandbox canaries pass (gate, passed); first tasks reviewed (waiting on Kai) | Change page and the noise-band chart (done) | engine side: canaries yes, review pending |
+| C3 | Gemini gateway works live; baseline recorded and in the target band (gates) | Graveyard page and the live progress panel on mock events (done) | yes |
+| C4 | Verdict and the offline loop work; hub is up (gates) — engine side done | **Switch from mock to the hub** | engine side yes; awaiting the switch |
+| C5 | Real tree and demo scenarios recorded and verified (gate); Beat the gate | Beat the gate page; verifiers page; polish (done on mock) | engine side in progress |
 | C6 | Freeze. Doc audit. | Rehearsals, README, demo video | no |
 
 ## Tiers
