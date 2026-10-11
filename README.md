@@ -38,6 +38,7 @@ What is built is tracked in [docs/STAGES.md](docs/STAGES.md).
 - [Protocol](docs/PROTOCOL.md): records, hashing, signing, scoring and the verdict rule
 - [For judges](docs/JUDGES.md): what is built, how a change is judged, and the honest limits
 - [Demo runbook](docs/DEMO.md): setup, the script, and what to do when something fails
+- [Testing](docs/TESTING.md): the automated tests, a smoke test, trust checks you can run yourself, and a live end-to-end run
 - [Stages](docs/STAGES.md): the build plan and its status
 - [Progress](PROGRESS.md): the current state at a glance
 - [Frontend](docs/FRONTEND.md): the web app brief
