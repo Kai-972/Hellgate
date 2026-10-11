@@ -1,0 +1,23 @@
+﻿name: evalgate
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  quality-gate:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: evalgate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run evalgate compare
+        run: |
+          npx -y @royalpinto007/evalgate@latest compare configs/coding-agent.suite.yaml --base baselines/coding-agent.baseline.json --tolerance 0.01 --comment true --md evalgate-report.md

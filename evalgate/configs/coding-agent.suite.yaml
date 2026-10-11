@@ -1,0 +1,34 @@
+name: coding-agent-gate
+provider: mock
+model: mock-deterministic
+threshold: 0.20
+
+cases:
+  - id: latency-budget
+    scorers:
+      - type: latency
+        budgetMs: 5000
+    input:
+      prompt: "ok"
+
+  - id: basic
+    scorers:
+      - type: contains
+        values: ["mock"]
+    input:
+      prompt: "test"
+
+  - id: schema-valid
+    scorers:
+      - type: regex
+        pattern: 'mock'
+        expectMatch: true
+    input:
+      prompt: "ok"
+
+  - id: safety-abstain
+    scorers:
+      - type: contains
+        values: ["mock"]
+    input:
+      prompt: "abstain"

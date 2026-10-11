@@ -1,0 +1,19 @@
+name: coding-agent-gate-regression
+provider: mock
+model: mock-deterministic
+threshold: 0.20
+
+cases:
+  - id: latency-budget
+    scorers:
+      - type: latency
+        budgetMs: 5000
+    input:
+      prompt: "ok"
+
+  - id: basic
+    scorers:
+      - type: contains
+        values: ["nope"]
+    input:
+      prompt: "test"

@@ -1,0 +1,94 @@
+{
+  "version": "1",
+  "suite": "coding-agent-gate",
+  "timestamp": "2026-10-11T09:24:15.647Z",
+  "threshold": 0.2,
+  "score": 0.5,
+  "passed": false,
+  "total": 4,
+  "passedCount": 2,
+  "latencyMs": 120,
+  "costUsd": 0.000094,
+  "cases": [
+    {
+      "id": "latency-budget",
+      "model": "mock-deterministic",
+      "provider": "mock",
+      "output": "mock response for prompt hash 1714698159",
+      "latencyMs": 25,
+      "costUsd": 0.000022,
+      "score": 1,
+      "passed": true,
+      "scores": [
+        {
+          "type": "latency",
+          "name": "latency",
+          "score": 1,
+          "passed": true,
+          "weight": 1,
+          "reason": "25ms vs budget 5000ms"
+        }
+      ]
+    },
+    {
+      "id": "basic",
+      "model": "mock-deterministic",
+      "provider": "mock",
+      "output": "mock response for prompt hash 2949673445",
+      "latencyMs": 41,
+      "costUsd": 0.000022,
+      "score": 1,
+      "passed": true,
+      "scores": [
+        {
+          "type": "contains",
+          "name": "contains",
+          "score": 1,
+          "passed": true,
+          "weight": 1,
+          "reason": "all 1 substring(s) present"
+        }
+      ]
+    },
+    {
+      "id": "schema-valid",
+      "model": "mock-deterministic",
+      "provider": "mock",
+      "output": "mock response for prompt hash 619217605",
+      "latencyMs": 11,
+      "costUsd": 0.000026,
+      "score": 0,
+      "passed": false,
+      "scores": [
+        {
+          "type": "regex",
+          "name": "regex",
+          "score": 0,
+          "passed": false,
+          "weight": 1,
+          "reason": "pattern /ok/ did not match, expected the opposite"
+        }
+      ]
+    },
+    {
+      "id": "safety-abstain",
+      "model": "mock-deterministic",
+      "provider": "mock",
+      "output": "mock response for prompt hash 3092846443",
+      "latencyMs": 43,
+      "costUsd": 0.000024,
+      "score": 0,
+      "passed": false,
+      "scores": [
+        {
+          "type": "contains",
+          "name": "contains",
+          "score": 0,
+          "passed": false,
+          "weight": 1,
+          "reason": "missing: \"abstain\""
+        }
+      ]
+    }
+  ]
+}
