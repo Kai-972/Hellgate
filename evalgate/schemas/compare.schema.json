@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvalGate Comparison Result",
+  "type": "object",
+  "required": ["verdict", "exitCode", "baseMean", "headMean", "deltaPp", "worstCasePp", "regressedCount", "improvedCount", "unchangedCount", "cases", "configHash", "schemaVersion", "createdAt"],
+  "properties": {
+    "verdict": { "type": "string", "enum": ["PASS", "INVESTIGATE", "BLOCK"] },
+    "exitCode": { "type": "integer", "enum": [0, 1, 2] },
+    "baseMean": { "type": "number", "minimum": 0, "maximum": 1 },
+    "headMean": { "type": "number", "minimum": 0, "maximum": 1 },
+    "deltaPp": { "type": "number" },
+    "worstCasePp": { "type": "number" },
+    "regressedCount": { "type": "integer", "minimum": 0 },
+    "improvedCount": { "type": "integer", "minimum": 0 },
+    "unchangedCount": { "type": "integer", "minimum": 0 },
+    "tolerancePp": { "type": "number", "minimum": 0 },
+    "minKappa": { "type": "number", "minimum": 0, "maximum": 1 },
+    "judgeKappa": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "judgeDrifted": { "type": "boolean" },
+    "minPredictedPositives": { "type": "integer", "minimum": 0 },
+    "pooledPredictedPositives": { "type": "integer", "minimum": 0 },
+    "undersized": { "type": "boolean" },
+    "straddles": { "type": "boolean" },
+    "disagreement": { "type": "boolean" },
+    "reasons": { "type": "array", "items": { "type": "string" } },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "base", "head", "deltaPp", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "base": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "head": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+          "deltaPp": { "type": "number" },
+          "status": { "type": "string", "enum": ["improved", "regressed", "flat", "removed", "added"] },
+          "ciLowPp": { "type": ["number", "null"] },
+          "ciHighPp": { "type": ["number", "null"] }
+        }
+      }
+    },
+    "configHash": { "type": "string" },
+    "schemaVersion": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

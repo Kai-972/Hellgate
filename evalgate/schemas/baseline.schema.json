@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvalGate Baseline",
+  "type": "object",
+  "required": ["name", "meanScore", "cases", "configHash", "schemaVersion", "createdAt"],
+  "properties": {
+    "name": { "type": "string" },
+    "meanScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "score"],
+        "properties": {
+          "id": { "type": "string" },
+          "score": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "configHash": { "type": "string" },
+    "schemaVersion": { "type": "string" },
+    "createdAt": { "type": "string", "format": "date-time" }
+  }
+}

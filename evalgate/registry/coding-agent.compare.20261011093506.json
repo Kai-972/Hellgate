@@ -1,0 +1,27 @@
+{
+  "verdict": "INVESTIGATE",
+  "exitCode": 2,
+  "baseMean": 0.0,
+  "headMean": 0.0,
+  "deltaPp": 0.0,
+  "worstCasePp": 0.0,
+  "regressedCount": 0,
+  "improvedCount": 0,
+  "unchangedCount": 0,
+  "tolerancePp": 100.0,
+  "minKappa": 0.7,
+  "judgeKappa": null,
+  "judgeDrifted": false,
+  "minPredictedPositives": 40,
+  "pooledPredictedPositives": 0,
+  "undersized": true,
+  "straddles": false,
+  "disagreement": false,
+  "reasons": [
+    "Undersized denominator 0 < 40"
+  ],
+  "cases": [],
+  "configHash": "ae21a86700e9f7746fca7bc4303d7255908c4760a85071b7d7594db92e60e93e",
+  "schemaVersion": "1.0.0",
+  "createdAt": "2026-10-11T09:35:06Z"
+}
