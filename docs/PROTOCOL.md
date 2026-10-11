@@ -261,9 +261,10 @@ resultsDigest = id({ "type": "results",
    recording and from the live run.
 4. `ok = recordedBp − liveBp ≤ policy.spotCheckToleranceBp`.
 
-## 9. The verdict: `decide(change, attestations, policy)`
+## 9. The verdict: `decide(change, attestations, policy, context)`
 
-This is a pure function. Steps run in order, and the first one that returns wins.
+This is a pure function. `context` carries the tree's `domain` and, if it has one, its sealed
+commitment. Steps run in order, and the first one that returns wins.
 
 1. **Void.** `change.mechanical.status != "ok"` → `void`, with the mechanical status as
    the code.
@@ -276,17 +277,20 @@ This is a pure function. Steps run in order, and the first one that returns wins
      `sealed-mismatch`).
 3. **Equivocation.** Group the kept attestations by signer.
    - If a signer has several attestations with the **same** `call`, keep the one with
-     the lowest `effectBp`.
+     the lowest `effectBp` (ties go to the lower id); the rest are ignored as `duplicate`.
    - If their calls **differ**, drop all of that signer's attestations as
      `equivocation`.
 
    The survivors are the **counted** set, with one per key.
 4. **Unclean.** If any counted attestation has `clean = false` → `rejected`
    `NOT_CLEAN`.
-5. **Reproducibility.**
-   - If counted replay attestations disagree on `resultsDigest` → `contested`
+5. **Reproducibility.** A counted attestation is *comparable* when its mode is `replay`, or when
+   the tree's domain is `ml`. (An `ml` verifier re-runs the training for real and training is
+   deterministic, so its digest must match. A `live` run against a model is not reproducible digest
+   for digest.)
+   - If comparable attestations disagree on `resultsDigest` → `contested`
      `RESULTS_MISMATCH`.
-   - If at least `minVerifiers` counted replay attestations share a digest that differs
+   - If at least `minVerifiers` comparable attestations share a digest that differs
      from `change.claimed.resultsDigest` → `rejected` `UNREPRODUCIBLE`.
    - If at least 2 counted attestations have `spotCheck.ok = false` → `rejected`
      `UNREPRODUCIBLE`.

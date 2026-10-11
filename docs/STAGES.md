@@ -202,11 +202,11 @@ flag, the environment scrub, the `assert` copy, the exit-code check, the nonce c
 **Gate:** a live smoke test, one real task, **on each provider**, records and then replays to
 an identical result.
 
-## Stage 6: Measurement · K · `[ ]`
-- [ ] Runner: R runs, seeded order (PROTOCOL §6), per-case scoring (PROTOCOL §7)
-- [ ] Paired effect, bootstrap interval, call (PROTOCOL §8)
-- [ ] Results digest
-- [ ] Score against the base: a build's score, and its difference from the base build (PROTOCOL §11.1)
+## Stage 6: Measurement · K · `[x]`
+- [x] Runner: R runs, seeded order (PROTOCOL §6), per-case scoring (PROTOCOL §7)
+- [x] Paired effect, bootstrap interval, call (PROTOCOL §8)
+- [x] Results digest
+- [x] Score against the base: a build's score, and its difference from the base build (PROTOCOL §11.1)
 
 **Tests:**
 - frozen vectors for seeds, order and the bootstrap on synthetic data;
@@ -235,8 +235,8 @@ not the agent, and record it again.
 2-core laptop, and Adam beats plain SGD on the badly-scaled use case. If the baseline is outside
 the band, tune the tasks, not the learner.
 
-## Stage 8: The verdict · K · `[ ]`
-- [ ] `decide()`, exactly as PROTOCOL §9, as a pure function
+## Stage 8: The verdict · K · `[x]`
+- [x] `decide()`, exactly as PROTOCOL §9, as a pure function
 
 **Tests:**
 - one test per verdict row;

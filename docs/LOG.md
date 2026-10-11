@@ -241,3 +241,27 @@ the engine, PROTOCOL.md and the mock files together.
 **Next:** Stage 6, measurement: the runner over R runs with seeded order, per-case scoring, the paired
 effect, the bootstrap interval, the results digest and the score against the base build.
 **Blocked on:** Kai's review of the pilot task files (not blocking the engine).
+
+### #012 · Kai · engine, measurement and verdict
+**Stage:** 6, Measurement, and 8, The verdict (both done)
+**Did:**
+- `engine/src/measure/`: exact integer arithmetic (floor division, half-up mean), the task-resampling
+  bootstrap and the call, the batch runner (seeded order, lanes, infrastructure retries, events for
+  the live progress panel), the comparison with the results digest, and the score against the base.
+- `engine/src/verdict/decide.ts`: the pure verdict, one code path for the CLI, the hub, the export
+  and CI.
+- PROTOCOL §9 now says which digests are compared: replay attestations, and every attestation in
+  an `ml` tree (an ml verifier really re-runs the training, so its digest must match).
+**Found:**
+- **Independent check.** Scores, task means, differences, effect, interval (at 2,000 and at 200
+  resamples) and the results digest were computed by a second implementation written in Python from
+  the spec alone, in both directions (so negative differences and half-up rounding on negatives are
+  covered). The TypeScript matches on every number.
+- The spec said replay digests are compared, but an `ml` tree has no replays, so as written no `ml`
+  digest would ever have been checked. The verdict now takes the tree's domain.
+- A gain needs every counted verifier to report a gain. A test with a third verifier at +0.5 points
+  showed the spread rule fires first (as designed), so the "not a majority" test uses a close one.
+**Tests:** 141 pass. Typecheck is silent.
+**Next:** Stage 7M: the genesis learner (a small neural network with plain SGD), the full ml suite, and
+the first real baseline score. Then the CLI.
+**Blocked on:** nothing.
