@@ -116,7 +116,8 @@ Tasks are sorted by `id`, and `files` covers every file in the task directory, i
              "motif": "kebab-case, ≤ 40 chars", "predictedEffectBp": "non-zero int",
              "contradicts": [ { "change": "Hex64", "why": "≤ 300 chars" } ],
              "whyThisTime": "string | null" },
-  "origin": { "by": "human|agent", "model": "string | null", "promptHash": "Hex64 | null" },
+  "origin": { "by": "human|agent|challenge", "model": "string | null", "promptHash": "Hex64 | null",
+              "instruction": "string | null" },
   "mechanical": { "status": "ok|bad-path|too-large|frozen-file|bad-signature|bad-import|graveyard-rule|unfalsifiable|typecheck|crash",
                   "detail": "≤ 4000 chars, verbatim tool output" },
   "recording": "Hex64 | null",
@@ -126,6 +127,8 @@ Tasks are sorted by `id`, and `files` covers every file in the task directory, i
 
 - `mechanical.status != "ok"` ⇒ `recording` and `claimed` are `null`, and the verdict is
   `void`.
+- `origin.by = "challenge"` marks a change made with Beat the gate. `instruction` holds the
+  visitor's text, at most 280 characters. For every other origin it is `null`.
 - `claimed` is the author's own measurement. It is displayed and compared (§9 step 5),
   but **never counted** as evidence for acceptance.
 
@@ -148,7 +151,8 @@ Tasks are sorted by `id`, and `files` covers every file in the task directory, i
 ```
 
 - `spotCheck` is `null` in `live` mode, where everything was already live.
-- `sealed` is `null` when the tree has no sealed suite.
+- `sealed` is `null` when the tree has no sealed suite. The sealed suite is a later stage;
+  until then it is always `null`.
 - `clean` is `false` if any run in the batch was tampered with or discarded, or if a
   replay request was missing from the recording.
 
@@ -302,6 +306,42 @@ The hub validates every posted record as in §4. Change and attestation records 
 reference records the hub already holds (builds, recordings and changes). The size limit
 is 8 MB per record.
 
+### 10.1 Jobs
+
+Jobs spend model calls, so they need the header `Authorization: Bearer <HELLGATE_HUB_TOKEN>`.
+Only the web app's server holds the token. Jobs run one at a time; a second request while
+one is running gets `409` with the running job's id.
+
+| Method and path | Request | Response |
+|---|---|---|
+| `POST /v1/jobs` | `{ "kind": "verify", "change": Hex64, "as": "bot-1" \| "bot-2" }` | `202 { "job": "<id>" }` |
+| `POST /v1/jobs` | `{ "kind": "challenge", "instruction": "≤ 280 chars", "parent": Hex64 \| null }` | `202 { "job": "<id>" }` |
+| `GET /v1/jobs/<id>` | | `{ "job", "kind", "state": "queued\|running\|done\|failed", "result": {...} \| null, "error": string \| null }` |
+| `GET /v1/jobs/<id>/events` | | `text/event-stream` (below) |
+| `GET /v1/jobs/current` | | the running job, or `204` |
+
+- `as` names one of the hub's demo verifier keys, configured with
+  `HELLGATE_BOT_1_SECRET` and `HELLGATE_BOT_2_SECRET`. A bot never verifies a change it
+  authored.
+- A `challenge` job:
+  1. builds the change on `parent` (default: the best accepted tip) by appending
+     `instruction` to the agent's instruction list as a JSON-quoted string;
+  2. signs it with the hub's author key (`HELLGATE_SECRET`);
+  3. records a live run;
+  4. then runs `verify` as `bot-1` and as `bot-2`.
+
+**Event stream.** Each event is `event: <type>` followed by `data: <JSON>`:
+
+| Event type | Data |
+|---|---|
+| `stage` | `{ "stage": "guards\|typecheck\|record\|verify\|spot-check\|sign\|push", "as": string \| null }` |
+| `progress` | `{ "side": "parent\|candidate", "run": 0, "runs": 5, "task": "id", "done": 12, "of": 80, "passedCases": 7, "cases": 10 }` |
+| `attestation` | `{ "id": Hex64, "signer": Addr, "call": "gain\|loss\|noise", "effectBp": 0, "ciLowBp": 0, "ciHighBp": 0 }` |
+| `change` | `{ "id": Hex64, "status": "...", "code": "..." }` (also sent at the end of a challenge) |
+| `log` | `{ "line": "plain text" }` |
+| `done` | `{ "result": { "change": Hex64, "status": "...", "code": "...", "reason": "..." } }` |
+| `error` | `{ "message": "plain text" }` |
+
 ## 11. Export document `hellgate/export/1`
 
 This is the only input of the web app. It is display output, so it is never hashed.
@@ -311,7 +351,7 @@ This is the only input of the web app. It is display output, so it is never hash
   "protocol": "hellgate/export/1",
   "tree": "string",
   "suite": { "id": "Hex64", "tasks": 16, "cases": 160 },
-  "sealed": { "id": "Hex64", "tasks": 6 },
+  "sealed": null,
   "models": { "agent": "string", "proposer": "string" },
   "policy": { "...": "..." },
   "totals": { "changes": 0, "accepted": 0, "rejected": 0, "pending": 0,
@@ -389,6 +429,9 @@ export interface Answer {
 // export async function solve(task: TaskBrief, kit: Kit): Promise<Answer>
 ```
 
+- The agent keeps the instructions it sends to the model in `agent/instructions.ts`, as
+  `export const RULES: string[] = [ ... ]`. Beat the gate appends one JSON-quoted string to
+  that array and changes nothing else, so a visitor's text can never become code.
 - The `seed` is added by the parent; the agent cannot set it.
 - `tag` is not part of the request key, so renaming a call site does not invalidate a
   recording.
@@ -397,7 +440,7 @@ export interface Answer {
 
 ## 13. Task format
 
-`suites/<public|sealed>/<task-id>/`:
+`suites/public/<task-id>/` (a later stage adds `suites/sealed/`, which is never committed):
 
 `task.json`:
 

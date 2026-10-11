@@ -1,0 +1,1308 @@
+{
+  "protocol": "hellgate/export/1",
+  "tree": "coding-agent",
+  "suite": {
+    "id": "f8ebd43dbef1f029bf4930c65c9b7c5cc76af476927cee861ff18fcc73bfc4ab",
+    "tasks": 16,
+    "cases": 160
+  },
+  "sealed": null,
+  "models": {
+    "agent": "gemini-3.1-flash-lite",
+    "proposer": "gemini-3.5-flash"
+  },
+  "policy": {
+    "minVerifiers": 2,
+    "runs": 5,
+    "minEffectBp": 300,
+    "bootstrap": 2000,
+    "maxVerifierSpanBp": 600,
+    "spotCheckTasks": 3,
+    "spotCheckToleranceBp": 2500,
+    "allowedVerifiers": []
+  },
+  "totals": {
+    "changes": 7,
+    "accepted": 2,
+    "rejected": 2,
+    "pending": 1,
+    "contested": 1,
+    "void": 1
+  },
+  "gatePath": [
+    "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+    "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6"
+  ],
+  "curve": [
+    {
+      "change": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+      "depth": 0,
+      "scoreBp": 4900
+    },
+    {
+      "change": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "depth": 1,
+      "scoreBp": 7238
+    }
+  ],
+  "changes": [
+    {
+      "id": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+      "parent": "genesis",
+      "depth": 0,
+      "status": "accepted",
+      "code": "GAIN",
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +47.8 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 4780,
+      "ciLowBp": 4080,
+      "ciHighBp": 5460,
+      "claim": {
+        "hypothesis": "A single model call with a short instruction list solves a meaningful share of the suite, which makes it a fair baseline to improve on.",
+        "falsifiedIf": "The baseline scores below 10% or above 80% on the public suite.",
+        "area": "other",
+        "motif": "baseline",
+        "predictedEffectBp": 4000,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 4980,
+        "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- /dev/null\n+++ agent/instructions.ts\n@@ -0,0 +1,5 @@\n+export const RULES: string[] = [\n+  'You are a careful JavaScript programmer.',\n+  'Reply with one fenced code block and nothing else.',\n+];\n",
+      "perTask": [
+        {
+          "task": "base64url",
+          "parentBp": 0,
+          "candidateBp": 4400
+        },
+        {
+          "task": "case-convert",
+          "parentBp": 0,
+          "candidateBp": 5300
+        },
+        {
+          "task": "flatten-object",
+          "parentBp": 0,
+          "candidateBp": 7100
+        },
+        {
+          "task": "group-by",
+          "parentBp": 0,
+          "candidateBp": 4500
+        },
+        {
+          "task": "iso-week",
+          "parentBp": 0,
+          "candidateBp": 4400
+        },
+        {
+          "task": "ipv4-parse",
+          "parentBp": 0,
+          "candidateBp": 4900
+        },
+        {
+          "task": "levenshtein",
+          "parentBp": 0,
+          "candidateBp": 5500
+        },
+        {
+          "task": "luhn-check",
+          "parentBp": 0,
+          "candidateBp": 2300
+        },
+        {
+          "task": "matrix-spiral",
+          "parentBp": 0,
+          "candidateBp": 2200
+        },
+        {
+          "task": "money-format",
+          "parentBp": 0,
+          "candidateBp": 7300
+        },
+        {
+          "task": "parse-duration",
+          "parentBp": 0,
+          "candidateBp": 4900
+        },
+        {
+          "task": "query-string",
+          "parentBp": 0,
+          "candidateBp": 4600
+        },
+        {
+          "task": "retry-schedule",
+          "parentBp": 0,
+          "candidateBp": 5900
+        },
+        {
+          "task": "slugify",
+          "parentBp": 0,
+          "candidateBp": 5700
+        },
+        {
+          "task": "text-table",
+          "parentBp": 0,
+          "candidateBp": 7200
+        },
+        {
+          "task": "token-bucket",
+          "parentBp": 0,
+          "candidateBp": 2200
+        }
+      ],
+      "attestations": [
+        {
+          "id": "6087d710cbec0b71e3c416f891175f45b52ea00514a32f9d9f263d7e083c8566",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 4780,
+          "ciLowBp": 4080,
+          "ciHighBp": 5460,
+          "parentRunsBp": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "candidateRunsBp": [
+            4925,
+            5064,
+            5105,
+            5005,
+            4974
+          ],
+          "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81",
+          "spotCheck": {
+            "tasks": [
+              "case-convert",
+              "money-format",
+              "levenshtein"
+            ],
+            "recordedBp": 4900,
+            "liveBp": 4437,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "8f7e38e31d4ea1cde7c08b84eb3c195b19771f7f3ac93685d92a02570502f434",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 4900,
+          "ciLowBp": 4200,
+          "ciHighBp": 5550,
+          "parentRunsBp": [
+            84,
+            128,
+            65,
+            82,
+            0
+          ],
+          "candidateRunsBp": [
+            4969,
+            4657,
+            5075,
+            4920,
+            4682
+          ],
+          "resultsDigest": "4e7949bdfbd5c764fb33552237cbef2b4db07a0cc0ea623bee4af2669fcefb81",
+          "spotCheck": {
+            "tasks": [
+              "case-convert",
+              "base64url",
+              "group-by"
+            ],
+            "recordedBp": 4900,
+            "liveBp": 4653,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 21400,
+        "parentMedian": 0
+      }
+    },
+    {
+      "id": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "parent": "8dad0b3a2e0b2e2cba7e4442e67055d3e87a3e209ab69ce9d271ca18c668dd5e",
+      "depth": 1,
+      "status": "accepted",
+      "code": "GAIN",
+      "reason": "2 verifier keys, every one measured a gain. Smallest effect +25.4 points, 95% interval above zero. Distinct keys are not proof of distinct people.",
+      "effectBp": 2544,
+      "ciLowBp": 1844,
+      "ciHighBp": 3244,
+      "claim": {
+        "hypothesis": "Showing the model the exact function signatures and one worked example of the reply format will raise the score, because most failures are wrong argument order and unparseable replies.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "prompt",
+        "motif": "signatures-and-example",
+        "predictedEffectBp": 2000,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 2800,
+        "resultsDigest": "a6e63de108f49dfc247259e2994828efb1f33200a6fdcf6ac8e525499f753bdc"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- agent/prompt.ts\n+++ agent/prompt.ts\n@@ -12,7 +12,11 @@\n-  parts.push(`It must export: ${task.api.map((a) => a.name).join(', ')}.`);\n+  parts.push('It must export exactly these signatures:');\n+  for (const a of task.api) parts.push(`  ${a.signature}`);\n+  parts.push('Example reply:');\n+  parts.push('```js\\nexport function add(a, b) {\\n  return a + b;\\n}\\n```');\n",
+      "perTask": [
+        {
+          "task": "base64url",
+          "parentBp": 7300,
+          "candidateBp": 9100
+        },
+        {
+          "task": "case-convert",
+          "parentBp": 6200,
+          "candidateBp": 8600
+        },
+        {
+          "task": "flatten-object",
+          "parentBp": 6000,
+          "candidateBp": 9000
+        },
+        {
+          "task": "group-by",
+          "parentBp": 4000,
+          "candidateBp": 6800
+        },
+        {
+          "task": "iso-week",
+          "parentBp": 4300,
+          "candidateBp": 7400
+        },
+        {
+          "task": "ipv4-parse",
+          "parentBp": 4800,
+          "candidateBp": 7600
+        },
+        {
+          "task": "levenshtein",
+          "parentBp": 2400,
+          "candidateBp": 5500
+        },
+        {
+          "task": "luhn-check",
+          "parentBp": 3100,
+          "candidateBp": 5800
+        },
+        {
+          "task": "matrix-spiral",
+          "parentBp": 4700,
+          "candidateBp": 7300
+        },
+        {
+          "task": "money-format",
+          "parentBp": 6900,
+          "candidateBp": 10000
+        },
+        {
+          "task": "parse-duration",
+          "parentBp": 3100,
+          "candidateBp": 6300
+        },
+        {
+          "task": "query-string",
+          "parentBp": 4500,
+          "candidateBp": 6900
+        },
+        {
+          "task": "retry-schedule",
+          "parentBp": 4300,
+          "candidateBp": 7100
+        },
+        {
+          "task": "slugify",
+          "parentBp": 4800,
+          "candidateBp": 6600
+        },
+        {
+          "task": "text-table",
+          "parentBp": 3000,
+          "candidateBp": 5900
+        },
+        {
+          "task": "token-bucket",
+          "parentBp": 3300,
+          "candidateBp": 5900
+        }
+      ],
+      "attestations": [
+        {
+          "id": "d28c87059421369718129b77e55d364c8b525ebbb8a187728e25978e7600ac53",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 2544,
+          "ciLowBp": 1844,
+          "ciHighBp": 3244,
+          "parentRunsBp": [
+            4349,
+            4727,
+            4442,
+            4491,
+            4328
+          ],
+          "candidateRunsBp": [
+            7478,
+            6996,
+            7421,
+            7338,
+            6988
+          ],
+          "resultsDigest": "a6e63de108f49dfc247259e2994828efb1f33200a6fdcf6ac8e525499f753bdc",
+          "spotCheck": {
+            "tasks": [
+              "levenshtein",
+              "group-by",
+              "base64url"
+            ],
+            "recordedBp": 7238,
+            "liveBp": 6757,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "8312cebabb95d8f50223b9da4000109b3188588e1bf03705c86b045f93f46366",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 2694,
+          "ciLowBp": 1994,
+          "ciHighBp": 3394,
+          "parentRunsBp": [
+            4486,
+            4656,
+            4497,
+            4508,
+            4331
+          ],
+          "candidateRunsBp": [
+            7277,
+            7310,
+            7089,
+            7386,
+            7333
+          ],
+          "resultsDigest": "a6e63de108f49dfc247259e2994828efb1f33200a6fdcf6ac8e525499f753bdc",
+          "spotCheck": {
+            "tasks": [
+              "matrix-spiral",
+              "ipv4-parse",
+              "case-convert"
+            ],
+            "recordedBp": 7238,
+            "liveBp": 6920,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 26900,
+        "parentMedian": 21400
+      }
+    },
+    {
+      "id": "c79b13c8eb63728ba13a189a793c3bb26580fbc9d6f7b7c2fff274e24d487bc5",
+      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "depth": 2,
+      "status": "rejected",
+      "code": "NO_EFFECT",
+      "reason": "Effects of -0.3 and -1.1 points sit inside the noise: the 95% intervals include zero. A tie, not a regression. Kept so nobody retries it.",
+      "effectBp": -110,
+      "ciLowBp": -440,
+      "ciHighBp": 370,
+      "claim": {
+        "hypothesis": "Rewording the instructions to sound more careful and concise will raise the score, because it felt clearly better on the three tasks I tried by hand.",
+        "falsifiedIf": "The verifiers' 95% interval includes zero.",
+        "area": "prompt",
+        "motif": "careful-wording",
+        "predictedEffectBp": 900,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 920,
+        "resultsDigest": "a388772a9b01df587ad1fc749567a4cb11af7831b394adde16e808acff0bfe62"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- agent/instructions.ts\n+++ agent/instructions.ts\n@@ -1,4 +1,4 @@\n-  'You are a careful JavaScript programmer.',\n+  'You are an extremely careful, precise and concise senior JavaScript engineer.',\n",
+      "perTask": [
+        {
+          "task": "base64url",
+          "parentBp": 7500,
+          "candidateBp": 6700
+        },
+        {
+          "task": "case-convert",
+          "parentBp": 8100,
+          "candidateBp": 8900
+        },
+        {
+          "task": "flatten-object",
+          "parentBp": 5700,
+          "candidateBp": 5200
+        },
+        {
+          "task": "group-by",
+          "parentBp": 6800,
+          "candidateBp": 7400
+        },
+        {
+          "task": "iso-week",
+          "parentBp": 5600,
+          "candidateBp": 4800
+        },
+        {
+          "task": "ipv4-parse",
+          "parentBp": 5200,
+          "candidateBp": 5400
+        },
+        {
+          "task": "levenshtein",
+          "parentBp": 8700,
+          "candidateBp": 8300
+        },
+        {
+          "task": "luhn-check",
+          "parentBp": 9300,
+          "candidateBp": 8900
+        },
+        {
+          "task": "matrix-spiral",
+          "parentBp": 8400,
+          "candidateBp": 8600
+        },
+        {
+          "task": "money-format",
+          "parentBp": 6300,
+          "candidateBp": 7000
+        },
+        {
+          "task": "parse-duration",
+          "parentBp": 5800,
+          "candidateBp": 5900
+        },
+        {
+          "task": "query-string",
+          "parentBp": 7900,
+          "candidateBp": 7300
+        },
+        {
+          "task": "retry-schedule",
+          "parentBp": 8000,
+          "candidateBp": 8100
+        },
+        {
+          "task": "slugify",
+          "parentBp": 6500,
+          "candidateBp": 5700
+        },
+        {
+          "task": "text-table",
+          "parentBp": 6900,
+          "candidateBp": 7900
+        },
+        {
+          "task": "token-bucket",
+          "parentBp": 9600,
+          "candidateBp": 9400
+        }
+      ],
+      "attestations": [
+        {
+          "id": "24714bfe3802834da286b3ba608c0bdb1c102dc61c89c761ea9ca7616430e0d1",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "noise",
+          "effectBp": -30,
+          "ciLowBp": -360,
+          "ciHighBp": 370,
+          "parentRunsBp": [
+            7472,
+            7029,
+            7126,
+            7114,
+            7220
+          ],
+          "candidateRunsBp": [
+            7406,
+            7277,
+            7297,
+            7264,
+            7020
+          ],
+          "resultsDigest": "a388772a9b01df587ad1fc749567a4cb11af7831b394adde16e808acff0bfe62",
+          "spotCheck": {
+            "tasks": [
+              "case-convert",
+              "flatten-object",
+              "group-by"
+            ],
+            "recordedBp": 7219,
+            "liveBp": 6767,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "38c13a651513674a081fff3f47f40574c7f3211e0b826239d2b458ff406c4b03",
+          "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "noise",
+          "effectBp": -110,
+          "ciLowBp": -440,
+          "ciHighBp": 290,
+          "parentRunsBp": [
+            7151,
+            7023,
+            7414,
+            7331,
+            7187
+          ],
+          "candidateRunsBp": [
+            7394,
+            7120,
+            7166,
+            7006,
+            7007
+          ],
+          "resultsDigest": "a388772a9b01df587ad1fc749567a4cb11af7831b394adde16e808acff0bfe62",
+          "spotCheck": {
+            "tasks": [
+              "flatten-object",
+              "group-by",
+              "money-format"
+            ],
+            "recordedBp": 7219,
+            "liveBp": 6971,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 27300,
+        "parentMedian": 26900
+      }
+    },
+    {
+      "id": "fe3452408c9211813bce6e0575c8a5953b9a05f3991fc3b196bc0e3e20335d08",
+      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "depth": 2,
+      "status": "rejected",
+      "code": "REGRESSION",
+      "reason": "2 verifier keys, every one measured a loss. Best effect -16.7 points. The change makes the agent worse.",
+      "effectBp": -1666,
+      "ciLowBp": -2060,
+      "ciHighBp": -770,
+      "claim": {
+        "hypothesis": "Dropping the reply-format rule will save tokens without losing score, because the model already answers with a code block.",
+        "falsifiedIf": "The score falls by more than 3 points.",
+        "area": "prompt",
+        "motif": "drop-format-rule",
+        "predictedEffectBp": -100,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": -200,
+        "resultsDigest": "8ced1d14fac43aa7e7ddecb7ad8922aed36a09afa1439eb1c8ddf24c166dbfcf"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- agent/instructions.ts\n+++ agent/instructions.ts\n@@ -2,3 +2,2 @@\n-  'Reply with one fenced code block and nothing else.',\n",
+      "perTask": [
+        {
+          "task": "base64url",
+          "parentBp": 4900,
+          "candidateBp": 3800
+        },
+        {
+          "task": "case-convert",
+          "parentBp": 7800,
+          "candidateBp": 6200
+        },
+        {
+          "task": "flatten-object",
+          "parentBp": 8400,
+          "candidateBp": 6300
+        },
+        {
+          "task": "group-by",
+          "parentBp": 9500,
+          "candidateBp": 8100
+        },
+        {
+          "task": "iso-week",
+          "parentBp": 9400,
+          "candidateBp": 7300
+        },
+        {
+          "task": "ipv4-parse",
+          "parentBp": 7900,
+          "candidateBp": 5900
+        },
+        {
+          "task": "levenshtein",
+          "parentBp": 6000,
+          "candidateBp": 4300
+        },
+        {
+          "task": "luhn-check",
+          "parentBp": 6600,
+          "candidateBp": 5900
+        },
+        {
+          "task": "matrix-spiral",
+          "parentBp": 9700,
+          "candidateBp": 7800
+        },
+        {
+          "task": "money-format",
+          "parentBp": 6300,
+          "candidateBp": 4200
+        },
+        {
+          "task": "parse-duration",
+          "parentBp": 9300,
+          "candidateBp": 7300
+        },
+        {
+          "task": "query-string",
+          "parentBp": 7900,
+          "candidateBp": 6500
+        },
+        {
+          "task": "retry-schedule",
+          "parentBp": 9700,
+          "candidateBp": 7500
+        },
+        {
+          "task": "slugify",
+          "parentBp": 8200,
+          "candidateBp": 5900
+        },
+        {
+          "task": "text-table",
+          "parentBp": 5600,
+          "candidateBp": 3400
+        },
+        {
+          "task": "token-bucket",
+          "parentBp": 5100,
+          "candidateBp": 3800
+        }
+      ],
+      "attestations": [
+        {
+          "id": "c4d75b68ec949d01d76569f15c770439f48d5d1e324751a308aebe1f200b110f",
+          "signer": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "loss",
+          "effectBp": -1666,
+          "ciLowBp": -2060,
+          "ciHighBp": -770,
+          "parentRunsBp": [
+            7886,
+            7524,
+            7516,
+            7772,
+            7754
+          ],
+          "candidateRunsBp": [
+            5838,
+            5769,
+            5853,
+            6059,
+            6101
+          ],
+          "resultsDigest": "8ced1d14fac43aa7e7ddecb7ad8922aed36a09afa1439eb1c8ddf24c166dbfcf",
+          "spotCheck": {
+            "tasks": [
+              "token-bucket",
+              "iso-week",
+              "matrix-spiral"
+            ],
+            "recordedBp": 5888,
+            "liveBp": 5709,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "214dfccb3aec2873832ede630f879e42c321ff7a667f6e6f7ac64af43df84184",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "loss",
+          "effectBp": -1756,
+          "ciLowBp": -2150,
+          "ciHighBp": -860,
+          "parentRunsBp": [
+            7869,
+            7762,
+            7894,
+            7429,
+            7458
+          ],
+          "candidateRunsBp": [
+            5754,
+            5883,
+            5924,
+            5972,
+            6074
+          ],
+          "resultsDigest": "8ced1d14fac43aa7e7ddecb7ad8922aed36a09afa1439eb1c8ddf24c166dbfcf",
+          "spotCheck": {
+            "tasks": [
+              "flatten-object",
+              "iso-week",
+              "group-by"
+            ],
+            "recordedBp": 5888,
+            "liveBp": 5680,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 19800,
+        "parentMedian": 26900
+      }
+    },
+    {
+      "id": "c462350e3d71ff3377ea9e9e627ca63aa5fd4fae7ba5441f2ae7b810ed99e26c",
+      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "depth": 2,
+      "status": "void",
+      "code": "bad-import",
+      "reason": "agent/loop.ts imports node:fs. An agent may import only its own sibling files, so this change never ran.",
+      "effectBp": null,
+      "ciLowBp": null,
+      "ciHighBp": null,
+      "claim": {
+        "hypothesis": "Reading the task's test file before answering will raise the score to nearly 100%, because the model can then match the expected outputs.",
+        "falsifiedIf": "The score does not rise.",
+        "area": "context",
+        "motif": "read-the-tests",
+        "predictedEffectBp": 6000,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "human",
+        "model": null,
+        "promptHash": null,
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "bad-import",
+        "detail": "agent/loop.ts:3  import { readFileSync } from 'node:fs';\nAgents may import only relative sibling files under agent/. Even without this guard, the agent process can only read its own jail, and the tests are never in it."
+      },
+      "claimed": null,
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- agent/loop.ts\n+++ agent/loop.ts\n@@ -1,3 +1,5 @@\n+import { readFileSync } from 'node:fs';\n+const tests = readFileSync(`../suites/public/${task.id}/cases.mjs`, 'utf8');\n",
+      "perTask": [],
+      "attestations": [],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 0,
+        "parentMedian": 26900
+      }
+    },
+    {
+      "id": "b8a772f252f858772d50c3310ee950b8693a9d288d09da61e15021058c03f0e1",
+      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "depth": 2,
+      "status": "pending",
+      "code": "NEEDS_VERIFIERS",
+      "reason": "1 of 2 verifier keys so far. The author's own runs never count.",
+      "effectBp": null,
+      "ciLowBp": null,
+      "ciHighBp": null,
+      "claim": {
+        "hypothesis": "Taking the last code block of the reply instead of the first will raise the score, because the model sometimes shows a wrong draft before the final answer.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "parsing",
+        "motif": "last-code-block",
+        "predictedEffectBp": 500,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "agent",
+        "model": "gemini-3.5-flash",
+        "promptHash": "f8211b52cd3ba22933f85b51e7779cff3831cc0cf666b77d30d36a4ffe5c1896",
+        "instruction": null
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 700,
+        "resultsDigest": "56ae2aa6e73b2fc332b15d1a4925a7f7fcc87b09fbfb68edd8fa8bba2c4f752f"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- agent/loop.ts\n+++ agent/loop.ts\n@@ -20,1 +20,1 @@\n-  const code = blocks[0] ?? reply.text;\n+  const code = blocks.at(-1) ?? reply.text;\n",
+      "perTask": [
+        {
+          "task": "base64url",
+          "parentBp": 5400,
+          "candidateBp": 6100
+        },
+        {
+          "task": "case-convert",
+          "parentBp": 5300,
+          "candidateBp": 6500
+        },
+        {
+          "task": "flatten-object",
+          "parentBp": 7300,
+          "candidateBp": 7700
+        },
+        {
+          "task": "group-by",
+          "parentBp": 5900,
+          "candidateBp": 5800
+        },
+        {
+          "task": "iso-week",
+          "parentBp": 5400,
+          "candidateBp": 6100
+        },
+        {
+          "task": "ipv4-parse",
+          "parentBp": 9200,
+          "candidateBp": 9700
+        },
+        {
+          "task": "levenshtein",
+          "parentBp": 5100,
+          "candidateBp": 6400
+        },
+        {
+          "task": "luhn-check",
+          "parentBp": 5800,
+          "candidateBp": 7200
+        },
+        {
+          "task": "matrix-spiral",
+          "parentBp": 7500,
+          "candidateBp": 8000
+        },
+        {
+          "task": "money-format",
+          "parentBp": 5400,
+          "candidateBp": 6600
+        },
+        {
+          "task": "parse-duration",
+          "parentBp": 8600,
+          "candidateBp": 8500
+        },
+        {
+          "task": "query-string",
+          "parentBp": 8200,
+          "candidateBp": 9600
+        },
+        {
+          "task": "retry-schedule",
+          "parentBp": 5000,
+          "candidateBp": 6500
+        },
+        {
+          "task": "slugify",
+          "parentBp": 8800,
+          "candidateBp": 9700
+        },
+        {
+          "task": "text-table",
+          "parentBp": 4900,
+          "candidateBp": 5900
+        },
+        {
+          "task": "token-bucket",
+          "parentBp": 7900,
+          "candidateBp": 8400
+        }
+      ],
+      "attestations": [
+        {
+          "id": "28b5ccba79dce0fac337f72b1390a358a6d2de15d6f61c345ca95878375e075b",
+          "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 812,
+          "ciLowBp": 112,
+          "ciHighBp": 1512,
+          "parentRunsBp": [
+            6654,
+            6362,
+            6667,
+            6392,
+            6397
+          ],
+          "candidateRunsBp": [
+            7215,
+            7496,
+            7228,
+            7300,
+            7619
+          ],
+          "resultsDigest": "56ae2aa6e73b2fc332b15d1a4925a7f7fcc87b09fbfb68edd8fa8bba2c4f752f",
+          "spotCheck": {
+            "tasks": [
+              "slugify",
+              "query-string",
+              "ipv4-parse"
+            ],
+            "recordedBp": 7419,
+            "liveBp": 7022,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 27100,
+        "parentMedian": 26900
+      }
+    },
+    {
+      "id": "63c47e2dbac466b5e249afe3374251b8610e8ac325124589b81f982b7851b231",
+      "parent": "a7956dd7e7f03fb25c1460ae33c60a7cd843fbc760b2c04d59bbc74b6804b8b6",
+      "depth": 2,
+      "status": "contested",
+      "code": "RESULTS_MISMATCH",
+      "reason": "The verifiers replayed the same recording but report different per-case results. A replay is deterministic, so at least one of them did not really run it.",
+      "effectBp": 812,
+      "ciLowBp": 112,
+      "ciHighBp": 1512,
+      "claim": {
+        "hypothesis": "Telling the model to validate every argument and throw a TypeError on bad input will raise the score, because many cases test invalid input.",
+        "falsifiedIf": "Both verifiers measure an effect below +3 points.",
+        "area": "prompt",
+        "motif": "validate-inputs",
+        "predictedEffectBp": 800,
+        "contradicts": [],
+        "whyThisTime": null
+      },
+      "origin": {
+        "by": "challenge",
+        "model": null,
+        "promptHash": null,
+        "instruction": "Validate every argument and throw a TypeError on bad input."
+      },
+      "mechanical": {
+        "status": "ok",
+        "detail": ""
+      },
+      "claimed": {
+        "runs": 5,
+        "effectBp": 950,
+        "resultsDigest": "49ac0f4f32bb295c5d8d5a5c04822e4e402ea787c034c71df1a320fc6b3d5dbc"
+      },
+      "author": "GAVWUPWBW7JDKPRL433E7523XZS23XRMG4KAVW7NAUPD64YFG6RL2OCW",
+      "createdAt": "2026-01-01T00:00:00Z",
+      "diff": "--- agent/instructions.ts\n+++ agent/instructions.ts\n@@ -3,1 +3,2 @@\n   'Reply with one fenced code block and nothing else.',\n+  \"Validate every argument and throw a TypeError on bad input.\",\n",
+      "perTask": [
+        {
+          "task": "base64url",
+          "parentBp": 9500,
+          "candidateBp": 10000
+        },
+        {
+          "task": "case-convert",
+          "parentBp": 8300,
+          "candidateBp": 9200
+        },
+        {
+          "task": "flatten-object",
+          "parentBp": 9200,
+          "candidateBp": 9400
+        },
+        {
+          "task": "group-by",
+          "parentBp": 9000,
+          "candidateBp": 10000
+        },
+        {
+          "task": "iso-week",
+          "parentBp": 9000,
+          "candidateBp": 9100
+        },
+        {
+          "task": "ipv4-parse",
+          "parentBp": 7300,
+          "candidateBp": 8500
+        },
+        {
+          "task": "levenshtein",
+          "parentBp": 5500,
+          "candidateBp": 6500
+        },
+        {
+          "task": "luhn-check",
+          "parentBp": 4900,
+          "candidateBp": 5400
+        },
+        {
+          "task": "matrix-spiral",
+          "parentBp": 5700,
+          "candidateBp": 6700
+        },
+        {
+          "task": "money-format",
+          "parentBp": 8700,
+          "candidateBp": 9200
+        },
+        {
+          "task": "parse-duration",
+          "parentBp": 4800,
+          "candidateBp": 5600
+        },
+        {
+          "task": "query-string",
+          "parentBp": 7200,
+          "candidateBp": 7500
+        },
+        {
+          "task": "retry-schedule",
+          "parentBp": 6400,
+          "candidateBp": 7500
+        },
+        {
+          "task": "slugify",
+          "parentBp": 6100,
+          "candidateBp": 7600
+        },
+        {
+          "task": "text-table",
+          "parentBp": 7500,
+          "candidateBp": 8900
+        },
+        {
+          "task": "token-bucket",
+          "parentBp": 8400,
+          "candidateBp": 9400
+        }
+      ],
+      "attestations": [
+        {
+          "id": "84a33e186b9fc7de8a0c9745203102c1e8403b096469756e4a2bb408ec19be89",
+          "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 812,
+          "ciLowBp": 112,
+          "ciHighBp": 1512,
+          "parentRunsBp": [
+            7550,
+            7217,
+            7261,
+            7301,
+            7434
+          ],
+          "candidateRunsBp": [
+            8034,
+            8007,
+            8230,
+            8126,
+            8317
+          ],
+          "resultsDigest": "49ac0f4f32bb295c5d8d5a5c04822e4e402ea787c034c71df1a320fc6b3d5dbc",
+          "spotCheck": {
+            "tasks": [
+              "levenshtein",
+              "text-table",
+              "group-by"
+            ],
+            "recordedBp": 8156,
+            "liveBp": 7763,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        },
+        {
+          "id": "53403d9e9a5377934474893c05514c5ca9461e1f6fe409864c90ecfda789876c",
+          "signer": "GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5",
+          "counted": true,
+          "why": null,
+          "mode": "replay",
+          "call": "gain",
+          "effectBp": 812,
+          "ciLowBp": 112,
+          "ciHighBp": 1512,
+          "parentRunsBp": [
+            7206,
+            7392,
+            7565,
+            7256,
+            7201
+          ],
+          "candidateRunsBp": [
+            7975,
+            7974,
+            8160,
+            8085,
+            8334
+          ],
+          "resultsDigest": "2eddd110bcf0a84b7cbe13eab23990859e88b4b23f219668a6854df69cb29f87",
+          "spotCheck": {
+            "tasks": [
+              "case-convert",
+              "query-string",
+              "token-bucket"
+            ],
+            "recordedBp": 8156,
+            "liveBp": 7873,
+            "ok": true
+          },
+          "sealed": null,
+          "receipt": null
+        }
+      ],
+      "receipt": null,
+      "tokens": {
+        "candidateMedian": 28800,
+        "parentMedian": 26900
+      }
+    }
+  ],
+  "verifiers": [
+    {
+      "address": "GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV",
+      "label": "verifier-a",
+      "attestations": 4,
+      "counted": 4,
+      "flags": [],
+      "account": "https://stellar.expert/explorer/testnet/account/GAWQQ3YUOAAWSCVL4URWOK552X24NKO5UXRYD6JM2GQOQCVCH2TKTCZV"
+    },
+    {
+      "address": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+      "label": "bot-1",
+      "attestations": 4,
+      "counted": 4,
+      "flags": [],
+      "account": "https://stellar.expert/explorer/testnet/account/GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW"
+    },
+    {
+      "address": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+      "label": "bot-2",
+      "attestations": 2,
+      "counted": 2,
+      "flags": [],
+      "account": "https://stellar.expert/explorer/testnet/account/GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7"
+    },
+    {
+      "address": "GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5",
+      "label": "lazy-key",
+      "attestations": 1,
+      "counted": 1,
+      "flags": [
+        "results-mismatch"
+      ],
+      "account": "https://stellar.expert/explorer/testnet/account/GCERB4APNM4REUWQFO4675RAVYNSAF2KEZKTB2XHL6GHIHTL62M7LQC5"
+    }
+  ],
+  "digest": "# HELLGATE DIGEST  coding-agent\nsuite 16 tasks / 160 cases \u00b7 model gemini-3.1-flash-lite \u00b7 5 runs per side\n\n## GATE PATH\n0 genesis  baseline  score 49.0%\n1 a7956dd7  prompt/signatures-and-example  +25.4\n\n## GRAVEYARD\n- prompt/careful-wording  NO_EFFECT  \"Rewording the instructions to sound more careful\u2026\"\n- prompt/drop-format-rule  REGRESSION  -16.7 points\n- context/read-the-tests  VOID bad-import  never ran\n\n## NEVER TRIED\nrepair, decoding, planning, self-check, budget\n"
+}

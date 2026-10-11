@@ -1,0 +1,272 @@
+# Build stages
+
+This is the build plan. Each stage is small enough to finish, test and commit on its own.
+The design behind each stage is in [ARCHITECTURE.md](ARCHITECTURE.md), and the exact
+rules are in [PROTOCOL.md](PROTOCOL.md).
+
+## How we work
+
+For every stage, in this order:
+
+1. **Build** only what the stage lists.
+2. **Test.** `pnpm -C engine typecheck` must be silent and `pnpm -C engine test` must pass.
+   Stages marked 🔴 have a **gate**: a specific check that must pass before moving on,
+   because later stages depend on it.
+3. **Update the docs** if anything differs from the design. The docs describe the system
+   as it is, never as we wished it was.
+4. **Write a [LOG.md](LOG.md) entry:** what was done, what was found, what's next.
+5. **Commit** only when steps 2–4 are done. One stage is one or more small commits.
+6. **Tick the stage below.**
+
+If a gate fails, stop and write the failure in the log. Don't paper over it.
+
+Status keys: `[ ]` not started · `[~]` in progress · `[x]` done.
+
+Owners: **K** = Kai (engine, with Claude) · **F** = frontend (web app) · **K+F** = both.
+
+---
+
+## Who owns what
+
+Two people work in parallel. Each path has exactly one owner, so edits never collide.
+
+| Path | Owner | Notes |
+|---|---|---|
+| `engine/`, `agent/`, `suites/` | Kai (with Claude) | Includes the benchmark tasks. A task file is reviewed by Kai before it counts. |
+| `web/` | Frontend teammate | Reads data through the hub only. |
+| `docs/ARCHITECTURE.md`, `docs/PROTOCOL.md`, `docs/STAGES.md` | Kai | Teammate proposes changes in LOG.md; Kai applies them. |
+| `docs/FRONTEND.md` | Frontend teammate | Keep it matching what is built. |
+| `docs/LOG.md`, `PROGRESS.md` | Both | Append to the log. In PROGRESS.md edit only your own row. |
+| `README.md` | Frontend teammate, near the end | Must describe only what exists. |
+
+**Contracts between the two sides.** These are frozen. Change one only through a LOG.md
+entry, then Kai updates PROTOCOL.md and the mock files together.
+1. The export document: PROTOCOL §11, with `web/mock/export.sample.json`.
+2. The job event stream: PROTOCOL §10.1, with `web/mock/job-events.sample.json`.
+3. The hub's environment variables and routes: ARCHITECTURE §6.10 and FRONTEND §3.
+
+Until the hub is up (Stage 10), the web app runs on the mock files. Switching to the hub
+changes only `.env.local`.
+
+**Git rules**
+- Small commits, on `main`. Run `git pull --rebase` before every push.
+- Touch only your own paths. If you need a change elsewhere, write it in LOG.md.
+- Build and tests must pass before you push: `pnpm -C engine typecheck && pnpm -C engine test`
+  for the engine, `pnpm -C web build` for the web app.
+- Never commit keys, `.env` files or anything from a private folder.
+- Push only when the team lead says pushing is allowed.
+
+## Priorities and the cut line
+
+Time is limited, so the work is in tiers. A tier is only started when the one above it works.
+
+| Tier | Stages | What the demo has when it is done |
+|---|---|---|
+| **1: must ship** | 1–11, 12, 17 | A real tree measured with Gemini, the web app on live hub data, live verification in replay, the graveyard, and the cheating-agent block |
+| **2: the differentiators** | 14, then 13 | Beat the gate, and live spot-checks. The lazy-verifier scenario is part of Stage 11. |
+| **3: only with time left** | 16, 15, CI action, MCP tool, paid verifiers, sealed suite | Stellar receipts, the proposer model, and so on |
+
+Order of work after Stage 11: 14, 13, 16, 15.
+
+In Tier 1, the CLI needs only `init`, `submit`, `verify`, `status`, `check`, `export` and
+`serve`. The guards need only path, size, frozen-file and import checks. Everything else
+in ARCHITECTURE §6.9 and §11 can wait.
+
+Anything in the docs that is not built when we stop is removed or marked "not built" in
+Stage 17. The docs describe what exists.
+
+## Target effort per stage
+
+Targets, not promises. If a stage runs over by half again, stop and re-plan in LOG.md.
+
+| Stage | Target | Stage | Target |
+|---|---|---|---|
+| 1 Core primitives | 0.2 h | 8 Verdict | 0.3 h |
+| 2 Records and store | 0.3 h | 9 CLI offline loop | 0.6 h |
+| 3 Suite format | 0.3 h | 10 Hub | 0.5 h |
+| 4 Sandbox | 0.7 h | 11 Real tree and scenarios | 0.5 h |
+| 5 Model gateway | 0.5 h | 12 Web app | 3 h (parallel) |
+| 6 Measurement | 0.3 h | 14 Beat the gate | 0.5 h |
+| 7 Genesis agent and suite | 0.5 h | 17 Hardening | 0.5 h |
+
+The riskiest stages are 4 (sandbox), 5 (Gemini) and 7 (the baseline must land in the target
+score band). Their gates exist so a failure shows up early.
+
+---
+
+## Stage 0: Foundation · K · `[x]`
+- [x] Repository, `.gitignore` (keys and `.env` can never be committed)
+- [x] Design docs: architecture, protocol
+- [x] Stage plan, shared log, frontend brief
+- [x] Monorepo folders: `engine/`, `web/`
+
+## Stage 1: Core primitives · K · `[ ]`
+Canonical JSON, ids, errors, identity and signing.
+- [ ] `engine/src/core/`: canonical JSON, `sha256`, `idOf`, error kinds and exit codes
+- [ ] `engine/src/identity/`: Stellar-format address and secret encoding, key file
+  (create, load, permission check), `HELLGATE_SECRET`, domain-separated signing and checking
+- [ ] Workspace root: `package.json`, `pnpm-workspace.yaml`, one lockfile
+
+**Tests:**
+- frozen hash vectors;
+- key order, code-point order, refused values;
+- address and secret encoding cross-checked against the official Stellar SDK;
+- a signature breaks when the body, the type or the signer changes;
+- the key file is 0600, never overwritten, and its mode is checked on load.
+
+**Done when:** the typecheck is silent and all tests pass.
+
+## Stage 2: Records and the ledger store · K · `[ ]`
+- [ ] Zod schemas for `build`, `recording`, `change`, `attestation`, `receipt` (PROTOCOL §5)
+- [ ] Store: write a record by id, read with full checks (schema → id → signature),
+  list, and report bad files without trusting them
+- [ ] Union-merge of two record directories
+- [ ] `.hellgate/config.json` load and save, with defaults (ARCHITECTURE §10)
+
+**Tests:**
+- round trips;
+- a tampered body is caught by its id;
+- a forged signature is caught;
+- a wrong schema is caught;
+- merging is idempotent and order-independent.
+
+## Stage 3: Suite format and pilot tasks · K · `[ ]`
+- [ ] Task loader (PROTOCOL §13) and suite id (PROTOCOL §5.2)
+- [ ] `TaskBrief` built without ever reading `cases.mjs`
+- [ ] **3 pilot tasks** in `suites/public/`, each with 8–12 cases
+
+**Tests:**
+- the suite id changes when any file changes, including `cases.mjs`;
+- the brief contains nothing from `cases.mjs`.
+
+**Review:** Kai reviews every `cases.mjs`.
+
+## Stage 4: Sandbox · K · `[ ]` 🔴
+- [ ] Agent jail: Node permission model, a read grant on the jail only, IPC for the model,
+  `send` captured and removed before the agent loads, seeded `random`, frozen `Date`
+- [ ] Test runner: the cases travel over stdin, per-case results with a nonce on fd 3,
+  primitives captured first, per-case timeout, and the exit code cross-checked
+- [ ] Lanes (`HELLGATE_LANES`, default 2)
+
+**Gate:** all five canaries pass.
+1. An empty agent scores 0.
+2. An agent that reads a file outside the jail is denied.
+3. A solution that opens a test file gets `ENOENT`.
+4. Agent and solution network access are both denied.
+5. A solution that forges a result is marked `tampered`.
+
+## Stage 5: Model gateway · K · `[ ]` 🔴
+- [ ] Gemini client (ARCHITECTURE §6.6 mapping), budget, rate limiter, retries with backoff,
+  and infrastructure failures that are never scored
+- [ ] Request key (PROTOCOL §5.3), `record` and `replay` modes; a replay miss is an error
+
+**Tests:**
+- the request key is stable and ignores `tag`;
+- replay serves exactly what was recorded;
+- a miss fails loudly;
+- the budget refuses the seventh call.
+
+**Gate:** a live smoke test, one real task against Gemini, records and then replays to an
+identical result.
+
+## Stage 6: Measurement · K · `[ ]`
+- [ ] Runner: R runs, seeded order (PROTOCOL §6), per-case scoring (PROTOCOL §7)
+- [ ] Paired effect, bootstrap interval, call (PROTOCOL §8)
+- [ ] Results digest
+
+**Tests:**
+- frozen vectors for seeds, order and the bootstrap on synthetic data;
+- the same recording replayed twice gives an identical digest.
+
+## Stage 7: Genesis agent and the full suite · K · `[ ]` 🔴
+- [ ] `agent/contract.ts` (frozen), `agent/index.ts`, `agent/instructions.ts` (`RULES`),
+  and the loop: a deliberately simple single-call baseline
+- [ ] The full public suite: 16 tasks (13 more after the pilots). Kai reviews every case file.
+- [ ] Record the baseline live
+
+**Gate:** the genesis build scores **30–55%** on the suite. If it doesn't, tune the tasks,
+not the agent, and record it again.
+
+## Stage 8: The verdict · K · `[ ]`
+- [ ] `decide()`, exactly as PROTOCOL §9, as a pure function
+
+**Tests:**
+- one test per verdict row;
+- equivocation;
+- self-attestation ignored;
+- mismatched attestations ignored;
+- the reported numbers follow the rule.
+
+## Stage 9: CLI and the offline loop · K · `[ ]` 🔴
+- [ ] `init`, `id`, `propose`, `submit` (with guards and typecheck), `verify`, `status`,
+  `check`, `tree`, `graveyard`, `show`, `digest`, `export`
+- [ ] Guards (ARCHITECTURE §6.9) and the scratch typecheck; failures become `void` changes
+
+**Gate:** on a temporary tree, three keys run `submit → verify → verify → check` offline,
+using a recording, and reach the expected verdict. `export` matches PROTOCOL §11.
+
+## Stage 10: Hub · K · `[ ]` 🔴
+- [ ] `serve`: records, export (cached until the ledger changes), version
+- [ ] `push` and `pull`
+- [ ] Jobs API with server-sent events (PROTOCOL §10.1), the token, one job at a time
+
+**Gate:** two `HELLGATE_HOME`s exchange records over HTTP, and a `verify` job streams its
+events to `curl`.
+
+**Unblocks F:** the real data contract is live, and the web app can switch from mock to hub.
+
+## Stage 11: The real tree and the demo scenarios · K · `[ ]` 🔴
+- [ ] Record and submit the scenario changes (ARCHITECTURE §8): real fix, the "feels
+  better" trap, regression, cheating agent
+- [ ] Verify each with two keys
+- [ ] A `scripts/lazy-verifier` tool that signs copied numbers, for the lazy-verifier scenario
+
+**Gate:** every scenario gets its expected verdict for real, and `export` holds a tree
+worth showing.
+
+## Stage 12: Web app · F (K supports) · `[ ]`
+- [ ] Build against `web/mock/export.sample.json` first, as specified in [FRONTEND.md](FRONTEND.md)
+- [ ] Switch to the hub after Stage 10
+
+**Done when:** every page in FRONTEND.md works on live hub data, and a running job streams
+on screen.
+
+## Stage 13: Live spot-check · K · `[ ]`
+- [ ] The task sample derived from the verifier and the change (PROTOCOL §8); a live run of
+  those tasks; tolerance; the `SPOT_CHECK_FAILED` and `UNREPRODUCIBLE` paths
+
+**Tests:**
+- the sample is deterministic per verifier;
+- a doctored recording is caught.
+
+## Stage 14: Beat the gate · K+F · `[ ]` 🔴
+- [ ] `challenge` jobs: append the instruction as a quoted string, guards, a live record,
+  two bot verifications
+- [ ] Web form and live progress
+
+**Gate:** a typed instruction becomes a measured, verified change on screen, end to end.
+
+## Stage 15: Evolve · K · `[ ]`
+- [ ] The digest as text, the proposer prompt, a JSON reply with one repair turn, then the
+  shared submit path
+- [ ] `--dry-run` prints exactly what the model would receive
+
+## Stage 16: Stellar receipts · K+F · `[ ]`
+- [ ] `id fund` (Friendbot), receipts (PROTOCOL §5.6), `anchor` to backfill, receipt
+  checks, links in the web app
+
+**Gate:** a receipt opens on a block explorer and checks out against its record.
+
+## Stage 17: Demo hardening · K+F · `[ ]` 🔴
+- [ ] A fallback for every live step: a pre-run job, the replay path, and a recorded video
+- [ ] Rehearse the demo script three times end to end
+- [ ] Final README
+- [ ] **Doc audit:** every claim in the docs is true of the build. Remove or mark anything
+  that is not.
+
+**Gate:** two full rehearsals in a row with no manual fixes.
+
+## Later, if time allows
+- Paying verifiers on a final verdict (a Stellar multi-signature escrow)
+- A held-out sealed suite and the `OVERFIT` verdict
+- A GitHub Action and an MCP tool

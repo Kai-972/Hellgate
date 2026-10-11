@@ -1,0 +1,5754 @@
+{
+ "note": "A recorded example of a challenge job's event stream (PROTOCOL \u00a710.1). Replay each item after delayMs to simulate a live job.",
+ "events": [
+  {
+   "event": "log",
+   "data": {
+    "line": "challenge: \"Explain your plan in one comment line before the code.\""
+   },
+   "delayMs": 0
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "guards",
+    "as": null
+   },
+   "delayMs": 150
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "typecheck",
+    "as": null
+   },
+   "delayMs": 400
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "record",
+    "as": null
+   },
+   "delayMs": 300
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "base64url",
+    "done": 1,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 2,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 3,
+    "of": 80,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "group-by",
+    "done": 4,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 5,
+    "of": 80,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 6,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 7,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 8,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 9,
+    "of": 80,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "money-format",
+    "done": 10,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 11,
+    "of": 80,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "query-string",
+    "done": 12,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 13,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "slugify",
+    "done": 14,
+    "of": 80,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "text-table",
+    "done": 15,
+    "of": 80,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 16,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "base64url",
+    "done": 17,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 18,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 19,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "group-by",
+    "done": 20,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 21,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 22,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 23,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 24,
+    "of": 80,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 25,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "money-format",
+    "done": 26,
+    "of": 80,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 27,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "query-string",
+    "done": 28,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 29,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "slugify",
+    "done": 30,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "text-table",
+    "done": 31,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 32,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "base64url",
+    "done": 33,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 34,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 35,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "group-by",
+    "done": 36,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 37,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 38,
+    "of": 80,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 39,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 40,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 41,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "money-format",
+    "done": 42,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 43,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "query-string",
+    "done": 44,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 45,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "slugify",
+    "done": 46,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "text-table",
+    "done": 47,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 48,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "base64url",
+    "done": 49,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 50,
+    "of": 80,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 51,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "group-by",
+    "done": 52,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 53,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 54,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 55,
+    "of": 80,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 56,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 57,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "money-format",
+    "done": 58,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 59,
+    "of": 80,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "query-string",
+    "done": 60,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 61,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "slugify",
+    "done": 62,
+    "of": 80,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "text-table",
+    "done": 63,
+    "of": 80,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 64,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "base64url",
+    "done": 65,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 66,
+    "of": 80,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 67,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "group-by",
+    "done": 68,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 69,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 70,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 71,
+    "of": 80,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 72,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 73,
+    "of": 80,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "money-format",
+    "done": 74,
+    "of": 80,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 75,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "query-string",
+    "done": 76,
+    "of": 80,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 77,
+    "of": 80,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "slugify",
+    "done": 78,
+    "of": 80,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "text-table",
+    "done": 79,
+    "of": 80,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 80,
+    "of": 80,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 90
+  },
+  {
+   "event": "change",
+   "data": {
+    "id": "9f2c41e800000000000000000000000000000000000000000000000000000000",
+    "status": "pending",
+    "code": "NEEDS_VERIFIERS"
+   },
+   "delayMs": 200
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "verify",
+    "as": "bot-1"
+   },
+   "delayMs": 300
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "base64url",
+    "done": 1,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 2,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 3,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "group-by",
+    "done": 4,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 5,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 6,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 7,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 8,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 9,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "money-format",
+    "done": 10,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 11,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "query-string",
+    "done": 12,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 13,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "slugify",
+    "done": 14,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "text-table",
+    "done": 15,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 16,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "base64url",
+    "done": 17,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 18,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 19,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "group-by",
+    "done": 20,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 21,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 22,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 23,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 24,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 25,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "money-format",
+    "done": 26,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 27,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "query-string",
+    "done": 28,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 29,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "slugify",
+    "done": 30,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "text-table",
+    "done": 31,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 32,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "base64url",
+    "done": 33,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 34,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 35,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "group-by",
+    "done": 36,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 37,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 38,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 39,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 40,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 41,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "money-format",
+    "done": 42,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 43,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "query-string",
+    "done": 44,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 45,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "slugify",
+    "done": 46,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "text-table",
+    "done": 47,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 48,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "base64url",
+    "done": 49,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 50,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 51,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "group-by",
+    "done": 52,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 53,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 54,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 55,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 56,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 57,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "money-format",
+    "done": 58,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 59,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "query-string",
+    "done": 60,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 61,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "slugify",
+    "done": 62,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "text-table",
+    "done": 63,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 64,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "base64url",
+    "done": 65,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 66,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 67,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "group-by",
+    "done": 68,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 69,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 70,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 71,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 72,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 73,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "money-format",
+    "done": 74,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 75,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "query-string",
+    "done": 76,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 77,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "slugify",
+    "done": 78,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "text-table",
+    "done": 79,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 80,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "base64url",
+    "done": 81,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 82,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 83,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "group-by",
+    "done": 84,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 85,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 86,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 87,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 88,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 89,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "money-format",
+    "done": 90,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 91,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "query-string",
+    "done": 92,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 93,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "slugify",
+    "done": 94,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "text-table",
+    "done": 95,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 96,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "base64url",
+    "done": 97,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 98,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 99,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "group-by",
+    "done": 100,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 101,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 102,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 103,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 104,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 105,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "money-format",
+    "done": 106,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 107,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "query-string",
+    "done": 108,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 109,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "slugify",
+    "done": 110,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "text-table",
+    "done": 111,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 112,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "base64url",
+    "done": 113,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 114,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 115,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "group-by",
+    "done": 116,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 117,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 118,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 119,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 120,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 121,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "money-format",
+    "done": 122,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 123,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "query-string",
+    "done": 124,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 125,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "slugify",
+    "done": 126,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "text-table",
+    "done": 127,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 128,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "base64url",
+    "done": 129,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 130,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 131,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "group-by",
+    "done": 132,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 133,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 134,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 135,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 136,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 137,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "money-format",
+    "done": 138,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 139,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "query-string",
+    "done": 140,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 141,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "slugify",
+    "done": 142,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "text-table",
+    "done": 143,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 144,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "base64url",
+    "done": 145,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 146,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 147,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "group-by",
+    "done": 148,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 149,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 150,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 151,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 152,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 153,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "money-format",
+    "done": 154,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 155,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "query-string",
+    "done": 156,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 157,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "slugify",
+    "done": 158,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "text-table",
+    "done": 159,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 160,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "spot-check",
+    "as": "bot-1"
+   },
+   "delayMs": 200
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "sign",
+    "as": "bot-1"
+   },
+   "delayMs": 150
+  },
+  {
+   "event": "attestation",
+   "data": {
+    "id": "a100000000000000000000000000000000000000000000000000000000000000",
+    "signer": "GAJYJ4NDMYUSL52OVJVZGN4O2PL7G4KWPCKUK4TCKYN6COIX4ULCKPPW",
+    "call": "noise",
+    "effectBp": 140,
+    "ciLowBp": -240,
+    "ciHighBp": 550
+   },
+   "delayMs": 150
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "push",
+    "as": "bot-1"
+   },
+   "delayMs": 100
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "verify",
+    "as": "bot-2"
+   },
+   "delayMs": 300
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "base64url",
+    "done": 1,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 2,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 3,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "group-by",
+    "done": 4,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 5,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 6,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 7,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 8,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 9,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "money-format",
+    "done": 10,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 11,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "query-string",
+    "done": 12,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 13,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "slugify",
+    "done": 14,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "text-table",
+    "done": 15,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 0,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 16,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "base64url",
+    "done": 17,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 18,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 19,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "group-by",
+    "done": 20,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 21,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 22,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 23,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 24,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 25,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "money-format",
+    "done": 26,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 27,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "query-string",
+    "done": 28,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 29,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "slugify",
+    "done": 30,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "text-table",
+    "done": 31,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 1,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 32,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "base64url",
+    "done": 33,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 34,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 35,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "group-by",
+    "done": 36,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 37,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 38,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 39,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 40,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 41,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "money-format",
+    "done": 42,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 43,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "query-string",
+    "done": 44,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 45,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "slugify",
+    "done": 46,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "text-table",
+    "done": 47,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 2,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 48,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "base64url",
+    "done": 49,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 50,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 51,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "group-by",
+    "done": 52,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 53,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 54,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 55,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 56,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 57,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "money-format",
+    "done": 58,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 59,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "query-string",
+    "done": 60,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 61,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "slugify",
+    "done": 62,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "text-table",
+    "done": 63,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 3,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 64,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "base64url",
+    "done": 65,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 66,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 67,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "group-by",
+    "done": 68,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 69,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 70,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 71,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 72,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 73,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "money-format",
+    "done": 74,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 75,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "query-string",
+    "done": 76,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 77,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "slugify",
+    "done": 78,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "text-table",
+    "done": 79,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "parent",
+    "run": 4,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 80,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "base64url",
+    "done": 81,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 82,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 83,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "group-by",
+    "done": 84,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 85,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 86,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 87,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 88,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 89,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "money-format",
+    "done": 90,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 91,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "query-string",
+    "done": 92,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 93,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "slugify",
+    "done": 94,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "text-table",
+    "done": 95,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 0,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 96,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "base64url",
+    "done": 97,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 98,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 99,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "group-by",
+    "done": 100,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 101,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 102,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 103,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 104,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 105,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "money-format",
+    "done": 106,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 107,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "query-string",
+    "done": 108,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 109,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "slugify",
+    "done": 110,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "text-table",
+    "done": 111,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 1,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 112,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "base64url",
+    "done": 113,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 114,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 115,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "group-by",
+    "done": 116,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 117,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 118,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 119,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 120,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 121,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "money-format",
+    "done": 122,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 123,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "query-string",
+    "done": 124,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 125,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "slugify",
+    "done": 126,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "text-table",
+    "done": 127,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 2,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 128,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "base64url",
+    "done": 129,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 130,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 131,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "group-by",
+    "done": 132,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 133,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 134,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 135,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 136,
+    "of": 160,
+    "passedCases": 10,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 137,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "money-format",
+    "done": 138,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 139,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "query-string",
+    "done": 140,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 141,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "slugify",
+    "done": 142,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "text-table",
+    "done": 143,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 3,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 144,
+    "of": 160,
+    "passedCases": 7,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "base64url",
+    "done": 145,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "case-convert",
+    "done": 146,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "flatten-object",
+    "done": 147,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "group-by",
+    "done": 148,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "iso-week",
+    "done": 149,
+    "of": 160,
+    "passedCases": 2,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "ipv4-parse",
+    "done": 150,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "levenshtein",
+    "done": 151,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "luhn-check",
+    "done": 152,
+    "of": 160,
+    "passedCases": 5,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "matrix-spiral",
+    "done": 153,
+    "of": 160,
+    "passedCases": 3,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "money-format",
+    "done": 154,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "parse-duration",
+    "done": 155,
+    "of": 160,
+    "passedCases": 6,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "query-string",
+    "done": 156,
+    "of": 160,
+    "passedCases": 9,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "retry-schedule",
+    "done": 157,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "slugify",
+    "done": 158,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "text-table",
+    "done": 159,
+    "of": 160,
+    "passedCases": 4,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "progress",
+   "data": {
+    "side": "candidate",
+    "run": 4,
+    "runs": 5,
+    "task": "token-bucket",
+    "done": 160,
+    "of": 160,
+    "passedCases": 8,
+    "cases": 10
+   },
+   "delayMs": 25
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "spot-check",
+    "as": "bot-2"
+   },
+   "delayMs": 200
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "sign",
+    "as": "bot-2"
+   },
+   "delayMs": 150
+  },
+  {
+   "event": "attestation",
+   "data": {
+    "id": "a200000000000000000000000000000000000000000000000000000000000000",
+    "signer": "GDPCHSYYX6QXRY4R53OGOY3YIKRFG24F22XLB6N3XHF4UG5ACSXPEMZ7",
+    "call": "noise",
+    "effectBp": -60,
+    "ciLowBp": -440,
+    "ciHighBp": 350
+   },
+   "delayMs": 150
+  },
+  {
+   "event": "stage",
+   "data": {
+    "stage": "push",
+    "as": "bot-2"
+   },
+   "delayMs": 100
+  },
+  {
+   "event": "change",
+   "data": {
+    "id": "9f2c41e800000000000000000000000000000000000000000000000000000000",
+    "status": "rejected",
+    "code": "NO_EFFECT"
+   },
+   "delayMs": 150
+  },
+  {
+   "event": "done",
+   "data": {
+    "result": {
+     "change": "9f2c41e800000000000000000000000000000000000000000000000000000000",
+     "status": "rejected",
+     "code": "NO_EFFECT",
+     "reason": "Effects of +1.4 and -0.6 points sit inside the noise: the 95% intervals include zero. A tie, not a regression. Kept so nobody retries it."
+    }
+   },
+   "delayMs": 200
+  }
+ ]
+}
