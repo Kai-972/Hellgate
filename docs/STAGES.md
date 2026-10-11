@@ -269,7 +269,7 @@ events to `curl`.
 
 **Unblocks F:** the real data contract is live, and the web app can switch from mock to hub.
 
-## Stage 11: The real tree and the demo scenarios · K · `[ ]` 🔴
+## Stage 11: The real tree and the demo scenarios · K · `[~]` 🔴 (the `ml` tree is done; the `code` tree waits for Stages 5 and 7)
 - [ ] Record and submit the scenario changes (ARCHITECTURE §8): real fix, the "feels
   better" trap, regression, cheating agent
 - [ ] Verify each with two keys

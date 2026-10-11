@@ -1,0 +1,18 @@
+{
+  "buildDir": "learner",
+  "domain": "ml",
+  "models": null,
+  "policy": {
+    "allowedVerifiers": [],
+    "bootstrap": 2000,
+    "maxVerifierSpanBp": 600,
+    "minEffectBp": 300,
+    "minVerifiers": 2,
+    "runs": 5,
+    "spotCheckTasks": 0,
+    "spotCheckToleranceBp": 2500
+  },
+  "suite": "54bdab18053aa2e9429c28dc2773ffa27bc86b2111cb31ccf6d8767df176c2bf",
+  "tree": "ml",
+  "v": 1
+}

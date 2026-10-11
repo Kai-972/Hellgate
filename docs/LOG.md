@@ -335,3 +335,22 @@ the first real baseline score. Then the CLI.
 `web/.env.local` at it; the first populated tree arrives with Stage 11.
 **Next:** Stage 11: build the real `ml` tree with the six scenario changes, verified by distinct keys.
 **Blocked on:** nothing.
+
+### #016 · Kai · the real ml tree, and the UI prompt
+**Stage:** 11 for the `ml` domain (done); the `code` tree waits for Stages 5 and 7
+**Did:**
+- `scripts/build-ml-tree.ts` builds the demo tree through the real CLI with distinct demo keys, and
+  `trees/ml/` holds the result: 10 changes, 3 accepted, 5 rejected, 1 contested, 1 void.
+- [UI-PROMPT.md](UI-PROMPT.md): a paste-ready design and build brief for the web app (screens, the tree
+  diagram, our own visual identity, the real data, wording rules). FRONTEND.md points to it.
+**Found:** every verdict is a real measurement, and some were not what I had expected:
+- Score: baseline 63.1%, standardise 84.3% (+21.1), Adam 91.9% (+28.7 against base).
+- **Momentum measured +6.7 points but was rejected as NO_EFFECT**: its interval crosses zero, because
+  the gain is concentrated in a few tasks. That is the machinery doing its job, and the best single
+  thing to show a judge about why a bigger number is not enough.
+- Rebalancing rare classes (+5 on the bare baseline) added only +0.9 on top of Adam: the optimizer had
+  already fixed most of it. Cosine decay and the learning-rate nudge were NO_EFFECT. Dropping
+  standardisation was a REGRESSION (−16 points from its parent). The cheat was stopped by the import
+  guard before it ran. A lazy verifier's copied numbers contested a change (RESULTS_MISMATCH).
+**Next:** Stage 5, the Gemini and Groq gateway, then the `code` domain.
+**Blocked on:** nothing.

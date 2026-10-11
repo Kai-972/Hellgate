@@ -28,4 +28,5 @@ killed it, so nobody tries it again.
 - [Stages](docs/STAGES.md): the build plan and its status
 - [Progress](PROGRESS.md): the current state at a glance
 - [Frontend](docs/FRONTEND.md): the web app brief
+- [UI prompt](docs/UI-PROMPT.md): the design and build prompt for the web app
 - [Log](docs/LOG.md): the shared team log

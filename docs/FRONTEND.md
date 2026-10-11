@@ -66,6 +66,8 @@ must never reach the browser.
 | `GET /api/jobs/[id]/events` | hub `GET /v1/jobs/:id/events` (stream passthrough) | replays `web/mock/job-events.sample.json`, waiting `delayMs` between events |
 | `GET /api/jobs/current` | hub `GET /v1/jobs/current` | `204` |
 
+**For the look, the screens and a paste-ready prompt, read [UI-PROMPT.md](UI-PROMPT.md) first.**
+
 **The real hub exists now.** From the repository root: `pnpm hub` serves `trees/ml` on
 `http://127.0.0.1:8787`. To follow jobs the hub needs `HELLGATE_HUB_TOKEN` (and the two demo verifier
 secrets) in its environment; ask Kai for a ready `.env`. Then in `web/.env.local` set

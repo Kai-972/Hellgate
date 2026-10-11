@@ -19,9 +19,9 @@ next-env.d.ts
 *.pem
 
 # local engine state that is derived or transient
-.hellgate/scratch/
-.hellgate/index/
-.hellgate/*.lock
+**/.hellgate/scratch/
+**/.hellgate/index/
+**/.hellgate/*.lock
 
 # misc
 .DS_Store
@@ -35,3 +35,6 @@ private/
 pvt/
 docs-private/
 docs/private/
+
+# demo tree build scratch
+trees/.workspace/
