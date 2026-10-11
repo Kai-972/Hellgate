@@ -146,16 +146,25 @@ Canonical JSON, ids, errors, identity and signing.
 - a wrong schema is caught;
 - merging is idempotent and order-independent.
 
-## Stage 3: Suite format and pilot tasks · K · `[ ]`
-- [ ] Task loader (PROTOCOL §13) and suite id (PROTOCOL §5.2)
-- [ ] `TaskBrief` built without ever reading `cases.mjs`
-- [ ] **3 pilot tasks** in `suites/public/`, each with 8–12 cases
+## Stage 3: Suite format and pilot tasks · K · `[x]`
+- [x] Suite loader for both domains (PROTOCOL §13) and the suite id (PROTOCOL §5.2); a broken task
+  folder is an error, never a smaller suite
+- [x] Seeds, task order and the seeded random stream (PROTOCOL §6), checked against an independent
+  implementation
+- [x] `TaskBrief` for coding tasks, built without the hidden cases; the learner's view for ML
+  tasks, built without the hidden labels
+- [x] **3 pilot coding tasks** in `suites/code/public/` and **3 pilot ML tasks** in
+  `suites/ml/public/`, with a reference solution for each coding task in `suites/code/reference/`
+- [ ] The rest of the tasks: 13 more coding tasks (Stage 7) and 6 to 9 more ML tasks (Stage 7M)
 
 **Tests:**
-- the suite id changes when any file changes, including `cases.mjs`;
-- the brief contains nothing from `cases.mjs`.
+- the suite id changes when any file changes, including the hidden tests, and ignores line endings;
+- the brief contains nothing from the hidden cases;
+- every reference solution passes every case, an empty solution passes none, and plausible but
+  careless solutions fail some;
+- ML data is deterministic per seed, well-formed, and learnable by a standard method.
 
-**Review:** Kai reviews every `cases.mjs`.
+**Review:** Kai reviews every `cases.mjs` and `data.mjs`.
 
 ## Stage 4: Sandbox · K · `[ ]` 🔴
 - [ ] Agent jail: Node permission model, a read grant on the jail only, IPC for the model,

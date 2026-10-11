@@ -1,0 +1,12 @@
+{
+  "id": "noisy-sine",
+  "title": "Recover a sine wave from noisy samples",
+  "kind": "regression",
+  "group": "noisy-regression",
+  "features": 1,
+  "tolerance": 0.2,
+  "trainSize": 150,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "1d", "regression"]
+}

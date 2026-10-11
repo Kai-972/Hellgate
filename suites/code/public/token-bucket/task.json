@@ -1,0 +1,16 @@
+{
+  "id": "token-bucket",
+  "title": "A token-bucket rate limiter with an explicit clock",
+  "group": "algorithms",
+  "entry": "solution.mjs",
+  "api": [
+    { "name": "TokenBucket", "signature": "export class TokenBucket { constructor(capacity: number, refillPerSecond: number, startTimeMs?: number); tryTake(count: number, nowMs: number): boolean; available(nowMs: number): number }" }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "Never read the real clock. Time only ever arrives through the `nowMs` arguments.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": ["algorithms", "state", "validation"]
+}

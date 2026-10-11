@@ -14,11 +14,11 @@ Status: `todo` · `doing` · `done` · `blocked`
 
 | Workstream | Owner | Status | Doing now | Next | Blocked on |
 |---|---|---|---|---|---|
-| Engine core (Stages 1–2) | Kai + Claude | done | Stages 1 and 2 done: core, identity, records, ledger store, config | Stage 3 (suite format), then the `ml` sandbox runner | nothing |
+| Engine core (Stages 1–2) | Kai + Claude | done | Stages 1 to 3 done: core, identity, records, ledger, config, suite format | Stage 4: the `ml` sandbox runner first | nothing |
 | Sandbox (Stage 4) | Kai + Claude | todo | | After records | |
 | `ml` domain: learner, suite, sandbox runner (Stages 4, 7M) | Kai + Claude | todo | | First domain built end to end: no model API needed | |
 | Model gateway: Gemini and Groq (Stage 5) | Kai + Claude | todo | | After the `ml` pipeline works end to end | Groq key (not yet provided); Gemini key available |
-| Benchmark tasks (Stages 3, 7) | Kai | todo | | Task spec, then drafts, then review | |
+| Benchmark tasks (Stages 3, 7) | Kai | doing | 3 coding and 3 ML pilot tasks written, reference solutions pass | Kai reviews the pilot `cases.mjs` and `data.mjs`; then the task spec for the free-tier agents | |
 | Verdict, CLI, hub (Stages 8–10) | Kai + Claude | todo | | After measurement | |
 | Web app (Stage 12) | Frontend teammate | todo | | Start from [docs/FRONTEND.md](docs/FRONTEND.md) with the mock data | docs reach `main` |
 | Demo, README, video | Both | todo | | After Tier 1 works | |

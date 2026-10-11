@@ -1,0 +1,12 @@
+{
+  "id": "moons",
+  "title": "Two interleaving half-circles",
+  "kind": "classification",
+  "group": "nonlinear-classification",
+  "features": 2,
+  "classes": 2,
+  "trainSize": 200,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "2d"]
+}

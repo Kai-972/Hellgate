@@ -1,0 +1,12 @@
+{
+  "id": "scaled-blobs",
+  "title": "Two blobs whose second feature is in thousands",
+  "kind": "classification",
+  "group": "badly-scaled-features",
+  "features": 2,
+  "classes": 2,
+  "trainSize": 200,
+  "testSize": 200,
+  "budgetMs": 4000,
+  "tags": ["synthetic", "scaling"]
+}

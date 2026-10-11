@@ -102,7 +102,9 @@ suite id = id({ "type": "suite", "v": 1,
 ```
 
 Tasks are sorted by `id`, and `files` covers every file in the task directory, including
-`cases.mjs`. The sealed suite's commitment uses the same formula.
+`cases.mjs` or `data.mjs`. Dotfiles are skipped and symbolic links are refused. Contents are hashed
+with line endings normalised to `\n`, so a checkout with `\r\n` has the same suite id. A task
+folder that is incomplete or invalid is an error, never a smaller suite. The sealed suite's commitment uses the same formula.
 
 ### 5.3 `recording`
 
@@ -541,14 +543,16 @@ export interface Predictions { readonly y: readonly number[]; }   // exactly one
 `task.json`:
 
 ```json
-{ "id": "chunk-array", "title": "Split an array into fixed-size groups",
+{ "id": "chunk-array", "title": "Split an array into fixed-size groups", "group": "collections",
   "entry": "solution.mjs",
   "api": [ { "name": "chunk", "signature": "export function chunk(items: unknown[], size: number): unknown[][]" } ],
   "constraints": [ "Throw RangeError when size is not a positive integer" ],
   "timeoutMs": 4000, "tags": [ "arrays", "validation" ] }
 ```
 
-`brief.md` is the statement, shown verbatim. `starter/` holds optional context files.
+`brief.md` is the statement, shown verbatim. It must state **every** behaviour the cases check, so a low
+score means the agent read carelessly and not that the task was unfair. `starter/` holds optional
+context files. `group` names the use case the task belongs to.
 
 `cases.mjs` is never shown to the agent:
 
@@ -562,6 +566,14 @@ export default [
 `m` is the imported solution module and `assert` is `node:assert/strict`, captured
 before the solution loads. A case passes when `run` returns, or its returned promise
 resolves, within the task timeout.
+
+**Rules for writing cases**
+- Every case name is unique within its task.
+- A case that expects an error must first check that the function exists
+  (`a.equal(typeof m.f, 'function')`). Calling a missing function also throws a `TypeError`, so
+  without that check an empty solution would pass the case.
+- A reference solution (kept outside the task folder, in `suites/code/reference/`) must pass every
+  case, and a plausible but careless solution must fail at least one.
 
 ### 13.2 `ml` tasks
 
@@ -584,6 +596,18 @@ export function generate(rng, { trainSize, testSize }) {
   // ... build trainX, trainY, testX, testY ...
   return { trainX, trainY, testX, testY };
 }
+```
+
+**Randomness.** The generator for task `t` in run `i` is given `mulberry32(seed)` where `seed` is the
+first 8 hex characters of `sha256("hellgate/data/1|" + seed_hex(i) + "|" + t)`, as an unsigned
+32-bit integer. `kit.random` for the learner uses the same construction with the prefix
+`hellgate/learn/1|`. `mulberry32` is the standard small generator:
+
+```
+a = (a + 0x6D2B79F5) | 0
+t = imul(a ^ (a >>> 15), 1 | a)
+t = (t + imul(t ^ (t >>> 7), 61 | t)) ^ t
+return ((t ^ (t >>> 14)) >>> 0) / 4294967296
 ```
 
 **Scoring.** For each held-out test point `j` of a task in run `i`, the case passes when:

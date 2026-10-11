@@ -1,0 +1,15 @@
+{
+  "id": "parse-duration",
+  "title": "Parse a duration string into milliseconds",
+  "group": "parsing",
+  "entry": "solution.mjs",
+  "api": [
+    { "name": "parseDuration", "signature": "export function parseDuration(input: string): number" }
+  ],
+  "constraints": [
+    "Use no third-party package.",
+    "The module must be plain ES module JavaScript."
+  ],
+  "timeoutMs": 4000,
+  "tags": ["parsing", "validation", "edge-cases"]
+}

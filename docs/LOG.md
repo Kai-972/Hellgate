@@ -186,3 +186,26 @@ keys", never "independent people"; log each session here and keep your row in PR
 the engine, PROTOCOL.md and the mock files together.
 **Next:** Frontend: app shell, tree switcher and the home page on mock data (checkpoint C1).
 **Blocked on:** nothing.
+
+### #010 · Kai · engine, benchmark
+**Stage:** 3, Suite format and pilot tasks (done; Kai still has to review the task files)
+**Did:**
+- `engine/src/core/rng.ts` and `engine/src/suite/`: the seeded random stream, seeds and task order
+  (checked against a second, independent implementation), task schemas, the suite loader and suite
+  id, the brief builder, the ML data wrapper with strict output checks, and an in-process task checker.
+- Pilot tasks: coding `slugify` (strings), `parse-duration` (parsing), `token-bucket` (algorithms)
+  in `suites/code/public/`, each with a reference solution in `suites/code/reference/`; ML `moons`,
+  `scaled-blobs` and `noisy-sine` in `suites/ml/public/`.
+- PROTOCOL §5.2, §13.1 and §13.2 updated: line-ending normalisation, dotfiles, the `group` field,
+  the exact random streams, and the rules for writing cases.
+**Found:**
+- **A test-quality trap.** A case such as `assert.throws(() => f(42), TypeError)` passes for an empty
+  solution, because calling a missing function also throws a `TypeError`. Every error case now first
+  checks that the function exists. This is now a written rule for task authors.
+- Every reference solution passes all its cases; careless versions (no accent handling, `ms` read as
+  minutes, a clock that runs backwards) fail some, so the tasks discriminate.
+- ML data is learnable (nearest neighbours scores over 85% on both classification tasks and over
+  75% on the regression task) while constant predictors score about 50% and about 0%.
+**Tests:** 69 pass. Typecheck is silent.
+**Next:** Stage 4, the sandbox. The `ml` runner first (one jailed process, the parent scores).
+**Blocked on:** Kai's review of the pilot task files.
