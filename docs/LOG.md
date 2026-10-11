@@ -377,3 +377,35 @@ the first real baseline score. Then the CLI.
 **Next:** Checkpoint C4: integration with live hub when engine arrives.
 **Blocked on:** nothing.
 
+
+### #017 · Kai · the model gateway, the coding domain and Beat the gate
+**Stage:** 5 (done), 7 (agent and suite done), 14 (engine side done)
+**Did:**
+- `engine/src/model/`: the Gemini and Groq clients, slots resolved through the tree config, budgets per
+  task, retries with backoff, `record` / `replay` / `live`, a requests-per-minute limiter and (new) a
+  tokens-per-minute limiter, because Groq's free tier allows only a few thousand tokens a minute and a
+  burst of review calls was refused with 429 until the limiter paced them.
+- `agent/` (the genesis coding agent) and 16 coding tasks in five use cases. The baseline was tuned by
+  measurement: sending the whole brief scored 91% (nothing left to improve), sending only the title
+  scored 0% (the model forgot `export`), and the final design scores about 43%.
+- The real coding tree (`trees/code/`), built through the real CLI with distinct demo keys. The author
+  records each candidate against the live models; verifiers replay the recording with no key and no network.
+- `hub/challenge.ts`: Beat the gate. A typed instruction (8 to 280 characters) is appended to the agent's
+  rules as one quoted string, goes through the usual guards, is recorded live by a house author key and
+  replay-verified by two bot keys. A repeated instruction is answered from the ledger.
+- `pnpm hub` now serves both trees; `pnpm hub:demo` starts the hub with the demo keys (see FRONTEND.md).
+- The export now counts the hidden cases of a coding suite.
+**Found:**
+- **The coding gate works with real models:** the genesis change was accepted (+44.5 points over the empty
+  build), then `show-signatures` (+12.8) and `full-brief` (+37.0, score 94.3%), each accepted by two
+  distinct replaying verifiers whose results digests are identical.
+- A coding tree with a 94% tip leaves little headroom, so most Beat the gate challenges will be rejected as
+  NO_EFFECT. That is the honest outcome and the point of the page.
+**Tests:** gateway (fake HTTP servers), code-domain loop through the CLI (record once, verify with no key),
+challenge flow through the hub (stream, `409`, repeats), token limiter.
+**For Pritam:** I changed a few files in `web/` so it talks to the real hub: `web/lib/hub.ts` maps the
+mock tree names to the hub's (`coding-agent` is `code`, `optimizer` is `ml`), the job proxy translates the
+page's request into the hub's, and the stepper uses the hub's stage names (`build, record, verify, sign`).
+Please pull before you push, and run with `HELLGATE_HUB=http://127.0.0.1:8787`.
+**Next:** commit the finished coding tree, a live spot-check (Stage 13), the evolve loop (Stage 15).
+**Blocked on:** nothing.

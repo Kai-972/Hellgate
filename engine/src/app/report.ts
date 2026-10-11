@@ -2,6 +2,7 @@
  * Plain-text views of a tree for the terminal. Every number comes from the ledger through `decide()`
  * and `figuresOf()`: this file formats, it never measures or decides.
  */
+import { casesIn } from '../suite/count.ts';
 import type { MlTaskMeta } from '../suite/tasks.ts';
 import type { BaseComparison } from '../measure/compare.ts';
 import { scoresOf, type Batch } from '../measure/batch.ts';
@@ -69,7 +70,7 @@ export function showText(tree: Tree, snap: Snapshot, c: ChangeRow): string {
 /** A short summary of the tree for a person or a proposer model to read. */
 export function digestText(tree: Tree, snap: Snapshot): string {
   const suite = tree.suite();
-  const cases = suite.tasks.reduce((n, t) => n + ((t.meta as MlTaskMeta).testSize ?? 0), 0);
+  const cases = casesIn(suite);
   const base = snap.genesis === null ? null : figuresOf(suite, snap.genesis).scoreBp;
   const out = [`# HELLGATE DIGEST  ${tree.config.tree}`, `suite ${suite.tasks.length} tasks / ${cases} cases · ${suite.groups.length} use cases · ${tree.config.policy.runs} runs per side`, '', '## GATE PATH'];
   for (const c of tree.gatePath(snap)) {

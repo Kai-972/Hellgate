@@ -213,12 +213,12 @@ an identical result.
 - the same recording replayed twice gives an identical digest;
 - `vsBaseBp` is positive for a better build and negative for a worse one.
 
-## Stage 7: Genesis agent and the full suite · K · `[~]` 🔴 (agent and suite done; the live baseline is being recorded)
+## Stage 7: Genesis agent and the full suite · K · `[x]` 🔴
 - [x] `agent/contract.ts` (frozen), `agent/index.ts`, `agent/instructions.ts` (`RULES`),
   and the loop: a deliberately simple baseline with one `primary` call per task
 - [x] A ready-made two-model change (the secondary model reviews the draft), in `scripts/build-code-tree.ts`
 - [x] The full public suite: 16 tasks in five use cases. Kai reviews every case file.
-- [ ] Record the baseline live
+- [x] Record the baseline live (44.5% with two runs of the final agent, replay-verified by two keys)
 
 **Gate:** the genesis build scores **30–55%** on the suite. If it doesn't, tune the tasks,
 not the agent, and record it again.
@@ -274,16 +274,23 @@ events to `curl`.
 
 **Unblocks F:** the real data contract is live, and the web app can switch from mock to hub.
 
-## Stage 11: The real tree and the demo scenarios · K · `[~]` 🔴 (the `ml` tree is done; the `code` tree waits for Stages 5 and 7)
-- [ ] Record and submit the scenario changes (ARCHITECTURE §8): real fix, the "feels
+## Stage 11: The real tree and the demo scenarios · K · `[x]` 🔴 (both trees are committed; the coding tree has 5 changes)
+- [x] Record and submit the scenario changes (ARCHITECTURE §8): real fix, the "feels
   better" trap, regression, cheating agent
-- [ ] Verify each with two keys
-- [ ] A `scripts/lazy-verifier` tool that signs copied numbers, for the lazy-verifier scenario
+- [x] Verify each with two keys
+- [x] A `scripts/lazy-verifier` tool that signs copied numbers, for the lazy-verifier scenario
 
 **Gate:** every scenario gets its expected verdict for real, and `export` holds a tree
 worth showing.
 
-## Stage 12: Web app · F (K supports) · `[ ]`
+**Built:** `trees/ml` (10 changes: 3 accepted, 5 rejected, 1 contested, 1 void) and `trees/code`
+(5 changes: genesis, `show-signatures` +12.8, `full-brief` +37.0 to 94.3%, a reworded prompt that was
+NO_EFFECT and then contested by a lazy verifier, and a cheating agent stopped by the import guard).
+Two more coding changes (`summary-only`, a second-model `review`) are in `scripts/build-code-tree.ts`
+and were not recorded because the free Gemini quota for the day ran out; the script resumes where the
+tree stops, so they can be added when quota returns.
+
+## Stage 12: Web app · F (K supports) · `[~]` (built on mock data and wired to the hub; needs a pass against real data in a browser)
 - [ ] Build against `web/mock/export.sample.json` first, as specified in [FRONTEND.md](FRONTEND.md)
 - [ ] Switch to the hub after Stage 10
 

@@ -1,0 +1,22 @@
+{
+  "buildDir": "agent",
+  "domain": "code",
+  "models": {
+    "primary": "gemini:gemini-3.1-flash-lite",
+    "proposer": "gemini:gemini-3.5-flash",
+    "secondary": "groq:openai/gpt-oss-120b"
+  },
+  "policy": {
+    "allowedVerifiers": [],
+    "bootstrap": 2000,
+    "maxVerifierSpanBp": 600,
+    "minEffectBp": 300,
+    "minVerifiers": 2,
+    "runs": 5,
+    "spotCheckTasks": 3,
+    "spotCheckToleranceBp": 2500
+  },
+  "suite": "8cd16dfaccf08799720d8ab6f6fcf14da03910d20fbc8fac8d66dae323c650ff",
+  "tree": "code",
+  "v": 1
+}

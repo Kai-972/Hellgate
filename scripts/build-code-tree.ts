@@ -114,7 +114,9 @@ async function main(): Promise<void> {
     for (const who of ['bot-1', 'bot-2']) console.log((await cli(who, ['verify', ids.genesis!])).split('\n').slice(0, 3).join('\n'));
   }
 
+  const skip = new Set((process.env.SKIP_STEPS ?? '').split(',').filter(Boolean));
   for (const step of STEPS) {
+    if (skip.has(step.name)) continue;
     if (ids[step.name] !== undefined || (step.motif in ids)) continue;
     log(`${step.name}: ${step.area}/${step.motif} (parent ${step.parent ?? 'the tip'})`);
     const parent = step.parent === null ? undefined : ids[step.parent]!;
@@ -130,7 +132,7 @@ async function main(): Promise<void> {
 
   log('a lazy verifier copies a verifier\'s numbers and signs them without replaying anything');
   const tree = new Tree(ROOT, REPO);
-  const target = tree.snapshot().byId.get(ids.reword!)!;
+  const target = tree.snapshot().byId.get((ids.reword ?? ids['reword-rules'])!)!;
   const lazy = loadIdentity(join(KEYS, 'lazy', 'identity.json'));
   const forged = signBody(lazy, { ...target.attestations[0]!.body, signer: lazy.address, resultsDigest: 'c0ffee'.repeat(10) + 'c0ff', createdAt: new Date().toISOString() });
   tree.ledger.put(toRecord(forged.body, forged.sig));
