@@ -56,14 +56,28 @@ Signed records:
 
 Unsigned objects (`build`, `recording`, `receipt`): `{ "body": { ... } }`.
 
-Storage: `.hellgate/records/<id[0:2]>/<id[2:]>.json`.
+Storage: `.hellgate/records/<id[0:2]>/<id[2:]>.json`, written as the canonical JSON of the envelope
+plus a newline, so two machines write identical bytes for the same record. Files are written to a
+temporary name and renamed, and an id that already exists is never overwritten.
+
+The **empty build** is part of every ledger without being stored: asking for it always succeeds.
 
 A reader accepts a file only when all of the following hold:
 1. The body matches its schema.
 2. `id(body)` equals the file name.
 3. For signed types, `sig` verifies against `body.signer`.
 
-Rejected files are reported and ignored.
+Rejected files are reported and ignored. A report names the file and the stage that failed:
+`json`, `shape`, `schema`, `id` or `signature`.
+
+**Reference checks.** Before a record is trusted, the records it points at must be held and must agree
+with it:
+- a `change`: its build, its parent build and its recording exist; the recording is for the same
+  build and suite; a non-genesis parent is a change whose build is this change's `parentBuild`, on
+  the same suite and tree;
+- an `attestation`: its change exists, and the build, parent build, suite and tree all match it;
+- a `recording`: its build exists;
+- a `receipt`: its record is a change or an attestation that exists.
 
 ## 5. Record types
 
@@ -73,8 +87,10 @@ Rejected files are reported and ignored.
 { "type": "build", "v": 1, "files": { "agent/index.ts": "<contents>", "...": "..." } }
 ```
 
-- Paths are relative and start with `agent/`. Contents are UTF-8 with `\n` line endings
-  and end with a newline.
+- Every path is `agent/<name>.ts` or `learner/<name>.ts`: flat, lowercase letters, digits, `_` and
+  `-`, with a `.ts` extension. A build uses exactly one of the two directories, at most 24 files
+  and 40,000 characters per file. Contents are UTF-8 with `\n` line endings, non-empty, and end
+  with a newline.
 - The **empty build** (`files: {}`) is the parent of the genesis change. It must score 0
   on every case; this is the sandbox canary.
 

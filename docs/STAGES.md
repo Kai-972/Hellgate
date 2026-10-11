@@ -132,12 +132,12 @@ Canonical JSON, ids, errors, identity and signing.
 
 **Done when:** the typecheck is silent and all tests pass.
 
-## Stage 2: Records and the ledger store · K · `[ ]`
-- [ ] Zod schemas for `build`, `recording`, `change`, `attestation`, `receipt` (PROTOCOL §5)
-- [ ] Store: write a record by id, read with full checks (schema → id → signature),
+## Stage 2: Records and the ledger store · K · `[x]`
+- [x] Zod schemas for `build`, `recording`, `change`, `attestation`, `receipt` (PROTOCOL §5)
+- [x] Store: write a record by id, read with full checks (schema → id → signature),
   list, and report bad files without trusting them
-- [ ] Union-merge of two record directories
-- [ ] `.hellgate/config.json` load and save, with defaults (ARCHITECTURE §10)
+- [x] Union-merge of two record directories
+- [x] `.hellgate/config.json` load and save, with defaults (ARCHITECTURE §10)
 
 **Tests:**
 - round trips;

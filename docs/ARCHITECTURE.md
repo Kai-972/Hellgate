@@ -221,6 +221,10 @@ hub, tests and CI.
   union of files, over the hub (`push`/`pull`) or over git.
 - Order never decides a verdict. Where "the first one wins" would need an order, the
   rules use content instead (equivocation, PROTOCOL §9).
+- `referenceProblems` checks that a record's references are held and agree with it (PROTOCOL §4).
+  The hub and `verify` call it before trusting a record.
+- The ledger holds a bad file's report, never its content: a file that fails a check is listed
+  as a problem and left out of every result.
 
 ### 6.4 `suite/`: tasks the agent can read, tests it cannot
 

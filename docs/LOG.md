@@ -142,3 +142,28 @@ needs no model API and has real run-to-run noise from seeds. The LLM domain then
 **Blocked on:** nothing.
 **Note for the web side:** pull `main`, then run `pnpm install` from the repository root. The
 workspace now includes `web/`, so your `web/package.json` will be picked up.
+
+### #008 · Kai · engine
+**Stage:** 2, Records and the ledger store (done)
+**Did:** In `engine/src/ledger/`:
+- `records.ts`: strict schemas for `build`, `recording`, `change`, `attestation` and `receipt`
+  (PROTOCOL §5), with the invariants the protocol states: a genesis change starts from the empty
+  build, a change that never ran carries no recording and no claimed result, a challenge change
+  carries exactly its instruction, an attestation's run arrays and task sets are consistent.
+  `parseRecord` checks shape, then schema, then signature, and never throws.
+- `store.ts`: the ledger as a set of files. Atomic, canonical writes; reads check schema, then
+  that the file name is the body's hash, then the signature; bad files are reported by stage and
+  ignored; `merge` is a union (idempotent, order-independent); `referenceProblems` checks that a
+  record's references are held and agree with it.
+- `config.ts`: `.hellgate/config.json` with defaults, both domains, odd run counts only.
+- `testkit.ts`: builders for valid records of every type, used by tests.
+- PROTOCOL §4–5 and ARCHITECTURE §6.3 were tightened to match what the code enforces.
+**Found:**
+- A value that canonical JSON cannot encode (a float, for example) cannot even be signed, so such a
+  record is refused before the schema runs.
+- The empty build is treated as present in every ledger without being stored, so the hub never
+  needs to sync it.
+**Tests:** 44 pass (core 7, identity 9, records 11, store 8, config 5, plus shared checks).
+Typecheck is silent.
+**Next:** Stage 3: the suite format for both domains, with a first few tasks.
+**Blocked on:** nothing.
