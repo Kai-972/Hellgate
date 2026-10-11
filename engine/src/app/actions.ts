@@ -15,12 +15,15 @@ import type { Batch, BatchEvent } from '../measure/batch.ts';
 import { compareBatches } from '../measure/compare.ts';
 import { checkBuild, checkFalsifiable, checkGraveyard, typecheck, type Files, type GuardResult } from '../propose/guards.ts';
 import { loadSuite } from '../suite/loader.ts';
-import { measureBuild } from './measure.ts';
+import type { RecordingBody } from '../ledger/records.ts';
+import { DEFAULT_MODELS } from './gateways.ts';
+import { measureSides } from './sides.ts';
 import { Tree, readBuildDir, repoDir, type ChangeRow } from './tree.ts';
 
 const now = (): string => new Date().toISOString();
 const BUILD_DIR = { ml: 'learner', code: 'agent' } as const;
 type Progress = ((event: BatchEvent) => void) | undefined;
+type Env = Readonly<Record<string, string | undefined>>;
 
 /* ------------------------------------------------------------------ init */
 
@@ -32,6 +35,7 @@ export interface InitOptions {
   runs?: number;
   repo?: string;
   policy?: Partial<Policy>;
+  env?: Env;
   onEvent?: Progress;
 }
 
@@ -40,35 +44,37 @@ export async function initTree(options: InitOptions): Promise<{ tree: Tree; gene
   const root = resolve(options.root);
   const repo = options.repo ?? repoDir();
   if (existsSync(join(root, STATE_DIR, 'config.json'))) throw new HellgateError('usage', `${root} already holds a tree`);
-  if (options.domain !== 'ml') throw new HellgateError('environment', 'the code domain needs the model gateway, which is not built yet');
-
-  const suite = loadSuite(join(repo, 'suites', 'ml', 'public'), 'ml');
+  const env = options.env ?? process.env;
+  const domain = options.domain;
+  const suite = loadSuite(join(repo, 'suites', domain, 'public'), domain as 'ml') as { id: string };
   const config: Config = saveConfig(root, {
-    v: 1, tree: options.name, domain: 'ml', buildDir: 'learner', suite: suite.id, models: null,
-    policy: { ...defaultPolicy(), spotCheckTasks: 0, ...(options.runs ? { runs: options.runs } : {}), ...options.policy },
+    v: 1, tree: options.name, domain, buildDir: BUILD_DIR[domain], suite: suite.id,
+    models: domain === 'ml' ? null : { primary: DEFAULT_MODELS.primary, secondary: DEFAULT_MODELS.secondary, proposer: DEFAULT_MODELS.proposer },
+    policy: { ...defaultPolicy(), ...(domain === 'ml' ? { spotCheckTasks: 0 } : {}), ...(options.runs ? { runs: options.runs } : {}), ...options.policy },
   });
-  const files = readBuildDir(join(repo, 'learner'), 'learner');
+  const files = readBuildDir(join(repo, BUILD_DIR[domain]), BUILD_DIR[domain]);
   const tree = new Tree(root, repo);
   const runs = options.runs ?? config.policy.runs;
 
   // The genesis change claims what the baseline scores against nothing at all: the empty build, which
   // must score 0 everywhere. Verifiers re-measure exactly this.
-  const parent = await measureBuild(tree, {}, { runs, cache: true, ...(options.onEvent ? { onEvent: options.onEvent } : {}) });
-  const child = await measureBuild(tree, files, { runs, cache: true, ...(options.onEvent ? { onEvent: options.onEvent } : {}) });
-  const measured = compareBatches(parent, child, { changeId: EMPTY_BUILD_ID, signer: options.identity.address, resamples: config.policy.bootstrap, minEffectBp: config.policy.minEffectBp });
+  const sides = await measureSides({ tree, parent: null, parentFiles: {}, childFiles: files, runs, role: 'author', env, onEvent: options.onEvent });
+  const measured = compareBatches(sides.parent, sides.child, { changeId: EMPTY_BUILD_ID, signer: options.identity.address, resamples: config.policy.bootstrap, minEffectBp: config.policy.minEffectBp });
+  const recording = sides.recording === null ? null : toRecord(sides.recording);
+  if (recording !== null) tree.ledger.put(recording);
 
   const build = toRecord(buildBody(files));
   tree.ledger.put(build);
   const body: ChangeBody = {
     type: 'change', v: 1, tree: options.name, parent: 'genesis', build: build.id, parentBuild: EMPTY_BUILD_ID, suite: suite.id,
     claim: {
-      hypothesis: 'The baseline: a small network trained by plain SGD, with no preprocessing and a constant step size.',
+      hypothesis: domain === 'ml' ? 'The baseline: a small network trained by plain SGD, with no preprocessing and a constant step size.' : 'The baseline: one model call per task with a plain prompt, no retry and no second opinion.',
       falsifiedIf: 'The empty build scores above 0 on any task, or the baseline scores 0.',
       area: 'other', motif: 'baseline', predictedEffectBp: Math.max(1, measured.effectBp), contradicts: [], whyThisTime: null,
     },
     origin: { by: 'human', model: null, promptHash: null, instruction: null },
     mechanical: { status: 'ok', detail: '' },
-    recording: null,
+    recording: recording?.id ?? null,
     claimed: { runs, effectBp: measured.effectBp, resultsDigest: measured.resultsDigest },
     signer: options.identity.address,
     createdAt: now(),
@@ -119,6 +125,7 @@ export interface SubmitOptions {
   parent?: string;
   origin?: ChangeBody['origin'];
   runs?: number;
+  env?: Env;
   onEvent?: Progress;
 }
 
@@ -174,9 +181,11 @@ export async function submitChange(options: SubmitOptions): Promise<SubmitResult
   if (stopped.status !== 'ok') {
     body = { ...base, mechanical: { status: stopped.status, detail: stopped.detail }, recording: null, claimed: null };
   } else {
-    const [parentBatch, childBatch] = await measurePair(tree, parentFiles, options.files, { runs, cache: true, onEvent: options.onEvent });
-    const measured = compareBatches(parentBatch, childBatch, { changeId: EMPTY_BUILD_ID, signer: identity.address, resamples: tree.config.policy.bootstrap, minEffectBp: tree.config.policy.minEffectBp });
-    body = { ...base, mechanical: { status: 'ok', detail: '' }, recording: null, claimed: { runs, effectBp: measured.effectBp, resultsDigest: measured.resultsDigest } };
+    const sides = await measureSides({ tree, parent, parentFiles, childFiles: options.files, runs, role: 'author', env: options.env ?? process.env, onEvent: options.onEvent });
+    const measured = compareBatches(sides.parent, sides.child, { changeId: EMPTY_BUILD_ID, signer: identity.address, resamples: tree.config.policy.bootstrap, minEffectBp: tree.config.policy.minEffectBp });
+    const recording = sides.recording === null ? null : toRecord(sides.recording);
+    if (recording !== null) tree.ledger.put(recording);
+    body = { ...base, mechanical: { status: 'ok', detail: '' }, recording: recording?.id ?? null, claimed: { runs, effectBp: measured.effectBp, resultsDigest: measured.resultsDigest } };
   }
   const signed = signBody(identity, body);
   const record = toRecord(signed.body, signed.sig);
@@ -185,19 +194,13 @@ export async function submitChange(options: SubmitOptions): Promise<SubmitResult
   return { change: row, id: record.id, stopped: stopped.status === 'ok' ? null : stopped };
 }
 
-async function measurePair(tree: Tree, parentFiles: Files, childFiles: Files, o: { runs: number; cache: boolean; onEvent: Progress }): Promise<[Batch, Batch]> {
-  const opts = { runs: o.runs, cache: o.cache, ...(o.onEvent ? { onEvent: o.onEvent } : {}) };
-  const parent = await measureBuild(tree, parentFiles, opts);
-  const child = await measureBuild(tree, childFiles, opts);
-  return [parent, child];
-}
-
 /* ------------------------------------------------------------------ verify */
 
 export interface VerifyOptions {
   tree: Tree;
   identity: Identity;
   ref: string;
+  env?: Env;
   onEvent?: Progress;
 }
 
@@ -212,14 +215,24 @@ export async function verifyChange(options: VerifyOptions): Promise<{ attestatio
     if (!tree.ledger.has(needed)) throw new HellgateError('integrity', `the ledger does not hold build ${needed.slice(0, 12)}; pull it first`);
   }
   const runs = tree.config.policy.runs;
-  const [parentBatch, childBatch] = await measurePair(tree, tree.buildFiles(row.body.parentBuild), tree.buildFiles(row.body.build), { runs, cache: false, onEvent: options.onEvent });
-  const m = compareBatches(parentBatch, childBatch, { changeId: row.id, signer: identity.address, resamples: tree.config.policy.bootstrap, minEffectBp: tree.config.policy.minEffectBp });
+  const snap = tree.snapshot();
+  let childRecording: RecordingBody | undefined;
+  if (tree.domain === 'code') {
+    if (row.body.recording === null) throw new HellgateError('integrity', 'this change has no recording to replay');
+    if (!tree.ledger.has(row.body.recording)) throw new HellgateError('integrity', `the ledger does not hold the recording ${row.body.recording.slice(0, 12)}; pull it first`);
+    childRecording = tree.ledger.getTyped(row.body.recording, 'recording').body;
+  }
+  const sides = await measureSides({
+    tree, parent: row.body.parent === 'genesis' ? null : (snap.byId.get(row.body.parent) ?? null), parentFiles: tree.buildFiles(row.body.parentBuild),
+    childFiles: tree.buildFiles(row.body.build), runs, role: 'verifier', childRecording, env: options.env ?? process.env, onEvent: options.onEvent,
+  });
+  const m = compareBatches(sides.parent, sides.child, { changeId: row.id, signer: identity.address, resamples: tree.config.policy.bootstrap, minEffectBp: tree.config.policy.minEffectBp });
   const body: AttestationBody = {
     type: 'attestation', v: 1, tree: tree.config.tree, change: row.id, parentBuild: row.body.parentBuild, build: row.body.build, suite: row.body.suite,
-    mode: 'live', runs, parent: m.parent, candidate: m.candidate,
+    mode: tree.domain === 'code' ? 'replay' : 'live', runs, parent: m.parent, candidate: m.candidate,
     effectBp: m.effectBp, ciLowBp: m.ciLowBp, ciHighBp: m.ciHighBp, call: m.call,
     resultsDigest: m.resultsDigest, clean: m.clean, notes: [], spotCheck: null, sealed: null,
-    env: { model: 'none', engine: 'hellgate 0.1.0', node: process.version, platform: process.platform },
+    env: { model: tree.config.models?.primary ?? 'none', engine: 'hellgate 0.1.0', node: process.version, platform: process.platform },
     signer: identity.address, createdAt: now(),
   };
   const signed = signBody(identity, body);

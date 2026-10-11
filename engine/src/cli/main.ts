@@ -118,7 +118,7 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
     case 'init': {
       const domain = values.domain ?? 'ml';
       if (domain !== 'ml' && domain !== 'code') throw new HellgateError('usage', '--domain must be ml or code');
-      const { genesis } = await initTree({ root, domain, name: values.name ?? (basename(root).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'tree'), identity: resolveIdentity(io.env), repo, ...(runsOption ? { runs: runsOption } : {}), onEvent });
+      const { genesis } = await initTree({ root, domain, name: values.name ?? (basename(root).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'tree'), identity: resolveIdentity(io.env), repo, env: io.env, ...(runsOption ? { runs: runsOption } : {}), onEvent });
       doneProgress();
       io.out(`created tree at ${root}\ngenesis change ${genesis}\nNext: two other keys run \`hellgate verify ${genesis.slice(0, 8)}\`.`);
       return EXIT_CODES.ok;
@@ -139,7 +139,7 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
         return { change: tree.find(tree.snapshot(), entry.slice(0, at)).id, why: entry.slice(at + 1) };
       });
       const result = await submitChange({
-        tree, identity: resolveIdentity(io.env), files, ...(values.parent ? { parent: values.parent } : {}), ...(runsOption ? { runs: runsOption } : {}), onEvent,
+        tree, identity: resolveIdentity(io.env), env: io.env, files, ...(values.parent ? { parent: values.parent } : {}), ...(runsOption ? { runs: runsOption } : {}), onEvent,
         claim: {
           hypothesis: need(values.hypothesis, '--hypothesis'), falsifiedIf: need(values['falsified-if'], '--falsified-if'), area: need(values.area, '--area'),
           motif: need(values.motif, '--motif'), predictedEffectBp: points(values.predict, '--predict'), contradicts, whyThisTime: values['why-this-time'] ?? null,
@@ -157,7 +157,7 @@ async function dispatch(argv: string[], io: Io): Promise<number> {
 
     case 'verify': {
       const tree = open();
-      const { row } = await verifyChange({ tree, identity: resolveIdentity(io.env), ref: need(positionals[0], '<change>'), onEvent });
+      const { row } = await verifyChange({ tree, identity: resolveIdentity(io.env), env: io.env, ref: need(positionals[0], '<change>'), onEvent });
       doneProgress();
       const snap = tree.snapshot();
       io.out(statusText(tree, snap, snap.byId.get(row.id)!, false));
